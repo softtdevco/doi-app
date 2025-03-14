@@ -11,7 +11,7 @@ class AppTheme {
   static _themeData(ColorScheme colorScheme) => ThemeData(
         appBarTheme: _appBarTheme(colorScheme),
         brightness: colorScheme.brightness,
-        scaffoldBackgroundColor: colorScheme.onSurface,
+        scaffoldBackgroundColor: Colors.white,
         iconTheme: _iconThemeData(colorScheme),
         colorScheme: colorScheme,
         textTheme: _textTheme(colorScheme),

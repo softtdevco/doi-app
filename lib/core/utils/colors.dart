@@ -37,5 +37,5 @@ class AppColors {
   static const Color border = Color(0xFFE7E7E7);
   static const Color hint = Color(0xFF505661);
   static const Color textNew = Color(0xFF31373D);
-  static const Color background = Color(0xFFF4F9FC);
+  static const Color background = Color(0xFFFFF5EF);
 }

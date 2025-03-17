@@ -1,57 +1,57 @@
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-class RouteAiButtonStyle {
+class DoiButtonStyle {
   final Color background;
   final Color textColor;
   final Color borderColor;
-  final Color disabledBackgroundColor;
-  final Color disabledTextColor;
+
   final TextStyle? textStyle;
 
   ///Button default values
-  static const double buttonDefaultHeight = 50.0;
+  static const double buttonDefaultHeight = 48.0;
   static const double buttonDefaultWidth = double.infinity;
   static const double badgeDefaultHeight = 20.0;
   static const double badgeDefaultWidth = 46.0;
-  static const double buttonCornerRadius = 8.0;
+  static const double buttonCornerRadius = 14.0;
   static const double badgeCornerRadius = 100.0;
+  static const double fontSize = 100.0;
   static const bool buttonIsEnable = true;
   static const bool buttonIsLoading = false;
 
-  RouteAiButtonStyle({
+  DoiButtonStyle({
     required this.background,
     required this.textColor,
     required this.borderColor,
-    required this.disabledBackgroundColor,
-    required this.disabledTextColor,
     this.textStyle,
   });
 
-  factory RouteAiButtonStyle.primary() = RouteAiButtonPrimary;
+  factory DoiButtonStyle.primary() = DoiButtonPrimary;
 
-  factory RouteAiButtonStyle.secondary() = RouteAiButtonSecondary;
+  factory DoiButtonStyle.secondary() = DoiButtonSecondary;
 }
 
-class RouteAiButtonPrimary extends RouteAiButtonStyle {
-  RouteAiButtonPrimary()
+class DoiButtonPrimary extends DoiButtonStyle {
+  DoiButtonPrimary()
       : super(
           background: AppColors.primaryColor,
-          disabledBackgroundColor: AppColors.fill,
           textColor: Colors.white,
-          disabledTextColor: AppColors.white,
-          borderColor: Colors.transparent,
+          borderColor: AppColors.secondaryColor,
         );
 }
 
-class RouteAiButtonSecondary extends RouteAiButtonStyle {
-  RouteAiButtonSecondary()
+class DoiButtonSecondary extends DoiButtonStyle {
+  DoiButtonSecondary()
       : super(
-          background: AppColors.white,
-          disabledBackgroundColor: AppColors.fill,
+          background: AppColors.secondaryBackGround,
           textColor: AppColors.primaryColor,
-          disabledTextColor: AppColors.grey,
-          borderColor: AppColors.primaryColor,
+          borderColor: Colors.transparent,
+          textStyle: TextStyle(
+            color: AppColors.secondaryColor,
+            fontSize: 16.sp,
+            fontFamily: FontFamily.rimouski,
+          ),
         );
 }

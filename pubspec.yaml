@@ -41,3 +41,26 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/images/
+    - assets/svgs/
+   
+
+  fonts:
+    - family: Jura
+      fonts:
+        - asset: assets/fonts/Jura-Light.ttf
+          weight: 300
+    - family: Jungle Adventurer
+      fonts:
+        - asset: assets/fonts/JungleAdventurer.ttf
+          weight: 400
+    - family: Rimouski
+      fonts:
+        - asset: assets/fonts/rimouski.otf
+          weight: 600
+    - family: Oswald
+      fonts:
+        - asset: assets/fonts/Oswald-Bold.ttf
+          weight: 700

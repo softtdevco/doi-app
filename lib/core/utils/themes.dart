@@ -1,5 +1,7 @@
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   AppTheme._();
@@ -11,7 +13,7 @@ class AppTheme {
   static _themeData(ColorScheme colorScheme) => ThemeData(
         appBarTheme: _appBarTheme(colorScheme),
         brightness: colorScheme.brightness,
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: AppColors.background,
         iconTheme: _iconThemeData(colorScheme),
         colorScheme: colorScheme,
         textTheme: _textTheme(colorScheme),
@@ -26,7 +28,7 @@ class AppTheme {
 
   static final ColorScheme _darkColorScheme = const ColorScheme.dark().copyWith(
     primary: AppColors.primaryColor,
-    secondary: AppColors.onPrimary,
+    secondary: AppColors.secondaryColor,
   );
 
   static AppBarTheme _appBarTheme(ColorScheme colorScheme) => AppBarTheme(
@@ -37,10 +39,29 @@ class AppTheme {
       IconThemeData(color: colorScheme.onPrimary);
 
   static TextTheme _textTheme(ColorScheme colorScheme) => TextTheme(
+        bodyMedium: TextStyle(
+          fontSize: 22.sp,
+          fontWeight: FontWeight.w400,
+          color: AppColors.white,
+          fontFamily: FontFamily.jungleAdventurer,
+        ),
+        titleSmall: TextStyle(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+          color: colorScheme.secondary,
+          fontFamily: FontFamily.jura,
+        ),
         bodySmall: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-          color: colorScheme.onSurface,
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w600,
+          color: colorScheme.secondary,
+          fontFamily: FontFamily.rimouski,
+        ),
+        bodyLarge: TextStyle(
+          fontSize: 22.sp,
+          fontWeight: FontWeight.w600,
+          color: AppColors.white,
+          fontFamily: FontFamily.oswald,
         ),
       );
 }

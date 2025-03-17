@@ -20,7 +20,7 @@ auto_generate:
 	dart run build_runner build --delete-conflicting-outputs
 
 pub_get:
-	fvm flutter pub get
+	flutter pub get
 
 flutter_gen:
 	flutter gen-l10n --arb-dir="lib/l10n/arb"

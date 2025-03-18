@@ -24,11 +24,14 @@ class AppTheme {
     primary: AppColors.primaryColor,
     secondary: AppColors.secondaryColor,
     onPrimary: AppColors.onPrimary,
+    surface: AppColors.white,
   );
 
   static final ColorScheme _darkColorScheme = const ColorScheme.dark().copyWith(
     primary: AppColors.primaryColor,
     secondary: AppColors.secondaryColor,
+    onPrimary: AppColors.onPrimary,
+    surface: AppColors.black,
   );
 
   static AppBarTheme _appBarTheme(ColorScheme colorScheme) => AppBarTheme(

@@ -2,6 +2,7 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class Home extends StatelessWidget {
               Positioned(
                 bottom: 30,
                 child: Text(
-                  'Start new game',
+                  context.l10n.startNew,
                   style: context.textTheme.bodySmall?.copyWith(
                     fontSize: 16.sp,
                   ),
@@ -41,7 +42,7 @@ class Home extends StatelessWidget {
               children: [
                 44.verticalSpace,
                 DoiButton(
-                  text: 'New Game',
+                  text: context.l10n.newGame,
                   onPressed: () {},
                 ),
                 16.verticalSpace,
@@ -50,12 +51,12 @@ class Home extends StatelessWidget {
                     background: AppColors.green,
                     borderColor: AppColors.greenBorder,
                   ),
-                  text: 'Single player',
+                  text: context.l10n.singlePlayer,
                   onPressed: () {},
                 ),
                 16.verticalSpace,
                 DoiButton(
-                  text: 'Story mode',
+                  text: context.l10n.storyMode,
                   onPressed: () {},
                 ),
               ],
@@ -66,13 +67,13 @@ class Home extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Power ups',
+                context.l10n.powerUps,
                 style: context.textTheme.bodySmall?.copyWith(
                   fontSize: 16.sp,
                 ),
               ),
               Text(
-                'Store',
+                context.l10n.store,
                 style: context.textTheme.bodySmall?.copyWith(
                   fontSize: 16.sp,
                 ),

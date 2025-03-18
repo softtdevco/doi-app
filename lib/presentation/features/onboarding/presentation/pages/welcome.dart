@@ -30,7 +30,7 @@ class Welcome extends StatelessWidget {
                   children: [
                     Assets.images.doi.image(
                       fit: BoxFit.cover,
-                      width: 144,
+                      width: 200.w,
                     ),
                     Positioned(
                       bottom: 30,
@@ -54,7 +54,7 @@ class Welcome extends StatelessWidget {
           DoiButton(
             width: 197.w,
             height: 48.h,
-            text: 'START',
+            text: context.l10n.start,
             onPressed: () => context.replaceAll(AppRouter.dashboard),
           ),
           32.verticalSpace,
@@ -63,7 +63,7 @@ class Welcome extends StatelessWidget {
             height: 48.h,
             leading: Assets.svgs.union,
             buttonStyle: DoiButtonStyle.secondary(),
-            text: 'Sync Your Progress',
+            text: context.l10n.syncProgress,
             onPressed: () {},
           ),
           82.verticalSpace,

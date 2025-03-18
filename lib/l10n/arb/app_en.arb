@@ -7,6 +7,41 @@
     "deadOrInjured": "Dead or Injured",
     "@deadOrInjured": {
         "description": "dead or injured text"
+    },
+    "start":"START",
+    "@start": {
+        "description": "start text"
+    },
+    "syncProgress":"Sync Your Progress",
+    "@syncProgress": {
+        "description": "sync progress text"
+    },
+    "startNew":"Start new game",
+    "@startNew": {
+        "description": "new game text"
+    },
+    "newGame":"New Game",
+    "@newGame": {
+        "description": "new game text"
+    },
+ "singlePlayer":"Single player",
+    "@singlePlayer": {
+        "description": "single player text"
+    },
+
+    "storyMode":"Story mode",
+    "@storyMode": {
+        "description": "story mode text"
+    },
+     "powerUps":"Power ups",
+    "@powerUps": {
+        "description": "power ups text"
+    },
+    "store":"Store",
+    "@store": {
+        "description": "store text"
     }
+
+  
 }
 

@@ -6,6 +6,7 @@ import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class Welcome extends StatelessWidget {
                     Positioned(
                       bottom: 30,
                       child: Text(
-                        'Welcome to DOI',
+                        context.l10n.deadOrInjured,
                         style: context.textTheme.bodySmall?.copyWith(
                           fontSize: 22.sp,
                         ),

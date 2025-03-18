@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DoiButtonStyle {
   final Color background;
-  final Color textColor;
+  final Color? textColor;
   final Color borderColor;
 
   final TextStyle? textStyle;
 
   ///Button default values
-  static const double buttonDefaultHeight = 48.0;
+  static const double buttonDefaultHeight = 58.0;
   static const double buttonDefaultWidth = double.infinity;
   static const double badgeDefaultHeight = 20.0;
   static const double badgeDefaultWidth = 46.0;
@@ -23,7 +23,7 @@ class DoiButtonStyle {
 
   DoiButtonStyle({
     required this.background,
-    required this.textColor,
+    this.textColor = Colors.white,
     required this.borderColor,
     this.textStyle,
   });

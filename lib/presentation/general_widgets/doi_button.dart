@@ -81,7 +81,7 @@ class _DoiButton extends State<DoiButton> {
             boxShadow: [
               BoxShadow(
                 color: _buttonStyle.borderColor,
-                offset: const Offset(0, 8),
+                offset: const Offset(0, 5),
                 blurRadius: 0,
                 spreadRadius: 0,
               ),

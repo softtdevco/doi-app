@@ -7,6 +7,7 @@ class AppColors {
   static const Color onPrimary = Color(0xFFB3DDF5);
   static const Color red = Color(0xFFD52929);
   static const Color black = Color(0xFF000000);
+  static const Color dark = Color(0xFF121212);
   static const Color white = Color(0xFFFFFFFF);
   static const Color indicator = Color(0xFFFFEBDE);
   static const Color iconBorder = Color(0xFFFFD2B6);

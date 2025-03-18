@@ -25,11 +25,32 @@ class $AssetsImagesGen {
 class $AssetsSvgsGen {
   const $AssetsSvgsGen();
 
+  /// File path: assets/svgs/Coin.svg
+  String get coin => 'assets/svgs/Coin.svg';
+
   /// File path: assets/svgs/Union.svg
   String get union => 'assets/svgs/Union.svg';
 
+  /// File path: assets/svgs/add_circle.svg
+  String get addCircle => 'assets/svgs/add_circle.svg';
+
+  /// File path: assets/svgs/ai.svg
+  String get ai => 'assets/svgs/ai.svg';
+
+  /// File path: assets/svgs/alarm.svg
+  String get alarm => 'assets/svgs/alarm.svg';
+
+  /// File path: assets/svgs/arrow-up.svg
+  String get arrowUp => 'assets/svgs/arrow-up.svg';
+
   /// File path: assets/svgs/back.svg
   String get back => 'assets/svgs/back.svg';
+
+  /// File path: assets/svgs/delete.svg
+  String get delete => 'assets/svgs/delete.svg';
+
+  /// File path: assets/svgs/dices.svg
+  String get dices => 'assets/svgs/dices.svg';
 
   /// File path: assets/svgs/doi.svg
   String get doi => 'assets/svgs/doi.svg';
@@ -40,15 +61,61 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/home.svg
   String get home => 'assets/svgs/home.svg';
 
+  /// File path: assets/svgs/leader.svg
+  String get leader => 'assets/svgs/leader.svg';
+
+  /// File path: assets/svgs/lightbulb.svg
+  String get lightbulb => 'assets/svgs/lightbulb.svg';
+
+  /// File path: assets/svgs/pause.svg
+  String get pause => 'assets/svgs/pause.svg';
+
+  /// File path: assets/svgs/settings.svg
+  String get settings => 'assets/svgs/settings.svg';
+
+  /// File path: assets/svgs/skull.svg
+  String get skull => 'assets/svgs/skull.svg';
+
+  /// File path: assets/svgs/streak.svg
+  String get streak => 'assets/svgs/streak.svg';
+
   /// File path: assets/svgs/tournaments.svg
   String get tournaments => 'assets/svgs/tournaments.svg';
 
   /// File path: assets/svgs/wallet.svg
   String get wallet => 'assets/svgs/wallet.svg';
 
+  /// File path: assets/svgs/wand.svg
+  String get wand => 'assets/svgs/wand.svg';
+
+  /// File path: assets/svgs/warning.svg
+  String get warning => 'assets/svgs/warning.svg';
+
   /// List of all assets
-  List<String> get values =>
-      [union, back, doi, friends, home, tournaments, wallet];
+  List<String> get values => [
+        coin,
+        union,
+        addCircle,
+        ai,
+        alarm,
+        arrowUp,
+        back,
+        delete,
+        dices,
+        doi,
+        friends,
+        home,
+        leader,
+        lightbulb,
+        pause,
+        settings,
+        skull,
+        streak,
+        tournaments,
+        wallet,
+        wand,
+        warning
+      ];
 }
 
 class Assets {

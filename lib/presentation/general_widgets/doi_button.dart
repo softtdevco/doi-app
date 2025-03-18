@@ -112,10 +112,13 @@ class _DoiButton extends State<DoiButton> {
                           )),
                       5.horizontalSpace
                     ],
-                    Text(widget.text,
-                        style: _buttonStyle.textStyle ??
-                            context.textTheme.bodyMedium
-                                ?.copyWith(color: _buttonStyle.textColor))
+                    Text(
+                      widget.text,
+                      style: _buttonStyle.textStyle ??
+                          context.textTheme.bodyMedium
+                              ?.copyWith(color: _buttonStyle.textColor),
+                      textScaler: const TextScaler.linear(1.0),
+                    )
                   ],
                 )),
               if (widget.isLoading) ...[

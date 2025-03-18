@@ -1,6 +1,8 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
@@ -22,15 +24,23 @@ class Welcome extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Assets.images.doi.image(
-                  fit: BoxFit.cover,
-                  width: 144,
-                ),
-                Text(
-                  'Welcome to DOI',
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontSize: 22.sp,
-                  ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Assets.images.doi.image(
+                      fit: BoxFit.cover,
+                      width: 144,
+                    ),
+                    Positioned(
+                      bottom: 30,
+                      child: Text(
+                        'Welcome to DOI',
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize: 22.sp,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ).withContainer(
@@ -42,12 +52,14 @@ class Welcome extends StatelessWidget {
           ),
           DoiButton(
             width: 197.w,
+            height: 48.h,
             text: 'START',
-            onPressed: () {},
+            onPressed: () => context.replaceAll(AppRouter.dashboard),
           ),
           32.verticalSpace,
           DoiButton(
             width: 239.w,
+            height: 48.h,
             leading: Assets.svgs.union,
             buttonStyle: DoiButtonStyle.secondary(),
             text: 'Sync Your Progress',

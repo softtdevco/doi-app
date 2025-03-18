@@ -28,11 +28,27 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/Union.svg
   String get union => 'assets/svgs/Union.svg';
 
+  /// File path: assets/svgs/back.svg
+  String get back => 'assets/svgs/back.svg';
+
   /// File path: assets/svgs/doi.svg
   String get doi => 'assets/svgs/doi.svg';
 
+  /// File path: assets/svgs/friends.svg
+  String get friends => 'assets/svgs/friends.svg';
+
+  /// File path: assets/svgs/home.svg
+  String get home => 'assets/svgs/home.svg';
+
+  /// File path: assets/svgs/tournaments.svg
+  String get tournaments => 'assets/svgs/tournaments.svg';
+
+  /// File path: assets/svgs/wallet.svg
+  String get wallet => 'assets/svgs/wallet.svg';
+
   /// List of all assets
-  List<String> get values => [union, doi];
+  List<String> get values =>
+      [union, back, doi, friends, home, tournaments, wallet];
 }
 
 class Assets {

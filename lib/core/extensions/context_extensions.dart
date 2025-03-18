@@ -1,3 +1,4 @@
+import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 extension BuildContextExt on BuildContext {
@@ -7,4 +8,69 @@ extension BuildContextExt on BuildContext {
 
   EdgeInsetsGeometry get bottomPaddingForTextField =>
       EdgeInsets.only(bottom: MediaQuery.of(this).viewInsets.bottom);
+
+  Future<T> showPopUp<T>(
+    Widget child, {
+    bool? isDismissable,
+    required double? size,
+    Color? color,
+  }) async {
+    return await showDialog(
+        context: this,
+        barrierDismissible: isDismissable ?? false,
+        builder: (context) {
+          return Theme(
+            data: ThemeData(
+              useMaterial3: true,
+              dialogBackgroundColor: color ?? AppColors.background,
+            ),
+            child: Dialog(
+              backgroundColor: color ?? AppColors.background,
+              insetPadding: const EdgeInsets.symmetric(horizontal: 29),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(17),
+              ),
+              child: Container(
+                height: size ?? 100,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: child,
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<T?> showBottomSheet<T>({
+    required Widget child,
+  }) =>
+      showModalBottomSheet(
+          isScrollControlled: true,
+          context: this,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          ),
+          builder: (context) {
+            return BackdropFilter(
+              filter: ColorFilter.mode(
+                Colors.black.withValues(alpha: 0.2),
+                BlendMode.srcOver,
+              ),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.background,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: child,
+                ),
+              ),
+            );
+          });
 }

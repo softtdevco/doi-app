@@ -10,5 +10,8 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color indicator = Color(0xFFFFEBDE);
   static const Color iconBorder = Color(0xFFFFD2B6);
-   static const Color secondaryBackGround = Color(0xFFFFE8DA);
+  static const Color secondaryBackGround = Color(0xFFFFE8DA);
+  static const Color unSelected = Color(0xFFEED7C8);
+  static const Color green = Color(0xFFA5E22B);
+  static const Color greenBorder = Color(0xFF83BD10);
 }

@@ -34,23 +34,16 @@ class _HomeState extends State<Home> {
       body: Column(
         children: [
           24.verticalSpace,
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Assets.images.doi.image(
-                fit: BoxFit.cover,
-                width: 144,
-              ),
-              Positioned(
-                bottom: 30,
-                child: Text(
-                  context.l10n.startNew,
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ),
-            ],
+          Assets.images.doi.image(
+            fit: BoxFit.cover,
+            width: 86.w,
+          ),
+          16.verticalSpace,
+          Text(
+            context.l10n.startNew,
+            style: context.textTheme.bodySmall?.copyWith(
+              fontSize: 16.sp,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),

@@ -25,23 +25,16 @@ class Welcome extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Assets.images.doi.image(
-                      fit: BoxFit.cover,
-                      width: 200.w,
-                    ),
-                    Positioned(
-                      bottom: 30,
-                      child: Text(
-                        context.l10n.deadOrInjured,
-                        style: context.textTheme.bodySmall?.copyWith(
-                          fontSize: 22.sp,
-                        ),
-                      ),
-                    ),
-                  ],
+                Assets.images.doi.image(
+                  fit: BoxFit.cover,
+                  width: 144.w,
+                ),
+                37.verticalSpace,
+                Text(
+                  context.l10n.deadOrInjured,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    fontSize: 22.sp,
+                  ),
                 ),
               ],
             ).withContainer(
@@ -52,15 +45,15 @@ class Welcome extends StatelessWidget {
             ),
           ),
           DoiButton(
-            width: 197.w,
-            height: 48.h,
+            width: 197,
+            height: 48,
             text: context.l10n.start,
             onPressed: () => context.replaceAll(AppRouter.dashboard),
           ),
           32.verticalSpace,
           DoiButton(
-            width: 239.w,
-            height: 48.h,
+            width: 239,
+            height: 48,
             leading: Assets.svgs.union,
             buttonStyle: DoiButtonStyle.secondary(),
             text: context.l10n.syncProgress,

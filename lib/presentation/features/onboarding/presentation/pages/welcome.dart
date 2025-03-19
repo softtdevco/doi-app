@@ -7,6 +7,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ class Welcome extends StatelessWidget {
         children: [
           Spacer(),
           Expanded(
-            child: Column(
+            child: 
+            Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Stack(
@@ -55,7 +57,11 @@ class Welcome extends StatelessWidget {
             width: 197.w,
             height: 48.h,
             text: context.l10n.start,
-            onPressed: () => context.replaceAll(AppRouter.dashboard),
+            onPressed: () => context.showPopUp(
+              Authentication(),
+              
+              color: AppColors.white
+              , size: context.width)
           ),
           32.verticalSpace,
           DoiButton(

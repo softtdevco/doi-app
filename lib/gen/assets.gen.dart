@@ -31,6 +31,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/back.svg
   String get back => 'assets/svgs/back.svg';
 
+  /// File path: assets/svgs/close.svg
+  String get close => 'assets/svgs/close.svg';
+
   /// File path: assets/svgs/doi.svg
   String get doi => 'assets/svgs/doi.svg';
 
@@ -48,7 +51,7 @@ class $AssetsSvgsGen {
 
   /// List of all assets
   List<String> get values =>
-      [union, back, doi, friends, home, tournaments, wallet];
+      [union, back, close, doi, friends, home, tournaments, wallet];
 }
 
 class Assets {

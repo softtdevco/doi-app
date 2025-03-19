@@ -40,8 +40,73 @@
     "store":"Store",
     "@store": {
         "description": "store text"
+    },
+      "aiPlay":"AI plays back",
+    "@aiPlay": {
+        "description": "AI plays text"
+    },
+    "easy":"Easy",
+    "@easy": {
+        "description": "easy text"
+    },
+    "easy":"Easy",
+    "@easy": {
+        "description": "easy text"
+    },
+    "hard":"Hard",
+    "@hard": {
+        "description": "hard text"
+    },
+    "whenDifficulty":"When difficulty is set to easy, the Ai takes more time to crack your code and hard takes less time",
+    "@whenDifficulty": {
+        "description": "easy / hard description text"
+    },
+    "gameMode":"Game Mode",
+    "@gameMode": {
+        "description": "mode text"
+    },
+  "hint":"Hint",
+    "@hint": {
+        "description": "hint text"
+    },
+  "mystery":"Mystery",
+    "@mystery": {
+        "description": "mystery text"
+    },
+"whenGameMode":" When the game mode is set to ‘Hint’ you see visual results of your guesses, for example. The box surrounding a digit turns green when it’s ‘Dead’ and yellow when ‘Injured’. Mystery hides the visual cues",
+    "@whenGameMode": {
+        "description": "game mode text"
+    },
+  "setTimer":"Set timer",
+    "@setTimer": {
+        "description": "timer text"
+    },
+    "enterTime":"Enter time",
+    "@enterTime": {
+        "description": "timer text"
+    },
+     "mins":"Mins",
+    "@mins": {
+        "description": "min text"
+    },
+   "startGame":"Start Game",
+    "@startGame": {
+        "description": "game text"
+    },
+   "newGameWith":"New game with",
+    "@newGameWith": {
+        "description": "game text"
+    },
+     "startMatch":"start match",
+    "@startMatch": {
+        "description": "match text"
+    },
+    "enterSecretCode":"Enter your secret code",
+    "@enterSecretCode": {
+        "description": "secret text"
+    },
+     "online":"Online",
+    "@online": {
+        "description": "online text"
     }
-
-  
 }
-

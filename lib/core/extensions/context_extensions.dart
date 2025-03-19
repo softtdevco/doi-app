@@ -1,5 +1,6 @@
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 extension BuildContextExt on BuildContext {
   double get height => MediaQuery.of(this).size.height;
@@ -12,6 +13,7 @@ extension BuildContextExt on BuildContext {
   Future<T> showPopUp<T>(
     Widget child, {
     bool? isDismissable,
+    double? horizontalPadding,
     required double? size,
     Color? color,
   }) async {
@@ -26,7 +28,7 @@ extension BuildContextExt on BuildContext {
             ),
             child: Dialog(
               backgroundColor: color ?? AppColors.background,
-              insetPadding: const EdgeInsets.symmetric(horizontal: 29),
+              insetPadding:   EdgeInsets.symmetric(horizontal: horizontalPadding??29),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(17),
               ),
@@ -44,12 +46,14 @@ extension BuildContextExt on BuildContext {
 
   Future<T?> showBottomSheet<T>({
     required Widget child,
+    Color? color,
   }) =>
       showModalBottomSheet(
           isScrollControlled: true,
+          isDismissible: false,
           context: this,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
           ),
           builder: (context) {
             return BackdropFilter(
@@ -60,7 +64,7 @@ extension BuildContextExt on BuildContext {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColors.background,
+                  color: color ?? AppColors.background,
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(16),
                   ),

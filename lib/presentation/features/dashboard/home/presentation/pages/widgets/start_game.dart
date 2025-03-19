@@ -8,7 +8,7 @@ import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/bar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/new_game_ai.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/test_new_game_ai.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_checkbox.dart';
@@ -90,7 +90,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                   8.horizontalSpace,
                   Flexible(
                     child: Text(
-                     context.l10n.whenDifficulty,
+                      context.l10n.whenDifficulty,
                       style: context.textTheme.bodySmall?.copyWith(
                         fontSize: 11.sp,
                         color: AppColors.tealGreen,
@@ -138,7 +138,7 @@ class _StartGameState extends ConsumerState<StartGame> {
             Row(
               children: [
                 Text(
-                 context.l10n.setTimer,
+                  context.l10n.setTimer,
                   style: context.textTheme.bodySmall?.copyWith(
                     fontSize: 16.sp,
                     color: AppColors.greenText,
@@ -187,7 +187,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                       ),
                       4.horizontalSpace,
                       Text(
-                       context.l10n.mins,
+                        context.l10n.mins,
                         style: context.textTheme.bodySmall?.copyWith(
                           fontSize: 14.sp,
                           color: AppColors.greenText,
@@ -199,6 +199,25 @@ class _StartGameState extends ConsumerState<StartGame> {
               ),
             ],
             53.verticalSpace,
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 22.w),
+            //   child: DoiButton(
+            //     buttonStyle: DoiButtonStyle(
+            //       background: AppColors.green,
+            //       borderColor: AppColors.greenBorder,
+            //     ),
+            //     text: context.l10n.startGame,
+            //     onPressed: () {
+            //       context.pop();
+            //       context.showBottomSheet(
+            //         color: AppColors.white,
+            //         child: NewGameAi(),
+            //       );
+            //     },
+            //   ),
+            // )
+
+            // In your StartGame class, update the DoiButton's onPressed callback:
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
               child: DoiButton(
@@ -208,10 +227,23 @@ class _StartGameState extends ConsumerState<StartGame> {
                 ),
                 text: context.l10n.startGame,
                 onPressed: () {
+                  // Get current settings from the UI and state
+                  final bool aiPlaybackEnabled = playChecked;
+                  final String gameMode =
+                      selectedMode == 0 ? 'hint' : 'mystery';
+                  final String timerValue =
+                      setTimer ? ref.read(homeNotifierProvider).timer : '0';
+                  final int aiDifficulty = selectedPlay;
+
                   context.pop();
                   context.showBottomSheet(
                     color: AppColors.white,
-                    child: NewGameAi(),
+                    child: TestNewGameAi(
+                      aiPlayback: aiPlaybackEnabled,
+                      gameMode: gameMode,
+                      timerValue: timerValue,
+                      aiDifficulty: aiDifficulty,
+                    ),
                   );
                 },
               ),

@@ -1,9 +1,11 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/home_appbar.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/start_game.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +63,11 @@ class _HomeState extends State<Home> {
                     borderColor: AppColors.greenBorder,
                   ),
                   text: context.l10n.singlePlayer,
-                  onPressed: () {},
+                  onPressed: () => context.showBottomSheet(
+                    
+                    color: AppColors.white,
+                    child: StartGame(),
+                  ),
                 ),
                 16.verticalSpace,
                 DoiButton(

@@ -15,4 +15,7 @@ class AppColors {
   static const Color unSelected = Color(0xFFEED7C8);
   static const Color green = Color(0xFFA5E22B);
   static const Color greenBorder = Color(0xFF83BD10);
+  static const Color greenText = Color(0xFF679A00);
+  static const Color lightGreen = Color(0xFFEDF9D4);
+  static const Color tealGreen = Color(0xFF74A415);
 }

@@ -25,6 +25,9 @@ class $AssetsImagesGen {
 class $AssetsSvgsGen {
   const $AssetsSvgsGen();
 
+  /// File path: assets/svgs/Checked.svg
+  String get checked => 'assets/svgs/Checked.svg';
+
   /// File path: assets/svgs/Coin.svg
   String get coin => 'assets/svgs/Coin.svg';
 
@@ -46,6 +49,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/back.svg
   String get back => 'assets/svgs/back.svg';
 
+  /// File path: assets/svgs/circle-clock.svg
+  String get circleClock => 'assets/svgs/circle-clock.svg';
+
   /// File path: assets/svgs/delete.svg
   String get delete => 'assets/svgs/delete.svg';
 
@@ -60,6 +66,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/home.svg
   String get home => 'assets/svgs/home.svg';
+
+  /// File path: assets/svgs/info.svg
+  String get info => 'assets/svgs/info.svg';
 
   /// File path: assets/svgs/leader.svg
   String get leader => 'assets/svgs/leader.svg';
@@ -82,6 +91,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/tournaments.svg
   String get tournaments => 'assets/svgs/tournaments.svg';
 
+  /// File path: assets/svgs/unchecked.svg
+  String get unchecked => 'assets/svgs/unchecked.svg';
+
   /// File path: assets/svgs/wallet.svg
   String get wallet => 'assets/svgs/wallet.svg';
 
@@ -93,6 +105,7 @@ class $AssetsSvgsGen {
 
   /// List of all assets
   List<String> get values => [
+        checked,
         coin,
         union,
         addCircle,
@@ -100,11 +113,13 @@ class $AssetsSvgsGen {
         alarm,
         arrowUp,
         back,
+        circleClock,
         delete,
         dices,
         doi,
         friends,
         home,
+        info,
         leader,
         lightbulb,
         pause,
@@ -112,6 +127,7 @@ class $AssetsSvgsGen {
         skull,
         streak,
         tournaments,
+        unchecked,
         wallet,
         wand,
         warning

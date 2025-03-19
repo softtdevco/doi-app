@@ -1,5 +1,6 @@
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 extension BuildContextExt on BuildContext {
   double get height => MediaQuery.of(this).size.height;
@@ -44,12 +45,14 @@ extension BuildContextExt on BuildContext {
 
   Future<T?> showBottomSheet<T>({
     required Widget child,
+    Color? color,
   }) =>
       showModalBottomSheet(
           isScrollControlled: true,
+          isDismissible: false,
           context: this,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
           ),
           builder: (context) {
             return BackdropFilter(
@@ -60,7 +63,7 @@ extension BuildContextExt on BuildContext {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColors.background,
+                  color: color ?? AppColors.background,
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(16),
                   ),

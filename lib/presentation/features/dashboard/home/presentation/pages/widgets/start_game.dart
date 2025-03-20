@@ -217,7 +217,7 @@ class _StartGameState extends ConsumerState<StartGame> {
             //   ),
             // )
 
-            // In your StartGame class, update the DoiButton's onPressed callback:
+         
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
               child: DoiButton(
@@ -227,7 +227,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                 ),
                 text: context.l10n.startGame,
                 onPressed: () {
-                  // Get current settings from the UI and state
+         
                   final bool aiPlaybackEnabled = playChecked;
                   final String gameMode =
                       selectedMode == 0 ? 'hint' : 'mystery';
@@ -236,6 +236,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                   final int aiDifficulty = selectedPlay;
 
                   context.pop();
+                
                   context.showBottomSheet(
                     color: AppColors.white,
                     child: TestNewGameAi(

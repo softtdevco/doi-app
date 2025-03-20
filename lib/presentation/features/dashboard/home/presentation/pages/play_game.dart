@@ -1,4 +1,5 @@
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_keyboard.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_status_bar.dart';
@@ -28,15 +29,12 @@ class _PlayGameState extends ConsumerState<PlayGame> {
           color: Colors.white,
           child: Column(
             children: [
-              // AI progress and timer
               GameStatusBar(
                 aiGuesses: gameState.aiGuesses,
                 aiPlaybackEnabled: gameState.aiPlaybackEnabled,
                 timerActive: gameState.timerActive,
                 timeRemaining: gameState.timeRemaining,
               ),
-
-              // Your turn indicator
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -53,8 +51,6 @@ class _PlayGameState extends ConsumerState<PlayGame> {
                   ),
                 ),
               ),
-
-              // Current guess and history
               Expanded(
                 child: GuessDisplay(
                   currentInput: currentInput,
@@ -65,8 +61,6 @@ class _PlayGameState extends ConsumerState<PlayGame> {
                   winner: gameState.winner,
                 ),
               ),
-
-              // Number keypad
               if (gameStatus == GameStatus.playerTurn && !gameState.isGameOver)
                 GameKeyboard(
                   onNumberPressed: _onNumberPressed,

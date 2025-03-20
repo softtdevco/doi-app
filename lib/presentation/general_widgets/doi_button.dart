@@ -30,7 +30,7 @@ class DoiButton extends StatefulWidget {
   final double height;
   final double width;
   final double cornerRadius;
-
+  final bool isEnabled;
   final bool isLoading;
   final DoiButtonStyle? buttonStyle;
 
@@ -41,6 +41,7 @@ class DoiButton extends StatefulWidget {
     this.height = DoiButtonStyle.buttonDefaultHeight,
     this.width = DoiButtonStyle.buttonDefaultWidth,
     this.isLoading = DoiButtonStyle.buttonIsLoading,
+    this.isEnabled = DoiButtonStyle.buttonIsEnable,
     this.cornerRadius = DoiButtonStyle.buttonCornerRadius,
     this.buttonStyle,
     required this.text,
@@ -129,5 +130,9 @@ class _DoiButton extends State<DoiButton> {
         ));
   }
 
-  bool isActive() => widget.isLoading ? false : true;
+  bool isActive() => widget.isEnabled
+      ? widget.isLoading
+          ? false
+          : true
+      : false;
 }

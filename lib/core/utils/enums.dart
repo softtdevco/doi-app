@@ -43,3 +43,12 @@ enum Language {
   final String name;
   final Locale locale;
 }
+
+enum GameStatus {
+  playerTurn,
+  aiTurn,
+  playerWon,
+  aiWon,
+  draw,
+  timeUp,
+}

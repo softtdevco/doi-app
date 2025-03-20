@@ -4,6 +4,7 @@ import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
+import 'package:doi_mobile/core/utils/validators.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
@@ -16,7 +17,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TestNewGameAi extends ConsumerStatefulWidget {
   final bool aiPlayback;
-  final String gameMode; // 'hint' or 'mystery'
+  final String gameMode;
   final String timerValue;
   final int aiDifficulty;
 
@@ -34,195 +35,183 @@ class TestNewGameAi extends ConsumerStatefulWidget {
 
 class _TestNewGameAiState extends ConsumerState<TestNewGameAi> {
   final TextEditingController _secretCodeController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
+  bool isEnabled = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 16, 32, 36),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 28.w,
-            height: 3.h,
-            decoration: BoxDecoration(
-                color: AppColors.greenText,
-                borderRadius: BorderRadius.circular(8.r)),
-          ),
-          24.verticalSpace,
-          Text(
-            context.l10n.newGameWith,
-            style: context.textTheme.bodySmall?.copyWith(
-              fontSize: 16.sp,
-              color: AppColors.greenText,
-            ),
-          ),
-          24.verticalSpace,
-          // AI player info display
-          Row(
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              AppSvgIcon(
-                path: Assets.svgs.ai,
-                fit: BoxFit.scaleDown,
-              ).withContainer(
-                color: AppColors.white,
-                shape: BoxShape.circle,
-                height: 50.h,
-                width: 50.w,
+              Container(
+                width: 28.w,
+                height: 3.h,
+                decoration: BoxDecoration(
+                    color: AppColors.greenText,
+                    borderRadius: BorderRadius.circular(8.r)),
               ),
-              8.horizontalSpace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              24.verticalSpace,
+              Text(
+                context.l10n.newGameWith,
+                style: context.textTheme.bodySmall?.copyWith(
+                  fontSize: 16.sp,
+                  color: AppColors.greenText,
+                ),
+              ),
+              24.verticalSpace,
+
+              Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'AI',
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.greenText,
-                      fontSize: 20.sp,
-                    ),
+                  AppSvgIcon(
+                    path: Assets.svgs.ai,
+                    fit: BoxFit.scaleDown,
+                  ).withContainer(
+                    color: AppColors.white,
+                    shape: BoxShape.circle,
+                    height: 50.h,
+                    width: 50.w,
                   ),
-                  Text(
-                    context.l10n.online,
-                    style: context.textTheme.bodySmall?.copyWith(
-                      fontSize: 14.sp,
-                      color: AppColors.greenText,
-                    ),
+                  8.horizontalSpace,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'AI',
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: AppColors.greenText,
+                          fontSize: 20.sp,
+                        ),
+                      ),
+                      Text(
+                        context.l10n.online,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize: 14.sp,
+                          color: AppColors.greenText,
+                        ),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
-          ).withContainer(
-            color: AppColors.lightGreen,
-            padding: EdgeInsets.only(
-              top: 8,
-              left: 8,
-              right: 20,
-              bottom: 8,
-            ),
-            borderRadius: BorderRadius.circular(
-              49.r,
-            ),
-          ),
-          24.verticalSpace,
+              ).withContainer(
+                color: AppColors.lightGreen,
+                padding: EdgeInsets.only(
+                  top: 8,
+                  left: 8,
+                  right: 20,
+                  bottom: 8,
+                ),
+                borderRadius: BorderRadius.circular(
+                  49.r,
+                ),
+              ),
+              24.verticalSpace,
 
-          // Display timer if set
-          if (widget.timerValue != '0') ...[
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppSvgIcon(
-                  path: Assets.svgs.circleClock,
-                ),
-                4.horizontalSpace,
+              // Display timer if set
+              if (widget.timerValue != '0') ...[
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppSvgIcon(
+                      path: Assets.svgs.circleClock,
+                    ),
+                    4.horizontalSpace,
+                    Text(
+                      widget.timerValue,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        fontSize: 14.sp,
+                        color: AppColors.greenText,
+                      ),
+                    ),
+                    4.horizontalSpace,
+                    Text(
+                      context.l10n.mins.toLowerCase(),
+                      style: context.textTheme.bodySmall?.copyWith(
+                        fontSize: 14.sp,
+                        color: AppColors.greenText,
+                      ),
+                    ),
+                  ],
+                )
+                    .withContainer(
+                      color: AppColors.white,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 11),
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                    .withContainer(
+                        color: AppColors.lightGreen,
+                        borderRadius: BorderRadius.circular(12),
+                        padding: EdgeInsets.all(4)),
+                24.verticalSpace,
+              ],
+
+              // Only ask for secret code in AI playback mode
+              if (widget.aiPlayback) ...[
                 Text(
-                  widget.timerValue,
+                  context.l10n.enterSecretCode,
                   style: context.textTheme.bodySmall?.copyWith(
                     fontSize: 14.sp,
                     color: AppColors.greenText,
                   ),
                 ),
-                4.horizontalSpace,
-                Text(
-                  context.l10n.mins.toLowerCase(),
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontSize: 14.sp,
-                    color: AppColors.greenText,
-                  ),
+                14.verticalSpace,
+                MinFormField(
+                  onChange: (p0) {
+                    setState(() {
+                      isEnabled = _formKey.currentState!.validate();
+                    });
+                  },
+                  controller: _secretCodeController,
+                  hintText: '1234',
+                  keyboardType: TextInputType.number,
+                  validateFunction: Validators.code(),
                 ),
               ],
-            )
-                .withContainer(
-                  color: AppColors.white,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 11),
-                  borderRadius: BorderRadius.circular(10),
-                )
-                .withContainer(
-                    color: AppColors.lightGreen,
-                    borderRadius: BorderRadius.circular(12),
-                    padding: EdgeInsets.all(4)),
-            24.verticalSpace,
-          ],
 
-          // Only ask for secret code in AI playback mode
-          if (widget.aiPlayback) ...[
-            Text(
-              context.l10n.enterSecretCode,
-              style: context.textTheme.bodySmall?.copyWith(
-                fontSize: 14.sp,
-                color: AppColors.greenText,
-              ),
-            ),
-            14.verticalSpace,
-            MinFormField(
-              controller: _secretCodeController,
-              hintText: '1234',
-              keyboardType: TextInputType.number,
-            ),
-          ],
+              61.verticalSpace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 22.w),
+                child: DoiButton(
+                    buttonStyle: DoiButtonStyle(
+                      background: AppColors.green,
+                      borderColor: AppColors.greenBorder,
+                    ),
+                    text: context.l10n.startMatch,
+                    onPressed: () {
+                      if (widget.aiPlayback) {
+                        final secretCode = _secretCodeController.text;
 
-          61.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 22.w),
-            child: DoiButton(
-              buttonStyle: DoiButtonStyle(
-                background: AppColors.green,
-                borderColor: AppColors.greenBorder,
-              ),
-              text: context.l10n.startMatch,
-              onPressed: () {
-                // Handle AI playback mode
-                if (widget.aiPlayback) {
-                  final secretCode = _secretCodeController.text;
-                  if (!_isValidCode(secretCode)) {
-                    // Show error for invalid code
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                            'Please enter a valid 4-digit code with unique digits'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                    return;
-                  }
+                        ref.read(gameNotifierProvider.notifier).startNewGame(
+                              playerCode: secretCode,
+                              aiPlayback: widget.aiPlayback,
+                              gameMode: widget.gameMode,
+                              timerValue: widget.timerValue,
+                              aiDifficulty: widget.aiDifficulty,
+                            );
+                      } else {
+                        ref.read(gameNotifierProvider.notifier).startNewGame(
+                              playerCode: '',
+                              aiPlayback: widget.aiPlayback,
+                              gameMode: widget.gameMode,
+                              timerValue: widget.timerValue,
+                              aiDifficulty: widget.aiDifficulty,
+                            );
+                      }
 
-                  // Initialize game with player's secret code
-                  ref.read(gameNotifierProvider.notifier).startNewGame(
-                        playerCode: secretCode,
-                        aiPlayback: widget.aiPlayback,
-                        gameMode: widget.gameMode,
-                        timerValue: widget.timerValue,
-                        aiDifficulty: widget.aiDifficulty,
-                      );
-                } else {
-                  // Handle solo play mode (no AI playback)
-                  ref.read(gameNotifierProvider.notifier).startNewGame(
-                        playerCode: '', // Empty player code in solo mode
-                        aiPlayback: widget.aiPlayback,
-                        gameMode: widget.gameMode,
-                        timerValue: widget.timerValue,
-                        aiDifficulty: widget.aiDifficulty,
-                      );
-                }
-
-                // Navigate to game screen
-                context.popAndPushNamed(AppRouter.playGame);
-              },
-            ),
-          )
-        ],
+                      context.popAndPushNamed(AppRouter.playGame);
+                    }),
+              )
+            ],
+          ),
+        ),
       ),
     );
-  }
-
-  bool _isValidCode(String code) {
-    // Check if code is a 4-digit number
-    if (!RegExp(r'^\d{4}$').hasMatch(code)) return false;
-
-    // Check for repeating digits
-    final uniqueDigits = Set<String>.from(code.split(''));
-    return uniqueDigits.length == 4;
   }
 
   @override

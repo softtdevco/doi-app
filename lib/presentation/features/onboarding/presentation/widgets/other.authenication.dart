@@ -19,7 +19,7 @@ class OtherAuthenication extends StatelessWidget {
         Row(
   children: [
     Expanded(child: Divider(thickness: 1,color: AppColors.primaryColor,))
-   ,Text('OR',
+   ,Text(context.l10n.or,
    style:context.textTheme.bodyMedium!.copyWith(
     fontWeight: FontWeight.w400,
     fontSize: 19.2.sp,

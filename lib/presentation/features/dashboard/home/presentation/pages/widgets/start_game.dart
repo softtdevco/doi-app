@@ -9,8 +9,8 @@ import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/bar.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/new_game_ai.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_counter.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_checkbox.dart';
@@ -30,6 +30,7 @@ class _StartGameState extends ConsumerState<StartGame> {
   bool playChecked = false;
   bool setTimer = false;
   final List<String> mins = ['3', '5', '10'];
+  int timerCount = 0;
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(homeNotifierProvider.notifier);
@@ -159,66 +160,58 @@ class _StartGameState extends ConsumerState<StartGame> {
             ),
             if (setTimer) ...[
               8.verticalSpace,
-              Row(
-                children: [
-                  Row(
-                    spacing: 8.w,
-                    children: List.generate(
-                      mins.length,
-                      (i) => TimerTile(
-                        onTap: () => notifier.updateTimer(mins[i]),
-                        min: mins[i],
-                      ),
-                    ),
-                  ),
-                  10.horizontalSpace,
-                  Flexible(
-                    child: SizedBox(
-                      height: 40.h,
-                      child: MinFormField(
-                        onTap: () => notifier.updateTimer('1'),
-                        hintText: context.l10n.enterTime,
-                      ),
-                    ),
-                  ),
-                  12.horizontalSpace,
-                  Row(
-                    children: [
-                      AppSvgIcon(
-                        path: Assets.svgs.circleClock,
-                      ),
-                      4.horizontalSpace,
-                      Text(
-                        context.l10n.mins,
-                        style: context.textTheme.bodySmall?.copyWith(
-                          fontSize: 14.sp,
-                          color: AppColors.greenText,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Row(
+                      spacing: 8.w,
+                      children: List.generate(
+                        mins.length,
+                        (i) => TimerTile(
+                          onTap: () => notifier.updateTimer(mins[i]),
+                          min: mins[i],
                         ),
                       ),
-                    ],
-                  )
-                ],
+                    ),
+                    10.horizontalSpace,
+                    // Flexible(
+                    //   child: SizedBox(
+                    //     height: 40.h,
+                    //     child: MinFormField(
+                    //       onTap: () => notifier.updateTimer('1'),
+                    //       hintText: context.l10n.enterTime,
+                    //     ),
+                    //   ),
+                    // ),
+                    Flexible(
+                      child: TimerCounter(
+                        quantity: timerCount,
+                        minus: () {},
+                        add: () {},
+                      ),
+                    ),
+                    12.horizontalSpace,
+                    Row(
+                      children: [
+                        AppSvgIcon(
+                          path: Assets.svgs.circleClock,
+                        ),
+                        4.horizontalSpace,
+                        Text(
+                          context.l10n.mins,
+                          style: context.textTheme.bodySmall?.copyWith(
+                            fontSize: 14.sp,
+                            color: AppColors.greenText,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ],
             53.verticalSpace,
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 22.w),
-            //   child: DoiButton(
-            //     buttonStyle: DoiButtonStyle(
-            //       background: AppColors.green,
-            //       borderColor: AppColors.greenBorder,
-            //     ),
-            //     text: context.l10n.startGame,
-            //     onPressed: () {
-            //       context.pop();
-            //       context.showBottomSheet(
-            //         color: AppColors.white,
-            //         child: NewGameAi(),
-            //       );
-            //     },
-            //   ),
-            // )
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
               child: Consumer(builder: (context, r, c) {

@@ -18,4 +18,5 @@ class AppColors {
   static const Color greenText = Color(0xFF679A00);
   static const Color lightGreen = Color(0xFFEDF9D4);
   static const Color tealGreen = Color(0xFF74A415);
+  static const Color countGreen = Color(0xFFCCF084);
 }

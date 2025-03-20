@@ -1,14 +1,16 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/bar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/test_new_game_ai.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/new_game_ai.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_checkbox.dart';
@@ -217,41 +219,78 @@ class _StartGameState extends ConsumerState<StartGame> {
             //   ),
             // )
 
-         
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
-              child: DoiButton(
-                buttonStyle: DoiButtonStyle(
-                  background: AppColors.green,
-                  borderColor: AppColors.greenBorder,
-                ),
-                text: context.l10n.startGame,
-                onPressed: () {
-         
-                  final bool aiPlaybackEnabled = playChecked;
-                  final String gameMode =
-                      selectedMode == 0 ? 'hint' : 'mystery';
-                  final String timerValue =
-                      setTimer ? ref.read(homeNotifierProvider).timer : '0';
-                  final int aiDifficulty = selectedPlay;
-
-                  context.pop();
-                
-                  context.showBottomSheet(
-                    color: AppColors.white,
-                    child: TestNewGameAi(
-                      aiPlayback: aiPlaybackEnabled,
-                      gameMode: gameMode,
-                      timerValue: timerValue,
-                      aiDifficulty: aiDifficulty,
-                    ),
-                  );
-                },
-              ),
+              child: Consumer(builder: (context, r, c) {
+                final bool aiPlaybackEnabled = playChecked;
+                final String gameMode = selectedMode == 0 ? 'hint' : 'mystery';
+                final String timerValue = setTimer
+                    ? r.read(homeNotifierProvider.select((v) => v.timer))
+                    : '0';
+                final int aiDifficulty = selectedPlay;
+                return DoiButton(
+                  buttonStyle: DoiButtonStyle(
+                    background: AppColors.green,
+                    borderColor: AppColors.greenBorder,
+                  ),
+                  text: context.l10n.startGame,
+                  onPressed: () {
+                    aiPlaybackEnabled
+                        ? _enterSecretCode(
+                            aiPlayback: aiPlaybackEnabled,
+                            gameMode: gameMode,
+                            timerValue: timerValue,
+                            aiDifficulty: aiDifficulty,
+                          )
+                        : _startNewGame(
+                            aiPlayback: aiPlaybackEnabled,
+                            gameMode: gameMode,
+                            timerValue: timerValue,
+                            aiDifficulty: aiDifficulty,
+                            playerCode: '',
+                          );
+                  },
+                );
+              }),
             )
           ],
         ),
       ),
     );
+  }
+
+  void _enterSecretCode({
+    required bool aiPlayback,
+    required String gameMode,
+    required String timerValue,
+    required int aiDifficulty,
+  }) {
+    context.pop();
+    context.showBottomSheet(
+      color: AppColors.white,
+      child: NewGameAi(
+        aiPlayback: aiPlayback,
+        gameMode: gameMode,
+        timerValue: timerValue,
+        aiDifficulty: aiDifficulty,
+      ),
+    );
+  }
+
+  void _startNewGame({
+    required bool aiPlayback,
+    required String gameMode,
+    required String timerValue,
+    required int aiDifficulty,
+    required String playerCode,
+  }) {
+    ref.read(gameNotifierProvider.notifier).startNewGame(
+          playerCode: playerCode,
+          aiPlayback: aiPlayback,
+          gameMode: gameMode,
+          timerValue: timerValue,
+          aiDifficulty: aiDifficulty,
+        );
+    context.popAndPushNamed(AppRouter.playGame);
   }
 }

@@ -64,7 +64,6 @@ class _HomeState extends State<Home> {
                   ),
                   text: context.l10n.singlePlayer,
                   onPressed: () => context.showBottomSheet(
-                    
                     color: AppColors.white,
                     child: StartGame(),
                   ),

@@ -91,8 +91,6 @@ class MinFormField extends StatefulWidget {
 }
 
 class _MinFormFieldState extends State<MinFormField> {
-  String? error;
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -111,14 +109,10 @@ class _MinFormFieldState extends State<MinFormField> {
               return null;
             },
       onSaved: (val) {
-        error = widget.validateFunction!(val);
         setState(() {});
         widget.onSaved!(val!);
       },
       onChanged: (val) {
-        widget.validateFunction != null
-            ? error = widget.validateFunction!(val)
-            : error = null;
         setState(() {});
         if (widget.onChange != null) widget.onChange!.call(val);
       },
@@ -144,7 +138,10 @@ class _MinFormFieldState extends State<MinFormField> {
             prefixIcon: widget.prefixIcon,
             suffixIcon: widget.suffixIcon,
             enabled: false,
-            errorStyle: const TextStyle(fontSize: 0, height: -30),
+            errorStyle: const TextStyle(
+              color: AppColors.red,
+              fontSize: 12,
+            ),
             hintText: widget.hintText,
             hintStyle: widget.hintStyle ??
                 context.textTheme.bodySmall?.copyWith(

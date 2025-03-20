@@ -1,6 +1,7 @@
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
@@ -137,7 +138,7 @@ class NewGameAi extends StatelessWidget {
               ),
               text: context.l10n.startMatch,
               onPressed: () {
-                context.pop();
+                context.popAndPushNamed(AppRouter.playGame);
               },
             ),
           )

@@ -1,14 +1,16 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/bar.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/test_new_game_ai.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/new_game_ai.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_counter.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_checkbox.dart';
@@ -28,6 +30,7 @@ class _StartGameState extends ConsumerState<StartGame> {
   bool playChecked = false;
   bool setTimer = false;
   final List<String> mins = ['3', '5', '10'];
+  int timerCount = 0;
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(homeNotifierProvider.notifier);
@@ -157,101 +160,132 @@ class _StartGameState extends ConsumerState<StartGame> {
             ),
             if (setTimer) ...[
               8.verticalSpace,
-              Row(
-                children: [
-                  Row(
-                    spacing: 8.w,
-                    children: List.generate(
-                      mins.length,
-                      (i) => TimerTile(
-                        onTap: () => notifier.updateTimer(mins[i]),
-                        min: mins[i],
-                      ),
-                    ),
-                  ),
-                  10.horizontalSpace,
-                  Flexible(
-                    child: SizedBox(
-                      height: 40.h,
-                      child: MinFormField(
-                        onTap: () => notifier.updateTimer('1'),
-                        hintText: context.l10n.enterTime,
-                      ),
-                    ),
-                  ),
-                  12.horizontalSpace,
-                  Row(
-                    children: [
-                      AppSvgIcon(
-                        path: Assets.svgs.circleClock,
-                      ),
-                      4.horizontalSpace,
-                      Text(
-                        context.l10n.mins,
-                        style: context.textTheme.bodySmall?.copyWith(
-                          fontSize: 14.sp,
-                          color: AppColors.greenText,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Row(
+                      spacing: 8.w,
+                      children: List.generate(
+                        mins.length,
+                        (i) => TimerTile(
+                          onTap: () => notifier.updateTimer(mins[i]),
+                          min: mins[i],
                         ),
                       ),
-                    ],
-                  )
-                ],
+                    ),
+                    10.horizontalSpace,
+                    TimerCounter(
+                        quantity: timerCount,
+                        minus: () {
+                          if (timerCount > 1) {
+                            setState(() {
+                              timerCount--;
+                            });
+                            notifier.updateTimer(timerCount.toString());
+                          }
+                        },
+                        add: () {
+                          if (timerCount < 90) {
+                            setState(() {
+                              timerCount++;
+                            });
+                            notifier.updateTimer(timerCount.toString());
+                          }
+                        }),
+                    12.horizontalSpace,
+                    Row(
+                      children: [
+                        AppSvgIcon(
+                          path: Assets.svgs.circleClock,
+                        ),
+                        4.horizontalSpace,
+                        Text(
+                          context.l10n.mins,
+                          style: context.textTheme.bodySmall?.copyWith(
+                            fontSize: 14.sp,
+                            color: AppColors.greenText,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ],
             53.verticalSpace,
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 22.w),
-            //   child: DoiButton(
-            //     buttonStyle: DoiButtonStyle(
-            //       background: AppColors.green,
-            //       borderColor: AppColors.greenBorder,
-            //     ),
-            //     text: context.l10n.startGame,
-            //     onPressed: () {
-            //       context.pop();
-            //       context.showBottomSheet(
-            //         color: AppColors.white,
-            //         child: NewGameAi(),
-            //       );
-            //     },
-            //   ),
-            // )
-
-         
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
-              child: DoiButton(
-                buttonStyle: DoiButtonStyle(
-                  background: AppColors.green,
-                  borderColor: AppColors.greenBorder,
-                ),
-                text: context.l10n.startGame,
-                onPressed: () {
-         
-                  final bool aiPlaybackEnabled = playChecked;
-                  final String gameMode =
-                      selectedMode == 0 ? 'hint' : 'mystery';
-                  final String timerValue =
-                      setTimer ? ref.read(homeNotifierProvider).timer : '0';
-                  final int aiDifficulty = selectedPlay;
-
-                  context.pop();
-                
-                  context.showBottomSheet(
-                    color: AppColors.white,
-                    child: TestNewGameAi(
-                      aiPlayback: aiPlaybackEnabled,
-                      gameMode: gameMode,
-                      timerValue: timerValue,
-                      aiDifficulty: aiDifficulty,
-                    ),
-                  );
-                },
-              ),
+              child: Consumer(builder: (context, r, c) {
+                final bool aiPlaybackEnabled = playChecked;
+                final String gameMode = selectedMode == 0 ? 'hint' : 'mystery';
+                final String timerValue = setTimer
+                    ? r.read(homeNotifierProvider.select((v) => v.timer))
+                    : '0';
+                final int aiDifficulty = selectedPlay;
+                return DoiButton(
+                  buttonStyle: DoiButtonStyle(
+                    background: AppColors.green,
+                    borderColor: AppColors.greenBorder,
+                  ),
+                  text: context.l10n.startGame,
+                  onPressed: () {
+                    aiPlaybackEnabled
+                        ? _enterSecretCode(
+                            aiPlayback: aiPlaybackEnabled,
+                            gameMode: gameMode,
+                            timerValue: timerValue,
+                            aiDifficulty: aiDifficulty,
+                          )
+                        : _startNewGame(
+                            aiPlayback: aiPlaybackEnabled,
+                            gameMode: gameMode,
+                            timerValue: timerValue,
+                            aiDifficulty: aiDifficulty,
+                            playerCode: '',
+                          );
+                  },
+                );
+              }),
             )
           ],
         ),
       ),
     );
+  }
+
+  void _enterSecretCode({
+    required bool aiPlayback,
+    required String gameMode,
+    required String timerValue,
+    required int aiDifficulty,
+  }) {
+    context.pop();
+    context.showBottomSheet(
+      color: AppColors.white,
+      child: NewGameAi(
+        aiPlayback: aiPlayback,
+        gameMode: gameMode,
+        timerValue: timerValue,
+        aiDifficulty: aiDifficulty,
+      ),
+    );
+  }
+
+  void _startNewGame({
+    required bool aiPlayback,
+    required String gameMode,
+    required String timerValue,
+    required int aiDifficulty,
+    required String playerCode,
+  }) {
+    ref.read(gameNotifierProvider.notifier).startNewGame(
+          playerCode: playerCode,
+          aiPlayback: aiPlayback,
+          gameMode: gameMode,
+          timerValue: timerValue,
+          aiDifficulty: aiDifficulty,
+        );
+    context.popAndPushNamed(AppRouter.playGame);
   }
 }

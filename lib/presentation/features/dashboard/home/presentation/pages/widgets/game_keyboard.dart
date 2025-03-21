@@ -1,14 +1,17 @@
-// lib/presentation/features/game/presentation/pages/widgets/game_keyboard.dart
-import 'package:flutter/material.dart';
+import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GameKeyboard extends StatelessWidget {
+class GameKeyboard extends StatefulWidget {
   final Function(String) onNumberPressed;
   final VoidCallback onDeletePressed;
   final VoidCallback onSubmitPressed;
   final bool canSubmit;
-  
+
   const GameKeyboard({
     Key? key,
     required this.onNumberPressed,
@@ -16,111 +19,138 @@ class GameKeyboard extends StatelessWidget {
     required this.onSubmitPressed,
     required this.canSubmit,
   }) : super(key: key);
-  
+
+  @override
+  State<GameKeyboard> createState() => _GameKeyboardState();
+}
+
+class _GameKeyboardState extends State<GameKeyboard> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Color indicators for dead/injured
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.r),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Column(
+        children: [
+          Row(
+            spacing: 20.w,
             children: [
-              _buildColorButton(Colors.orange, null),
-              SizedBox(width: 8.w),
-              _buildColorButton(Colors.green, null),
-              SizedBox(width: 8.w),
-              _buildColorButton(Colors.blue, null),
-              SizedBox(width: 8.w),
-              _buildColorButton(Colors.red, null),
-              
-              // Left arrow
-              Icon(
-                Icons.chevron_left,
-                color: AppColors.greenText,
+              _buildColorButton(
+                AppColors.primaryColor,
+                () {},
+                Assets.svgs.dices,
+              ),
+              _buildColorButton(
+                AppColors.wine,
+                () {},
+                Assets.svgs.wand,
+              ),
+              _buildColorButton(
+                AppColors.green,
+                () {},
+                Assets.svgs.alarm,
+              ),
+              _buildColorButton(
+                AppColors.primaryColor,
+                () {},
+                Assets.svgs.lightbulb,
+              ),
+              AppSvgIcon(
+                path: Assets.svgs.left,
+                color: AppColors.dropColor,
               ),
             ],
           ),
-        ),
-        
-        // Number keypad
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 8.r),
-          child: Column(
+          20.verticalSpace,
+          Column(
             children: [
-              // First row: 1-5
               Row(
+                spacing: 6.w,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
                   5,
-                  (index) => _buildNumberButton('${index + 1}'),
+                  (index) =>
+                      Flexible(child: _buildNumberButton('${index + 1}')),
                 ),
               ),
               SizedBox(height: 8.h),
-              
-              // Second row: 6-0
               Row(
+                spacing: 6.w,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ...List.generate(
                     4,
-                    (index) => _buildNumberButton('${index + 6}'),
+                    (index) =>
+                        Flexible(child: _buildNumberButton('${index + 6}')),
                   ),
-                  _buildNumberButton('0'),
+                  Flexible(child: _buildNumberButton('0')),
                 ],
               ),
               SizedBox(height: 8.h),
-              
-              // Third row: Controls
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                spacing: 6.w,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildControlButton(
-                    Icons.chevron_left,
-                    onDeletePressed,
+                  Flexible(
+                    child: _buildControlButton(
+                      Assets.svgs.left,
+                      widget.onDeletePressed,
+                      false,
+                    ),
                   ),
-                  _buildControlButton(
-                    Icons.chevron_right,
-                    () {}, // Not used in the UI
+                  Flexible(
+                    child: _buildControlButton(
+                      Assets.svgs.left,
+                      () {},
+                      true,
+                    ),
                   ),
-                  _buildControlButton(
-                    Icons.backspace,
-                    onDeletePressed,
+                  Flexible(
+                    child: _buildControlButton(
+                      Assets.svgs.delete,
+                      widget.onDeletePressed,
+                      false,
+                    ),
                   ),
-                  _buildSubmitButton(),
+                  Flexible(child: _buildSubmitButton(context)),
                 ],
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-  
-  Widget _buildColorButton(Color color, VoidCallback? onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 36.r,
-        height: 36.r,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-        ),
+        ],
       ),
     );
   }
-  
+
+  Widget _buildColorButton(Color color, VoidCallback? onTap, String path) {
+    return GestureDetector(
+        onTap: onTap,
+        child: AppSvgIcon(
+          path: path,
+          fit: BoxFit.scaleDown,
+        ).withContainer(
+          width: 36.w,
+          height: 36.h,
+          color: color,
+          shape: BoxShape.circle,
+        ));
+  }
+
   Widget _buildNumberButton(String number) {
     return GestureDetector(
-      onTap: () => onNumberPressed(number),
+      onTap: () => widget.onNumberPressed(number),
       child: Container(
-        width: 48.r,
         height: 48.r,
         decoration: BoxDecoration(
           color: AppColors.lightGreen,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.lightGreenBorder,
+              offset: const Offset(0, 5),
+              blurRadius: 0,
+              spreadRadius: 0,
+            ),
+          ],
         ),
         alignment: Alignment.center,
         child: Text(
@@ -130,49 +160,64 @@ class GameKeyboard extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: AppColors.greenText,
           ),
+          textScaler: const TextScaler.linear(1.0),
         ),
       ),
     );
   }
-  
-  Widget _buildControlButton(IconData icon, VoidCallback onTap) {
+
+  Widget _buildControlButton(String icon, VoidCallback onTap, bool isRight) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 48.r,
-        height: 48.r,
-        decoration: BoxDecoration(
-          color: AppColors.lightGreen,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        alignment: Alignment.center,
-        child: Icon(
-          icon,
-          color: AppColors.greenText,
-          size: 24.r,
-        ),
-      ),
+          height: 48.r,
+          decoration: BoxDecoration(
+            color: AppColors.lightGreen,
+            borderRadius: BorderRadius.circular(12.r),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.lightGreenBorder,
+                offset: const Offset(0, 5),
+                blurRadius: 0,
+                spreadRadius: 0,
+              ),
+            ],
+          ),
+          alignment: Alignment.center,
+          child: RotatedBox(
+            quarterTurns: isRight ? 2 : 0,
+            child: AppSvgIcon(
+              path: icon,
+              fit: BoxFit.scaleDown,
+              color: AppColors.greenText,
+            ),
+          )),
     );
   }
-  
-  Widget _buildSubmitButton() {
+
+  Widget _buildSubmitButton(BuildContext context) {
     return GestureDetector(
-      onTap: canSubmit ? onSubmitPressed : null,
+      onTap: widget.canSubmit ? widget.onSubmitPressed : null,
       child: Container(
-        width: 98.r,
+        padding: EdgeInsets.all(4),
         height: 48.r,
         decoration: BoxDecoration(
-          color: canSubmit ? AppColors.green : AppColors.lightGreen,
-          borderRadius: BorderRadius.circular(8.r),
+          color: AppColors.green,
+          borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.greenBorder,
+              offset: const Offset(0, 5),
+              blurRadius: 0,
+              spreadRadius: 0,
+            ),
+          ],
         ),
         alignment: Alignment.center,
         child: Text(
           'SUBMIT',
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: canSubmit ? Colors.white : AppColors.greenText,
-          ),
+          style: context.textTheme.bodyMedium,
+          textScaler: const TextScaler.linear(1.0),
         ),
       ),
     );

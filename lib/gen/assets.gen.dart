@@ -114,13 +114,11 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/info.svg
   String get info => 'assets/svgs/info.svg';
 
-
-  /// File path: assets/svgs/keyboard.svg
-  String get keyboard => 'assets/svgs/keyboard.svg';
-
   /// File path: assets/svgs/infocircle.svg
   String get infocircle => 'assets/svgs/infocircle.svg';
 
+  /// File path: assets/svgs/keyboard.svg
+  String get keyboard => 'assets/svgs/keyboard.svg';
 
   /// File path: assets/svgs/leader.svg
   String get leader => 'assets/svgs/leader.svg';
@@ -185,10 +183,8 @@ class $AssetsSvgsGen {
         googleLogo,
         home,
         info,
-        keyboard,
-
         infocircle,
-
+        keyboard,
         leader,
         left,
         lightbulb,

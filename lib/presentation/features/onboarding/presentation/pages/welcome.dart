@@ -1,13 +1,11 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
-import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
-import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication_page.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +21,7 @@ class Welcome extends StatelessWidget {
         children: [
           Spacer(),
           Expanded(
-            child: 
-            Column(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Assets.images.doi.image(
@@ -47,17 +44,13 @@ class Welcome extends StatelessWidget {
             ),
           ),
           DoiButton(
-            width: 197,
-            height: 48,
-            text: context.l10n.start,
-            onPressed: () => 
-            context.showPopUp(
-              horizontalPadding: 12,
-              Authentication(),
-              
-              color: AppColors.white
-              )
-          ),
+              width: 197,
+              height: 48,
+              text: context.l10n.start,
+              onPressed: () => context.showPopUp(
+                  horizontalPadding: 12,
+                  Authentication(),
+                  color: AppColors.white)),
           32.verticalSpace,
           DoiButton(
             width: 239,

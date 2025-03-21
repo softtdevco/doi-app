@@ -25,6 +25,7 @@ class GameKeyboard extends StatefulWidget {
 }
 
 class _GameKeyboardState extends State<GameKeyboard> {
+  bool showPowerUps = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,29 +35,45 @@ class _GameKeyboardState extends State<GameKeyboard> {
           Row(
             spacing: 20.w,
             children: [
-              _buildColorButton(
-                AppColors.primaryColor,
-                () {},
-                Assets.svgs.dices,
-              ),
-              _buildColorButton(
-                AppColors.wine,
-                () {},
-                Assets.svgs.wand,
-              ),
-              _buildColorButton(
-                AppColors.green,
-                () {},
-                Assets.svgs.alarm,
-              ),
+              if (showPowerUps)
+                Row(
+                  spacing: 20.w,
+                  children: [
+                    _buildColorButton(
+                      AppColors.primaryColor,
+                      () {},
+                      Assets.svgs.dices,
+                    ),
+                    _buildColorButton(
+                      AppColors.wine,
+                      () {},
+                      Assets.svgs.wand,
+                    ),
+                    _buildColorButton(
+                      AppColors.green,
+                      () {},
+                      Assets.svgs.alarm,
+                    ),
+                  ],
+                ),
               _buildColorButton(
                 AppColors.primaryColor,
                 () {},
                 Assets.svgs.lightbulb,
               ),
-              AppSvgIcon(
-                path: Assets.svgs.left,
-                color: AppColors.dropColor,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    showPowerUps = !showPowerUps;
+                  });
+                },
+                child: RotatedBox(
+                  quarterTurns: showPowerUps ? 0 : 2,
+                  child: AppSvgIcon(
+                    path: Assets.svgs.left,
+                    color: AppColors.dropColor,
+                  ),
+                ),
               ),
             ],
           ),

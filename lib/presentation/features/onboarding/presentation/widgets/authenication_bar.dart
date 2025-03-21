@@ -1,4 +1,3 @@
-import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/bar.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +42,7 @@ class _AuthenicationBarTypeState extends State<AuthenicationBarType> {
           ),
           Expanded(
             child: Bar(
-               color: AppColors.darkShadeOrange,
+                color: AppColors.darkShadeOrange,
                 isSelected: widget.index == 1,
                 text: widget.label2,
                 onTap: () {

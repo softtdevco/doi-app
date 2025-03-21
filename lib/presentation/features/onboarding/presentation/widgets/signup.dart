@@ -38,8 +38,8 @@ class SignPage extends StatelessWidget {
       onChanged: (c){
        
       },
-    )
- 
+    ),
+ 5.verticalSpace
    , TextFormField(
       
       decoration: InputDecoration()
@@ -51,8 +51,9 @@ class SignPage extends StatelessWidget {
       onChanged: (c){
        
       },
-    )
-   , TextFormField(
+    ),
+    5.verticalSpace,
+   TextFormField(
       
       decoration: InputDecoration()
       .textfielddesign(
@@ -67,7 +68,7 @@ class SignPage extends StatelessWidget {
        
       },
     )
- ,12.verticalSpace
+ ,24.verticalSpace
   ,
 DoiButton(
             width: context.width,

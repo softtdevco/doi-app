@@ -179,5 +179,49 @@
      "online":"Online",
     "@online": {
         "description": "online text"
+    },
+     "gamePaused":"GAME PAUSED",
+    "@gamePaused": {
+        "description": "GAME PAUSED text"
+    },
+     "resume":"RESUME",
+    "@resume": {
+        "description": "RESUME text"
+    },
+     "howToPlay":"HOW TO PLAY?",
+    "@howToPlay": {
+        "description": "HOW TO PLAY text"
+    },
+     "forfeitMatch":"FORFEIT MATCH",
+    "@forfeitMatch": {
+        "description": "FORFEIT MATCH text"
+    },
+     "youWin":"YOU WIN!",
+    "@youWin": {
+        "description": "YOU WIN text"
+    },
+     "youLost":"YOU LOST!",
+    "@youLost": {
+        "description": "YOU LOST text"
+    },
+     "pointsEarned":"Points Earned",
+    "@pointsEarned": {
+        "description": "Points Earned text"
+    },
+     "newPosition":"New Position",
+    "@newPosition": {
+        "description": "New Position text"
+    },
+     "leaderBoard":"Leaderboard",
+    "@leaderBoard": {
+        "description": "Leaderboard text"
+    },
+     "you":"You",
+    "@you": {
+        "description": "You text"
+    },
+     "forfeitMatch":"Forfeit Match",
+    "@forfeitMatch": {
+        "description": "Forfeit Match text"
     }
 }

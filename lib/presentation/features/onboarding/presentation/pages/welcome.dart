@@ -7,7 +7,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication_page.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';

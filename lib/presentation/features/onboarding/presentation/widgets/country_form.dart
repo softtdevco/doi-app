@@ -81,9 +81,12 @@ class _CountryFormState extends State<CountryForm> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  AppSvgIcon(path:
-                                 Assets.svgs.infocircle
-                                   ),
+                                  Visibility(
+                                    visible: countryInput.isEmpty,
+                                    child: AppSvgIcon(path:
+                                                                     Assets.svgs.infocircle
+                                     ),
+                                  ),
                                   12.horizontalSpace,
                                   Text(
                                                   countryInput.isEmpty?  context.l10n.selectCountry:countryInput,

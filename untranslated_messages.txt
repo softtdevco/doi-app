@@ -38,6 +38,16 @@
     "newGameWith",
     "startMatch",
     "enterSecretCode",
-    "online"
+    "online",
+    "gamePaused",
+    "resume",
+    "howToPlay",
+    "forfeitMatch",
+    "youWin",
+    "youLost",
+    "pointsEarned",
+    "newPosition",
+    "leaderBoard",
+    "you"
   ]
 }

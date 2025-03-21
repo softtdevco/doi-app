@@ -37,8 +37,8 @@ class LoginPage extends StatelessWidget {
       onChanged: (c){
        
       },
-    )
- 
+    ),
+ 5.verticalSpace
    , TextFormField(
       
       decoration: InputDecoration()

@@ -17,6 +17,12 @@ extension CharacterValidation on String {
     return false;
   }
 
+  String formatTime(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
   bool containsSpecialChar() {
     for (var i = 0; i < length; i++) {
       final char = this[i];

@@ -118,6 +118,14 @@ class Validators {
       return null;
     };
   }
+  static Validator userName() {
+    return (String? value) {
+      if (value!.isEmpty) {
+        return 'Field cannot be empty.';
+      }
+      return null;
+    };
+  }
 
   static Validator minLength(int minLength) {
     return (String? value) {

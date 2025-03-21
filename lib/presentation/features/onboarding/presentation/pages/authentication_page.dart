@@ -8,6 +8,7 @@ import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/notifier/onboarding.notifier.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/widgets/login.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/widgets/signup.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/widgets/authenication_bar.dart';
@@ -28,12 +29,12 @@ class Authentication extends ConsumerStatefulWidget {
 
 class _AuthenticationState extends ConsumerState<Authentication> {
  
- bool switchTab = true;
+ 
   @override
   Widget build(BuildContext context) {
-     final notifier = ref.read(homeNotifierProvider.notifier);
-    final selectedPlay =
-        ref.watch(homeNotifierProvider.select((v) => v.playBackIndex));
+     final notifier = ref.read(onboardingNotifierProvider.notifier);
+    final selectedAuthenication =
+        ref.watch(onboardingNotifierProvider.select((v) => v.authenicationIndex));
     return 
      Column(
 children: [
@@ -50,9 +51,9 @@ children: [
 Column(
   children: [
     AuthenicationBarType(
-  index: selectedPlay,
+  index: selectedAuthenication,
                   onChanged: (p0) {
-                  notifier.selectPlayBacksIndex(p0);
+                  notifier.selectAuthenicationIndex(p0);
                 },
   label1: context.l10n.login,
  label2: context.l10n.signUp,).withContainer(
@@ -60,8 +61,11 @@ Column(
   height: 42.h
  ),
  34.verticalSpace,
-  (selectedPlay ==0)?
-  LoginPage():SignPage()
+ switch(selectedAuthenication==0){
+    true => LoginPage(),
+                  _ => const SignPage()
+ }
+ 
   ],
 )
 ]

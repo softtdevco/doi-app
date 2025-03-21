@@ -1,12 +1,11 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
-import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
-import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication_page.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -25,23 +24,16 @@ class Welcome extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Assets.images.doi.image(
-                      fit: BoxFit.cover,
-                      width: 144,
-                    ),
-                    Positioned(
-                      bottom: 30,
-                      child: Text(
-                        context.l10n.deadOrInjured,
-                        style: context.textTheme.bodySmall?.copyWith(
-                          fontSize: 22.sp,
-                        ),
-                      ),
-                    ),
-                  ],
+                Assets.images.doi.image(
+                  fit: BoxFit.cover,
+                  width: 144.w,
+                ),
+                37.verticalSpace,
+                Text(
+                  context.l10n.deadOrInjured,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    fontSize: 22.sp,
+                  ),
                 ),
               ],
             ).withContainer(
@@ -52,18 +44,20 @@ class Welcome extends StatelessWidget {
             ),
           ),
           DoiButton(
-            width: 197.w,
-            height: 48.h,
-            text: 'START',
-            onPressed: () => context.replaceAll(AppRouter.dashboard),
-          ),
+              width: 197,
+              height: 48,
+              text: context.l10n.start,
+              onPressed: () => context.showPopUp(
+                  horizontalPadding: 12,
+                  Authentication(),
+                  color: AppColors.white)),
           32.verticalSpace,
           DoiButton(
-            width: 239.w,
-            height: 48.h,
+            width: 239,
+            height: 48,
             leading: Assets.svgs.union,
             buttonStyle: DoiButtonStyle.secondary(),
-            text: 'Sync Your Progress',
+            text: context.l10n.syncProgress,
             onPressed: () {},
           ),
           82.verticalSpace,

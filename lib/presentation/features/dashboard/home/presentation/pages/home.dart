@@ -1,39 +1,51 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/home_appbar.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/start_game.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  late DraggableScrollableController dragScrollController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    dragScrollController = DraggableScrollableController()..addListener(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
+      appbar: DoiHomeAppbar(),
       bodyPadding: EdgeInsets.all(24),
       body: Column(
         children: [
           24.verticalSpace,
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Assets.images.doi.image(
-                fit: BoxFit.cover,
-                width: 144,
-              ),
-              Positioned(
-                bottom: 30,
-                child: Text(
-                  'Start new game',
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ),
-            ],
+          Assets.images.doi.image(
+            fit: BoxFit.cover,
+            width: 86.w,
+          ),
+          16.verticalSpace,
+          Text(
+            context.l10n.startNew,
+            style: context.textTheme.bodySmall?.copyWith(
+              fontSize: 16.sp,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -41,7 +53,7 @@ class Home extends StatelessWidget {
               children: [
                 44.verticalSpace,
                 DoiButton(
-                  text: 'New Game',
+                  text: context.l10n.newGame,
                   onPressed: () {},
                 ),
                 16.verticalSpace,
@@ -50,12 +62,15 @@ class Home extends StatelessWidget {
                     background: AppColors.green,
                     borderColor: AppColors.greenBorder,
                   ),
-                  text: 'Single player',
-                  onPressed: () {},
+                  text: context.l10n.singlePlayer,
+                  onPressed: () => context.showBottomSheet(
+                    color: AppColors.white,
+                    child: StartGame(),
+                  ),
                 ),
                 16.verticalSpace,
                 DoiButton(
-                  text: 'Story mode',
+                  text: context.l10n.storyMode,
                   onPressed: () {},
                 ),
               ],
@@ -66,13 +81,13 @@ class Home extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Power ups',
+                context.l10n.powerUps,
                 style: context.textTheme.bodySmall?.copyWith(
                   fontSize: 16.sp,
                 ),
               ),
               Text(
-                'Store',
+                context.l10n.store,
                 style: context.textTheme.bodySmall?.copyWith(
                   fontSize: 16.sp,
                 ),

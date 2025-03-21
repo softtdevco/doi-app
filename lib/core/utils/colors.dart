@@ -24,7 +24,12 @@ class AppColors {
   static const Color lightGreen = Color(0xFFEDF9D4);
   static const Color lightGreenC8 = Color(0xFFE6F4C8);
   static const Color tealGreen = Color(0xFF74A415);
+  static const Color countGreen = Color(0xFFCCF084);
+  static const Color lightGreenBorder = Color(0xFFDCE8C2);
+  static const Color dropColor = Color(0xFFBECE9C);
+  static const Color wine = Color(0xFFFF1D58);
   static const Color darkShadeOrange  = Color(0xFFC84E00);
   static const Color orange0A  = Color(0xFFE5770A);
   static const Color orangeFade  = Color(0xFFFFBF96);
+
 }

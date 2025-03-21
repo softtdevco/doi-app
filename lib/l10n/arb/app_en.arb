@@ -20,6 +20,77 @@
     "@startNew": {
         "description": "new game text"
     },
+   
+    "login":"Login",
+    "@login":{
+        "description": "Login text"
+    },
+    "signUp":"Sign Up",
+    "@signUp":{
+        "description": "Sign Up text"
+    },
+    "email":"Email",
+    "@email":{
+        "description": "Email text"
+    },
+    "password":"Password",
+    "@password":{
+        "description": "Password text"
+    },
+    "password":"Password",
+    "@password":{
+        "description": "Password text"
+    },
+    "or":"Forget Password",
+    "@or":{
+        "description": "Forget Password text"
+    },
+    "or":"OR",
+    "@or":{
+        "description": "OR text"
+    },
+    "continueWithX":"Continue with X",
+    "@continueWithX":{
+        "description": "Continue with X"
+    },
+    "continueWithGoogle":"Continue with Google",
+    "@continueWithGoogle":{
+        "description": "Continue with Google"
+    },
+    "welcomeToDoi":"Welcome to DOI",
+    "@welcomeToDoi":{
+        "description": "Welcome to DOI"
+    },
+    "whatShouldWeCallYou":"What should we call you?",
+    "@whatShouldWeCallYou":{
+        "description": "What should we call you text"
+    },
+    "whereAreYouFrom":"Where are you from?",
+    "@whereAreYouFrom":{
+        "description": "Where are you from text"
+    },
+    "letgo":"Let’s Go! ",
+    "@letgo":{
+        "description": "Let’s Go! text"
+    },
+    "hey":"Hey",
+    "@hey":{
+        "description": "Hey text"
+    },
+    "enterYourName":"Enter your name",
+    "@enterYourName":{
+        "description": "Enter your name text"
+    },
+    "continues":"Continue",
+    "@continues":{
+        "description": "continue text"
+    },
+    "selectCountry":"select Country",
+    "@selectCountry":{
+        "description": "select Country text"
+    },
+    
+   
     "newGame":"New Game",
     "@newGame": {
         "description": "new game text"

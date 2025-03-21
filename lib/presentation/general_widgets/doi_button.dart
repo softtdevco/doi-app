@@ -33,7 +33,7 @@ class DoiButton extends StatefulWidget {
   final bool isEnabled;
   final bool isLoading;
   final DoiButtonStyle? buttonStyle;
-
+ final TextStyle? textStyle;
   final VoidCallback onPressed;
   final String? leading;
 
@@ -47,6 +47,7 @@ class DoiButton extends StatefulWidget {
     required this.text,
     required this.onPressed,
     this.leading,
+    this.textStyle,
     Key? key,
   }) : super(key: key);
 
@@ -113,13 +114,12 @@ class _DoiButton extends State<DoiButton> {
                           )),
                       5.horizontalSpace
                     ],
-                    Text(
-                      widget.text,
-                      style: _buttonStyle.textStyle ??
-                          context.textTheme.bodyMedium
-                              ?.copyWith(color: _buttonStyle.textColor),
-                      textScaler: const TextScaler.linear(1.0),
-                    )
+                    Text(widget.text,
+                        style: 
+                        widget.textStyle??
+                        _buttonStyle.textStyle ??
+                            context.textTheme.bodyMedium
+                                ?.copyWith(color: _buttonStyle.textColor))
                   ],
                 )),
               if (widget.isLoading) ...[

@@ -7,7 +7,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/onboarding/notifier/onboarding.notifier.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/notifier/onboarding.notifier.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication_page.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/widgets/country_form.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/widgets/username_form.dart';
@@ -28,7 +28,8 @@ class SetUpProfile extends ConsumerStatefulWidget {
 class _SetUpProfileState extends ConsumerState<SetUpProfile> {
   @override
   Widget build(BuildContext context) {
-     var notifier = ref.watch(onboardingNotifierProvider);
+    final selectedAuthenication =
+        ref.watch(onboardingNotifierProvider.select((v) => v.authenicationIndex));
     return DoiScaffold(
       body: Column(
         children: [
@@ -61,15 +62,11 @@ class _SetUpProfileState extends ConsumerState<SetUpProfile> {
           ),
 
        
-
-( notifier.submitUserName?
- CountryForm():
- UserNameForm()).withContainer(
-              color: AppColors.background,
-              width: context.width,
-              shape: BoxShape.circle,
-              height: 269.h,
-            ),
+ switch(selectedAuthenication>1){
+    true =>  CountryForm(),
+                  _ =>   UserNameForm()
+ }
+ 
          
         ],
       ),

@@ -1,7 +1,10 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/validators.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/onboarding/notifier/onboarding.notifier.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/notifier/onboarding.notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,18 +18,24 @@ class UserNameForm extends ConsumerStatefulWidget {
 }
 
 class _UserNameFormState extends ConsumerState<UserNameForm> {
+  
+   final TextEditingController _userNameController = TextEditingController();
+  bool isEnabled = false;
+    final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-     var notifier = ref.watch(onboardingNotifierProvider
-     );
+     final notifier = ref.read(onboardingNotifierProvider.notifier);
     return Column(
        children: [
-         TextField(
+         TextFormField(
           onChanged: (c){
-  notifier.updateUserName(c);
- 
+            setState(() {
+              isEnabled = _formKey.currentState!.validate();
+            });
           },
-          textAlign: TextAlign.center,
+          controller: _userNameController,
+          validator: Validators.name(),
+                    textAlign: TextAlign.center,
  style: context.textTheme.bodySmall!.copyWith(
               fontSize: 20.sp,
               color: AppColors.darkShadeOrange
@@ -49,16 +58,21 @@ class _UserNameFormState extends ConsumerState<UserNameForm> {
             height: 48,
             text: context.l10n.continues,
             onPressed: () {
-              if(notifier.username.isNotEmpty){
-   notifier.updateSubmitUsername(true);
-              
+              if(isEnabled){
+
+      notifier.selectAuthenicationIndex(2);
               }
             }
  
           ),
       ],
-    )
+    ).withContainer(
+              color: AppColors.background,
+              width: context.width,
+              shape: BoxShape.circle,
+              height: 269.h,
+            );
     
-    ;
+    
   }
 }

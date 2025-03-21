@@ -36,13 +36,15 @@ class TimerCounter extends StatelessWidget {
             ),
           ),
         ),
+        2.horizontalSpace,
         Text(
-          'quantity',
+          '$quantity',
           style: context.textTheme.bodySmall?.copyWith(
             fontSize: 14.sp,
             color: AppColors.greenText,
           ),
         ),
+        2.horizontalSpace,
         GestureDetector(
           onTap: add,
           child: Icon(

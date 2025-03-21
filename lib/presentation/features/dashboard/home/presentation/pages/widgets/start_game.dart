@@ -175,22 +175,24 @@ class _StartGameState extends ConsumerState<StartGame> {
                       ),
                     ),
                     10.horizontalSpace,
-                    // Flexible(
-                    //   child: SizedBox(
-                    //     height: 40.h,
-                    //     child: MinFormField(
-                    //       onTap: () => notifier.updateTimer('1'),
-                    //       hintText: context.l10n.enterTime,
-                    //     ),
-                    //   ),
-                    // ),
-                    Flexible(
-                      child: TimerCounter(
+                    TimerCounter(
                         quantity: timerCount,
-                        minus: () {},
-                        add: () {},
-                      ),
-                    ),
+                        minus: () {
+                          if (timerCount > 1) {
+                            setState(() {
+                              timerCount--;
+                            });
+                            notifier.updateTimer(timerCount.toString());
+                          }
+                        },
+                        add: () {
+                          if (timerCount < 90) {
+                            setState(() {
+                              timerCount++;
+                            });
+                            notifier.updateTimer(timerCount.toString());
+                          }
+                        }),
                     12.horizontalSpace,
                     Row(
                       children: [

@@ -19,4 +19,8 @@ class AppColors {
   static const Color lightGreen = Color(0xFFEDF9D4);
   static const Color tealGreen = Color(0xFF74A415);
   static const Color countGreen = Color(0xFFCCF084);
+  static const Color lightGreenBorder = Color(0xFFDCE8C2);
+  static const Color dropColor = Color(0xFFBECE9C);
+  static const Color wine = Color(0xFFFF1D58);
+
 }

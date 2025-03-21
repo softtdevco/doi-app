@@ -13,7 +13,8 @@ extension BuildContextExt on BuildContext {
   Future<T> showPopUp<T>(
     Widget child, {
     bool? isDismissable,
-    required double? size,
+    double? horizontalPadding,
+      double? size,
     Color? color,
   }) async {
     return await showDialog(
@@ -25,19 +26,25 @@ extension BuildContextExt on BuildContext {
               useMaterial3: true,
               dialogBackgroundColor: color ?? AppColors.background,
             ),
-            child: Dialog(
-              backgroundColor: color ?? AppColors.background,
-              insetPadding: const EdgeInsets.symmetric(horizontal: 29),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(17),
-              ),
-              child: Container(
-                height: size ?? 100,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: child,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Dialog(
+                  backgroundColor: color ?? AppColors.background,
+                  insetPadding:   EdgeInsets.symmetric(horizontal: horizontalPadding??29),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17),
+                  ),
+                  child: Container(
+                     
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: child,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           );
         });

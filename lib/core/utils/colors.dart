@@ -7,7 +7,9 @@ class AppColors {
   static const Color onPrimary = Color(0xFFB3DDF5);
   static const Color red = Color(0xFFD52929);
   static const Color black = Color(0xFF000000);
+  
   static const Color dark = Color(0xFF121212);
+  static const Color  textFieldBg= Color(0xFFFFF0E7);
   static const Color white = Color(0xFFFFFFFF);
   static const Color indicator = Color(0xFFFFEBDE);
   static const Color iconBorder = Color(0xFFFFD2B6);
@@ -18,4 +20,6 @@ class AppColors {
   static const Color greenText = Color(0xFF679A00);
   static const Color lightGreen = Color(0xFFEDF9D4);
   static const Color tealGreen = Color(0xFF74A415);
+  static const Color darkShadeOrange  = Color(0xFFC84E00);
+  static const Color orangeFade  = Color(0xFFFFBF96);
 }

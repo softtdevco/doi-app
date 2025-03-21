@@ -4,8 +4,8 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class QuantityCounter extends StatelessWidget {
-  const QuantityCounter({
+class TimerCounter extends StatelessWidget {
+  const TimerCounter({
     super.key,
     required this.quantity,
     required this.minus,
@@ -27,9 +27,16 @@ class QuantityCounter extends StatelessWidget {
             Icons.remove,
             size: size,
             color: AppColors.green,
+          ).withContainer(
+            color: AppColors.countGreen,
+            borderRadius: BorderRadius.circular(10),
+            padding: EdgeInsets.symmetric(
+              horizontal: 7.5,
+              vertical: 8,
+            ),
           ),
         ),
-        20.horizontalSpace,
+        2.horizontalSpace,
         Text(
           '$quantity',
           style: context.textTheme.bodySmall?.copyWith(
@@ -37,25 +44,26 @@ class QuantityCounter extends StatelessWidget {
             color: AppColors.greenText,
           ),
         ),
-        20.horizontalSpace,
+        2.horizontalSpace,
         GestureDetector(
           onTap: add,
           child: Icon(
             Icons.add,
             size: size,
-            color: AppColors.black,
-          ),
+            color: AppColors.greenText,
+          ).withContainer(
+              color: AppColors.countGreen,
+              borderRadius: BorderRadius.circular(10),
+              padding: EdgeInsets.symmetric(
+                horizontal: 7.5,
+                vertical: 8,
+              )),
         )
       ],
     ).withContainer(
-      border: Border.all(
-        color: AppColors.lightGreen,
-      ),
-      padding: EdgeInsets.symmetric(
-        vertical: 10.h,
-        horizontal: 17.w,
-      ),
-      borderRadius: BorderRadius.circular(5.r),
+      color: AppColors.lightGreen,
+      padding: EdgeInsets.all(5),
+      borderRadius: BorderRadius.circular(10.r),
     );
   }
 }

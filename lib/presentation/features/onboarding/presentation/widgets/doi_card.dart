@@ -1,7 +1,6 @@
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DoiCard extends StatelessWidget {
   const DoiCard({
@@ -15,8 +14,8 @@ class DoiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 48.w,
-      height: 48.h,
+      width: 48,
+      height: 48,
       decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(8),

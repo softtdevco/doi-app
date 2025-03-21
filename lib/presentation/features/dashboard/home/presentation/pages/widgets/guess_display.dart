@@ -1,3 +1,5 @@
+import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/guess_results.dart';
@@ -25,121 +27,107 @@ class GuessDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(20.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Current input display
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
               4,
               (index) => Container(
-                width: 40.w,
-                height: 40.h,
+                width: 50.w,
+                height: 50.h,
                 margin: EdgeInsets.symmetric(horizontal: 4.r),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: index < currentInput.length
-                        ? AppColors.green
-                        : AppColors.lightGreen,
-                    width: 2,
-                  ),
+                  border: index < currentInput.length
+                      ? Border.all(
+                          color: AppColors.greenText,
+                          width: 2,
+                        )
+                      : null,
                   color: index < currentInput.length
-                      ? AppColors.lightGreen
-                      : Colors.white,
+                      ? AppColors.white
+                      : AppColors.lightGreen,
                   borderRadius: BorderRadius.circular(4.r),
                 ),
                 alignment: Alignment.center,
                 child: index < currentInput.length
                     ? Text(
                         currentInput[index],
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
+                        style: context.textTheme.bodyMedium?.copyWith(
                           color: AppColors.greenText,
+                          fontSize: 21.67.sp,
                         ),
                       )
                     : null,
               ),
             ),
           ),
-
-          // Your guess label
-          Padding(
-            padding: EdgeInsets.only(top: 8.r, bottom: 16.r),
-            child: Text(
-              'Your Guesses',
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: AppColors.greenText,
-              ),
+          16.verticalSpace,
+          Text(
+            'Your guess',
+            style: context.textTheme.bodySmall?.copyWith(
+              fontSize: 16.sp,
+              color: AppColors.greenBorder,
             ),
           ),
-
-          // Previous guesses
+          89.verticalSpace,
           Expanded(
             child: ListView(
               children: [
-                // Previous guesses header
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Previous guesses ',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.greenText,
+                      'Previous guesses',
+                      style: context.textTheme.bodySmall?.copyWith(
+                        fontSize: 12.6.sp,
+                        color: AppColors.greenBorder,
                       ),
                     ),
                     Text(
                       'Results',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.greenText,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        fontSize: 12.6.sp,
+                        color: AppColors.greenBorder,
                       ),
                     ),
                   ],
                 ),
-
-                SizedBox(height: 8.h),
-
-                // Previous guesses list
-                ...playerGuesses.asMap().entries.map((entry) {
-                  final index = entry.key;
+                SizedBox(height: 9.h),
+                ...playerGuesses.asMap().entries.toList().reversed.map((entry) {
+                  final index = playerGuesses.length - 1 - entry.key;
                   final guess = entry.value;
 
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 8.r),
+                  return Opacity(
+                    opacity: 1.0 - (index * 0.2).clamp(0.0, 0.6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Guess code
-                        Opacity(
-                          opacity: 1.0 - (index * 0.2).clamp(0.0, 0.6),
-                          child: Text(
-                            guess.code,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.greenText,
-                              // Fade out older guesses
-                            ),
+                        Text(
+                          guess.code,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: AppColors.greenText,
+                            fontSize: 14.sp,
                           ),
                         ),
-
-                        // Guess result
                         GuessResult(
                           deadCount: guess.deadCount,
                           injuredCount: guess.injuredCount,
-                          opacity: 1.0 - (index * 0.2).clamp(0.0, 0.6),
                         ),
                       ],
-                    ),
+                    ).withContainer(
+                        padding: EdgeInsets.only(
+                          bottom: 8.h,
+                          top: 8.h,
+                        ),
+                        border: Border(
+                            bottom: BorderSide(
+                          color: AppColors.lightGreen,
+                        ))),
                   );
                 }),
-
-                // Game over message
                 if (isGameOver)
                   Container(
                     margin: EdgeInsets.only(top: 16.r),

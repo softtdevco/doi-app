@@ -114,14 +114,25 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/info.svg
   String get info => 'assets/svgs/info.svg';
 
+
+  /// File path: assets/svgs/keyboard.svg
+  String get keyboard => 'assets/svgs/keyboard.svg';
+
   /// File path: assets/svgs/infocircle.svg
   String get infocircle => 'assets/svgs/infocircle.svg';
+
 
   /// File path: assets/svgs/leader.svg
   String get leader => 'assets/svgs/leader.svg';
 
+  /// File path: assets/svgs/left.svg
+  String get left => 'assets/svgs/left.svg';
+
   /// File path: assets/svgs/lightbulb.svg
   String get lightbulb => 'assets/svgs/lightbulb.svg';
+
+  /// File path: assets/svgs/message.svg
+  String get message => 'assets/svgs/message.svg';
 
   /// File path: assets/svgs/pause.svg
   String get pause => 'assets/svgs/pause.svg';
@@ -174,9 +185,14 @@ class $AssetsSvgsGen {
         googleLogo,
         home,
         info,
+        keyboard,
+
         infocircle,
+
         leader,
+        left,
         lightbulb,
+        message,
         pause,
         settings,
         skull,

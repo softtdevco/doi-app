@@ -16,7 +16,7 @@ class HomeState {
       loadState: LoadState.loading,
       gameModeIndex: 0,
       playBackIndex: 0,
-      timer: '1',
+      timer: '5',
     );
   }
   HomeState copyWith({
@@ -29,7 +29,7 @@ class HomeState {
       loadState: loadState ?? this.loadState,
       gameModeIndex: gameModeIndex ?? this.gameModeIndex,
       playBackIndex: playBackIndex ?? this.playBackIndex,
-      timer: timer?? this.timer,
+      timer: timer ?? this.timer,
     );
   }
 }

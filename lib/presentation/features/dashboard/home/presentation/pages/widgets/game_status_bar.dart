@@ -35,121 +35,162 @@ class GameStatusBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         children: [
-          if (aiPlaybackEnabled)
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(
-                  left: 4.5.w,
-                  right: 18.w,
-                  top: 4.5.h,
-                  bottom: 4.5.h,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.lightGreen,
-                  borderRadius: BorderRadius.circular(34.r),
-                ),
-                child: Row(
-                  children: [
-                    AppSvgIcon(
-                      path: Assets.svgs.ai,
-                      fit: BoxFit.scaleDown,
-                    ).withContainer(
-                      color: AppColors.white,
-                      shape: BoxShape.circle,
-                      height: 50.h,
-                      width: 50.w,
+          aiPlaybackEnabled
+              ? Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 4.5.w,
+                      right: 18.w,
+                      top: 4.5.h,
+                      bottom: 4.5.h,
                     ),
-                    8.horizontalSpace,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'AI progress',
-                            style: context.textTheme.bodySmall?.copyWith(
-                              fontSize: 16.sp,
-                              color: AppColors.greenText,
-                            ),
-                          ),
-                          Row(
+                    decoration: BoxDecoration(
+                      color: AppColors.lightGreen,
+                      borderRadius: BorderRadius.circular(34.r),
+                    ),
+                    child: Row(
+                      children: [
+                        AppSvgIcon(
+                          path: Assets.svgs.ai,
+                          fit: BoxFit.scaleDown,
+                        ).withContainer(
+                          color: AppColors.white,
+                          shape: BoxShape.circle,
+                          height: 50.h,
+                          width: 50.w,
+                        ),
+                        8.horizontalSpace,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Flexible(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      latestGuess?.code ?? '',
-                                      style:
-                                          context.textTheme.bodySmall?.copyWith(
-                                        fontSize: 12.6.sp,
-                                        color: AppColors.greenBorder,
-                                      ),
-                                    ),
-                                    8.horizontalSpace,
-                                    Row(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              '${latestGuess?.deadCount ?? 0}',
-                                              style: context
-                                                  .textTheme.bodyMedium
-                                                  ?.copyWith(
-                                                color: AppColors.greenText,
-                                                fontSize: 12.sp,
-                                              ),
-                                            ),
-                                            2.horizontalSpace,
-                                            AppSvgIcon(
-                                              path: Assets.svgs.skull,
-                                              height: 8.4.h,
-                                              fit: BoxFit.scaleDown,
-                                            ),
-                                          ],
-                                        ),
-                                        2.horizontalSpace,
-                                        Row(
-                                          children: [
-                                            Text(
-                                              '${latestGuess?.injuredCount ?? 0}',
-                                              style: context
-                                                  .textTheme.bodyMedium
-                                                  ?.copyWith(
-                                                color: AppColors.greenText,
-                                                fontSize: 12.sp,
-                                              ),
-                                            ),
-                                            2.horizontalSpace,
-                                            AppSvgIcon(
-                                              path: Assets.svgs.warning,
-                                              height: 8.4.h,
-                                              fit: BoxFit.scaleDown,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                              Text(
+                                'AI progress',
+                                style: context.textTheme.bodySmall?.copyWith(
+                                  fontSize: 16.sp,
+                                  color: AppColors.greenText,
                                 ),
                               ),
-                              10.horizontalSpace,
-                              Flexible(
-                                child: LinearProgressIndicator(
-                                  value: aiProgress,
-                                  backgroundColor: Colors.white,
-                                  valueColor:
-                                      AlwaysStoppedAnimation(AppColors.green),
-                                ),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          latestGuess?.code ?? '',
+                                          style: context.textTheme.bodySmall
+                                              ?.copyWith(
+                                            fontSize: 12.6.sp,
+                                            color: AppColors.greenBorder,
+                                          ),
+                                        ),
+                                        8.horizontalSpace,
+                                        Row(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '${latestGuess?.deadCount ?? 0}',
+                                                  style: context
+                                                      .textTheme.bodyMedium
+                                                      ?.copyWith(
+                                                    color: AppColors.greenText,
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                                2.horizontalSpace,
+                                                AppSvgIcon(
+                                                  path: Assets.svgs.skull,
+                                                  height: 8.4.h,
+                                                  fit: BoxFit.scaleDown,
+                                                ),
+                                              ],
+                                            ),
+                                            2.horizontalSpace,
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '${latestGuess?.injuredCount ?? 0}',
+                                                  style: context
+                                                      .textTheme.bodyMedium
+                                                      ?.copyWith(
+                                                    color: AppColors.greenText,
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                                2.horizontalSpace,
+                                                AppSvgIcon(
+                                                  path: Assets.svgs.warning,
+                                                  height: 8.4.h,
+                                                  fit: BoxFit.scaleDown,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  10.horizontalSpace,
+                                  Flexible(
+                                    child: LinearProgressIndicator(
+                                      value: aiProgress,
+                                      backgroundColor: Colors.white,
+                                      valueColor: AlwaysStoppedAnimation(
+                                          AppColors.green),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                )
+              : Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                      left: 4.5.w,
+                      right: 18.w,
+                      top: 4.5.h,
+                      bottom: 4.5.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.lightGreen,
+                      borderRadius: BorderRadius.circular(34.r),
+                    ),
+                    child: Row(
+                      children: [
+                        AppSvgIcon(
+                          path: Assets.svgs.ai,
+                          fit: BoxFit.scaleDown,
+                        ).withContainer(
+                          color: AppColors.white,
+                          shape: BoxShape.circle,
+                          height: 50.h,
+                          width: 50.w,
+                        ),
+                        8.horizontalSpace,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Single Player',
+                              style: context.textTheme.bodySmall?.copyWith(
+                                fontSize: 16.sp,
+                                color: AppColors.greenText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
           10.horizontalSpace,
           Container(
             padding: EdgeInsets.symmetric(

@@ -138,6 +138,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/settings.svg
   String get settings => 'assets/svgs/settings.svg';
 
+  /// File path: assets/svgs/single-player.svg
+  String get singlePlayer => 'assets/svgs/single-player.svg';
+
   /// File path: assets/svgs/skull.svg
   String get skull => 'assets/svgs/skull.svg';
 
@@ -191,6 +194,7 @@ class $AssetsSvgsGen {
         message,
         pause,
         settings,
+        singlePlayer,
         skull,
         streak,
         tournaments,

@@ -172,7 +172,7 @@ class _NewGameAiState extends ConsumerState<NewGameAi> {
                         .copyWith(fontSize: 20.sp, color: AppColors.greenText),
                     decoration: InputDecoration(
                       filled: true,
-                      hintText: context.l10n.enterYourName,
+                      hintText: '1234',
                       hintStyle: context.textTheme.bodySmall!.copyWith(
                         fontSize: 20.sp,
                         color: AppColors.greenText.withValues(alpha: 0.5),
@@ -183,6 +183,12 @@ class _NewGameAiState extends ConsumerState<NewGameAi> {
                         fontSize: 12,
                       ),
                       enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.greenBorder,
+                          width: 2,
+                        ),
+                      ),
+                      border: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: AppColors.greenBorder,
                           width: 2,

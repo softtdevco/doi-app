@@ -7,7 +7,7 @@ class DoiButtonStyle {
   final Color background;
   final Color? textColor;
   final Color borderColor;
-
+  final Border? border;
   final TextStyle? textStyle;
 
   ///Button default values
@@ -26,11 +26,13 @@ class DoiButtonStyle {
     this.textColor = Colors.white,
     required this.borderColor,
     this.textStyle,
+    this.border,
   });
 
   factory DoiButtonStyle.primary() = DoiButtonPrimary;
 
   factory DoiButtonStyle.secondary() = DoiButtonSecondary;
+  factory DoiButtonStyle.outline() = DoiButtonOutline;
 }
 
 class DoiButtonPrimary extends DoiButtonStyle {
@@ -48,6 +50,21 @@ class DoiButtonSecondary extends DoiButtonStyle {
           background: AppColors.secondaryBackGround,
           textColor: AppColors.primaryColor,
           borderColor: Colors.transparent,
+          textStyle: TextStyle(
+            color: AppColors.secondaryColor,
+            fontSize: 16.sp,
+            fontFamily: FontFamily.rimouski,
+          ),
+        );
+}
+class DoiButtonOutline extends DoiButtonStyle {
+  DoiButtonOutline()
+      : super(
+        
+          background: AppColors.indicator,
+          textColor: AppColors.primaryColor,
+          borderColor: AppColors.primaryColor,
+           border: Border.all(width: 2.sp,color: AppColors.primaryColor),
           textStyle: TextStyle(
             color: AppColors.secondaryColor,
             fontSize: 16.sp,

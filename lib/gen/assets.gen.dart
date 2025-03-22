@@ -150,13 +150,13 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/settings.svg
   String get settings => 'assets/svgs/settings.svg';
 
-<<<<<<< HEAD
+
   /// File path: assets/svgs/single-player.svg
   String get singlePlayer => 'assets/svgs/single-player.svg';
-=======
+
   /// File path: assets/svgs/settings2.svg
   String get settings2 => 'assets/svgs/settings2.svg';
->>>>>>> dev
+
 
   /// File path: assets/svgs/skull.svg
   String get skull => 'assets/svgs/skull.svg';

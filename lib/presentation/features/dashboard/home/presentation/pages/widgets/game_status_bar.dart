@@ -165,7 +165,7 @@ class GameStatusBar extends StatelessWidget {
                     child: Row(
                       children: [
                         AppSvgIcon(
-                          path: Assets.svgs.ai,
+                          path: Assets.svgs.singlePlayer,
                           fit: BoxFit.scaleDown,
                         ).withContainer(
                           color: AppColors.white,

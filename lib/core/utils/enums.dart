@@ -8,7 +8,7 @@ enum LoginLoadState { loading, idle, success, error, unverified }
 
 enum CurrentState { loggedIn, onboarded, initial }
 
-enum OverLayType { loader, message, none, toast }
+enum OverLayType { loader, message, none }
 
 enum MessageType { error, success }
 

@@ -1,13 +1,17 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
+import 'package:doi_mobile/presentation/general_widgets/game_paused.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GameStatusBar extends StatelessWidget {
+class GameStatusBar extends ConsumerWidget {
   final bool aiPlaybackEnabled;
   final bool timerActive;
   final int timeRemaining;
@@ -22,7 +26,7 @@ class GameStatusBar extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final latestGuess = aiGuesses.isNotEmpty ? aiGuesses.last : null;
 
     final bestDeadCount = aiGuesses.isEmpty
@@ -30,7 +34,7 @@ class GameStatusBar extends StatelessWidget {
         : aiGuesses.map((g) => g.deadCount).reduce((a, b) => a > b ? a : b);
 
     final aiProgress = bestDeadCount / 4;
-
+    final state = ref.watch(gameNotifierProvider);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
@@ -77,15 +81,18 @@ class GameStatusBar extends StatelessWidget {
                                   Flexible(
                                     child: Row(
                                       children: [
-                                        Text(
-                                          latestGuess?.code ?? '',
-                                          style: context.textTheme.bodySmall
-                                              ?.copyWith(
-                                            fontSize: 12.6.sp,
-                                            color: AppColors.greenBorder,
+                                        if ((latestGuess?.code ?? '')
+                                            .isNotEmpty) ...[
+                                          Text(
+                                            latestGuess?.code ?? '',
+                                            style: context.textTheme.bodySmall
+                                                ?.copyWith(
+                                              fontSize: 12.6.sp,
+                                              color: AppColors.greenBorder,
+                                            ),
                                           ),
-                                        ),
-                                        8.horizontalSpace,
+                                          8.horizontalSpace,
+                                        ],
                                         Row(
                                           children: [
                                             Row(
@@ -194,8 +201,8 @@ class GameStatusBar extends StatelessWidget {
           10.horizontalSpace,
           Container(
             padding: EdgeInsets.symmetric(
-              horizontal: timeRemaining > 0 ? 20.w : 32.w,
-              vertical: timeRemaining > 0 ? 7.h : 20.h,
+              horizontal: timeRemaining > 0 ? 20.w : 25.w,
+              vertical: timeRemaining > 0 ? 7.h : 15.h,
             ),
             decoration: BoxDecoration(
                 color: AppColors.greenBorder,
@@ -207,9 +214,17 @@ class GameStatusBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  timerActive ? Icons.pause : Icons.play_arrow,
-                  color: Colors.white,
+                GestureDetector(
+                  onTap: state.timeRemaining > 0 && !state.isGameOver
+                      ? () {
+                          ref.read(gameNotifierProvider.notifier).toggleTimer();
+                          context.showPopUp(GamePaused());
+                        }
+                      : null,
+                  child: Icon(
+                    timerActive ? Icons.pause : Icons.play_arrow,
+                    color: Colors.white,
+                  ),
                 ),
                 if (timeRemaining > 0) ...[
                   Text(

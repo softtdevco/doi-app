@@ -19,7 +19,7 @@ class CoinCount extends StatelessWidget {
         ),
         2.horizontalSpace,
         Text(
-          '50',
+          '0',
           style: context.textTheme.bodyMedium?.copyWith(
             color: AppColors.dark,
           ),

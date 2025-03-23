@@ -4,6 +4,7 @@ import 'package:doi_mobile/core/utils/themes.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/splash.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
+import 'package:doi_mobile/presentation/general_widgets/app_overlay.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,14 @@ class App extends ConsumerStatefulWidget {
 }
 
 class _AppState extends ConsumerState<App> {
+  final _controller = OverLayController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedLang = ref.watch(currentUserLanguage);
@@ -35,17 +44,20 @@ class _AppState extends ConsumerState<App> {
                   },
                   child: Directionality(
                     textDirection: TextDirection.ltr,
-                    child: MaterialApp(
-                      themeMode: ThemeMode.light,
-                      theme: AppTheme.lightTheme,
-                      darkTheme: AppTheme.darkTheme,
-                      localizationsDelegates:
-                          AppLocalizations.localizationsDelegates,
-                      supportedLocales: AppLocalizations.supportedLocales,
-                      home: const Splash(),
-                      locale: selectedLang.locale,
-                      routes: AppRouter.routes,
-                      debugShowCheckedModeBanner: false,
+                    child: AppOverLay(
+                      controller: _controller,
+                      child: MaterialApp(
+                        themeMode: ThemeMode.light,
+                        theme: AppTheme.lightTheme,
+                        darkTheme: AppTheme.darkTheme,
+                        localizationsDelegates:
+                            AppLocalizations.localizationsDelegates,
+                        supportedLocales: AppLocalizations.supportedLocales,
+                        home: const Splash(),
+                        locale: selectedLang.locale,
+                        routes: AppRouter.routes,
+                        debugShowCheckedModeBanner: false,
+                      ),
                     ),
                   ),
                 );

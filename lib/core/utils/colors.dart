@@ -10,9 +10,9 @@ class AppColors {
   static const Color red98 = Color(0xFFFF9F98);
   static const Color redc4 = Color(0xFFFFCCC4);
   static const Color black = Color(0xFF000000);
-  
+  static const Color errorText = Color(0xFFDD0000);
   static const Color dark = Color(0xFF121212);
-  static const Color  textFieldBg= Color(0xFFFFF0E7);
+  static const Color textFieldBg = Color(0xFFFFF0E7);
   static const Color white = Color(0xFFFFFFFF);
   static const Color indicator = Color(0xFFFFEBDE);
   static const Color iconBorder = Color(0xFFFFD2B6);
@@ -28,8 +28,15 @@ class AppColors {
   static const Color lightGreenBorder = Color(0xFFDCE8C2);
   static const Color dropColor = Color(0xFFBECE9C);
   static const Color wine = Color(0xFFFF1D58);
-  static const Color darkShadeOrange  = Color(0xFFC84E00);
-  static const Color orange0A  = Color(0xFFE5770A);
-  static const Color orangeFade  = Color(0xFFFFBF96);
-
+  static const Color darkShadeOrange = Color(0xFFC84E00);
+  static const Color orange0A = Color(0xFFE5770A);
+  static const Color orangeFade = Color(0xFFFFBF96);
+  static const Color outsideGreen = Color(0xFF008751);
+  static const Color outsideBack = Color(0xFFD9F9D4);
+  static const Color injured = Color(0xFFF2AE16);
+  static const Color injuredLight = Color(0xFFF9EDD4);
+  static const Color loss = Color(0xFFFFE3E3);
+  static const Color lossOverlay = Color(0xFFE79588);
+  static const Color lossBorder = Color(0xFFDF6C6B);
+  static const Color winBorder = Color(0xFF709D15);
 }

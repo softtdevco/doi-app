@@ -239,6 +239,16 @@ class GameNotifier extends Notifier<GameState> {
     _gameRepository.saveGame(gameState);
   }
 
+  void toggleTimer() {
+    if (state.timeRemaining > 0 && !state.isGameOver) {
+      if (state.timerActive) {
+        pauseTimer();
+      } else {
+        resumeTimer();
+      }
+    }
+  }
+
   _FeedbackResult _calculateFeedback(String guess, String secretCode) {
     int dead = 0;
     int injured = 0;

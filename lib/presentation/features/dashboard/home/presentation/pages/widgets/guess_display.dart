@@ -31,6 +31,16 @@ class GuessDisplay extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (gameMode == 'hint') ...[
+            Text(
+              'Your guess',
+              style: context.textTheme.bodySmall?.copyWith(
+                fontSize: 16.sp,
+                color: AppColors.greenBorder,
+              ),
+            ),
+            16.verticalSpace,
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
@@ -66,68 +76,86 @@ class GuessDisplay extends StatelessWidget {
           ),
           16.verticalSpace,
           Text(
-            'Your guess',
+            gameMode == 'mystery' ? 'Your guess' : 'Results',
             style: context.textTheme.bodySmall?.copyWith(
               fontSize: 16.sp,
               color: AppColors.greenBorder,
             ),
           ),
-          89.verticalSpace,
+          if (gameMode == 'mystery') 89.verticalSpace,
           Expanded(
             child: ListView(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    Text(
-                      'Previous guesses',
-                      style: context.textTheme.bodySmall?.copyWith(
-                        fontSize: 12.6.sp,
-                        color: AppColors.greenBorder,
+                    if (gameMode == 'mystery')
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Previous guesses',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              fontSize: 12.6.sp,
+                              color: AppColors.greenBorder,
+                            ),
+                          ),
+                          Text(
+                            'Results',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              fontSize: 12.6.sp,
+                              color: AppColors.greenBorder,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Text(
-                      'Results',
-                      style: context.textTheme.bodySmall?.copyWith(
-                        fontSize: 12.6.sp,
-                        color: AppColors.greenBorder,
-                      ),
-                    ),
+                    SizedBox(height: 9.h),
+                    ...playerGuesses
+                        .asMap()
+                        .entries
+                        .toList()
+                        .reversed
+                        .map((entry) {
+                      final index = playerGuesses.length - 1 - entry.key;
+                      final guess = entry.value;
+
+                      return Opacity(
+                        opacity: 1.0 - (index * 0.2).clamp(0.0, 0.6),
+                        child: gameMode == 'hint'
+                            ? HintWidget(
+                                guessCode: guess.code,
+                                opacity: 1.0 - (index * 0.2).clamp(0.0, 0.6),
+                                aiSecretCode: aiSecretCode,
+                              )
+                            : Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    guess.code,
+                                    style:
+                                        context.textTheme.bodyMedium?.copyWith(
+                                      color: AppColors.greenText,
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
+                                  GuessResult(
+                                    deadCount: guess.deadCount,
+                                    injuredCount: guess.injuredCount,
+                                  ),
+                                ],
+                              ).withContainer(
+                                padding: EdgeInsets.only(
+                                  bottom: 8.h,
+                                  top: 8.h,
+                                ),
+                                border: Border(
+                                    bottom: BorderSide(
+                                  color: AppColors.lightGreen,
+                                ))),
+                      );
+                    }),
                   ],
                 ),
-                SizedBox(height: 9.h),
-                ...playerGuesses.asMap().entries.toList().reversed.map((entry) {
-                  final index = playerGuesses.length - 1 - entry.key;
-                  final guess = entry.value;
-
-                  return Opacity(
-                    opacity: 1.0 - (index * 0.2).clamp(0.0, 0.6),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          guess.code,
-                          style: context.textTheme.bodyMedium?.copyWith(
-                            color: AppColors.greenText,
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                        GuessResult(
-                          deadCount: guess.deadCount,
-                          injuredCount: guess.injuredCount,
-                        ),
-                      ],
-                    ).withContainer(
-                        padding: EdgeInsets.only(
-                          bottom: 8.h,
-                          top: 8.h,
-                        ),
-                        border: Border(
-                            bottom: BorderSide(
-                          color: AppColors.lightGreen,
-                        ))),
-                  );
-                }),
                 if (isGameOver)
                   Container(
                     margin: EdgeInsets.only(top: 16.r),
@@ -167,6 +195,62 @@ class GuessDisplay extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class HintWidget extends StatelessWidget {
+  const HintWidget({
+    super.key,
+    required this.guessCode,
+    required this.opacity,
+    required this.aiSecretCode,
+  });
+  final String guessCode;
+  final double opacity;
+  final String aiSecretCode;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 6.w),
+      child: Row(
+        spacing: 6.w,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(4, (index) {
+          final digit = guessCode[index];
+          bool isCorrectPosition =
+              index < aiSecretCode.length && aiSecretCode[index] == digit;
+          bool isInCodeWrongPosition =
+              !isCorrectPosition && aiSecretCode.contains(digit);
+          Color boxColor = isCorrectPosition
+              ? AppColors.lightGreen
+              : isInCodeWrongPosition
+                  ? AppColors.injuredLight
+                  : AppColors.outsideBack;
+          Color textColor = isCorrectPosition
+              ? AppColors.greenText
+              : isInCodeWrongPosition
+                  ? AppColors.injured
+                  : AppColors.outsideGreen;
+          return Container(
+            width: 50.w,
+            height: 50.h,
+            decoration: BoxDecoration(
+              color: boxColor,
+              borderRadius: BorderRadius.circular(4.r),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              digit,
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: textColor,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          );
+        }),
       ),
     );
   }

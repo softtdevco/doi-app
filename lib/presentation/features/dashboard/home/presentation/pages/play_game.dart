@@ -36,7 +36,7 @@ class _PlayGameState extends ConsumerState<PlayGame> {
             previous?.isGameOver != true) {
           _hasNavigatedAfterWin = true;
 
-          Future.delayed(Duration(seconds: 1), () {
+          Future.delayed(Duration(seconds: 3), () {
             context.replaceNamed(AppRouter.result,
                 arguments: switch (current.winner) {
                   'player' => true,

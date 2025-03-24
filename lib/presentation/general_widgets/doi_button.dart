@@ -2,6 +2,7 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,7 +37,7 @@ class DoiButton extends StatefulWidget {
   final Color? color;
   final Color? borderColor;
   final DoiButtonStyle? buttonStyle;
- final TextStyle? textStyle;
+  final TextStyle? textStyle;
 
   final VoidCallback onPressed;
   final String? leading;
@@ -87,22 +88,21 @@ class _DoiButton extends State<DoiButton> {
           height: widget.height,
           width: widget.width,
           decoration: BoxDecoration(
-            border:(widget.isOutline==true)?
-             DoiButtonStyle.outline().border:Border.all(color: Colors.transparent),
-            boxShadow: (widget.isOutline==true)?
-            []:
-             [
-            
-              BoxShadow(
-                color: widget.borderColor??
-                _buttonStyle.borderColor,
-                offset: const Offset(0, 5),
-                blurRadius: 0,
-                spreadRadius: 0,
-              ),
-            ],
+            border: (widget.isOutline == true)
+                ? DoiButtonStyle.outline().border
+                : Border.all(color: Colors.transparent),
+            boxShadow: (widget.isOutline == true)
+                ? []
+                : [
+                    BoxShadow(
+                      color: widget.borderColor ?? _buttonStyle.borderColor,
+                      offset: const Offset(0, 5),
+                      blurRadius: 0,
+                      spreadRadius: 0,
+                    ),
+                  ],
             borderRadius: BorderRadius.circular(widget.cornerRadius),
-            color:widget.color?? _buttonStyle.background,
+            color: widget.color ?? _buttonStyle.background,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -128,11 +128,13 @@ class _DoiButton extends State<DoiButton> {
                       5.horizontalSpace
                     ],
                     Text(widget.text,
-                        style: 
-                        widget.textStyle??
-                        _buttonStyle.textStyle ??
-                            context.textTheme.bodyMedium
-                                ?.copyWith(color: _buttonStyle.textColor))
+                        style: widget.textStyle ??
+                            _buttonStyle.textStyle ??
+                            context.textTheme.bodyMedium?.copyWith(
+                              color: _buttonStyle.textColor,
+                              fontFamily: FontFamily.jungleAdventurer,
+                              fontSize: 22.sp,
+                            ))
                   ],
                 )),
               if (widget.isLoading) ...[

@@ -37,8 +37,14 @@ class $AssetsImagesGen {
   AssetGenImage get listofavatar =>
       const AssetGenImage('assets/images/listofavatar.png');
 
+  /// File path: assets/images/loss.png
+  AssetGenImage get loss => const AssetGenImage('assets/images/loss.png');
+
   /// File path: assets/images/user1.png
   AssetGenImage get user1 => const AssetGenImage('assets/images/user1.png');
+
+  /// File path: assets/images/win.png
+  AssetGenImage get win => const AssetGenImage('assets/images/win.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -50,7 +56,9 @@ class $AssetsImagesGen {
         avatar4,
         doi,
         listofavatar,
-        user1
+        loss,
+        user1,
+        win
       ];
 }
 
@@ -74,6 +82,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/alarm.svg
   String get alarm => 'assets/svgs/alarm.svg';
+
+  /// File path: assets/svgs/arrow-down.svg
+  String get arrowDown => 'assets/svgs/arrow-down.svg';
 
   /// File path: assets/svgs/arrow-forward-ios.svg
   String get arrowForwardIos => 'assets/svgs/arrow-forward-ios.svg';
@@ -108,8 +119,14 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/google-logo.svg
   String get googleLogo => 'assets/svgs/google-logo.svg';
 
+  /// File path: assets/svgs/headphone.svg
+  String get headphone => 'assets/svgs/headphone.svg';
+
   /// File path: assets/svgs/home.svg
   String get home => 'assets/svgs/home.svg';
+
+  /// File path: assets/svgs/home2.svg
+  String get home2 => 'assets/svgs/home2.svg';
 
   /// File path: assets/svgs/info.svg
   String get info => 'assets/svgs/info.svg';
@@ -132,11 +149,20 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/message.svg
   String get message => 'assets/svgs/message.svg';
 
+  /// File path: assets/svgs/music.svg
+  String get music => 'assets/svgs/music.svg';
+
   /// File path: assets/svgs/pause.svg
   String get pause => 'assets/svgs/pause.svg';
 
   /// File path: assets/svgs/settings.svg
   String get settings => 'assets/svgs/settings.svg';
+
+  /// File path: assets/svgs/settings2.svg
+  String get settings2 => 'assets/svgs/settings2.svg';
+
+  /// File path: assets/svgs/single-player.svg
+  String get singlePlayer => 'assets/svgs/single-player.svg';
 
   /// File path: assets/svgs/skull.svg
   String get skull => 'assets/svgs/skull.svg';
@@ -170,6 +196,7 @@ class $AssetsSvgsGen {
         addCircle,
         ai,
         alarm,
+        arrowDown,
         arrowForwardIos,
         arrowUp,
         back,
@@ -181,7 +208,9 @@ class $AssetsSvgsGen {
         dropdown,
         friends,
         googleLogo,
+        headphone,
         home,
+        home2,
         info,
         infocircle,
         keyboard,
@@ -189,8 +218,11 @@ class $AssetsSvgsGen {
         left,
         lightbulb,
         message,
+        music,
         pause,
         settings,
+        settings2,
+        singlePlayer,
         skull,
         streak,
         tournaments,

@@ -32,8 +32,12 @@ class DoiButton extends StatefulWidget {
   final double cornerRadius;
   final bool isEnabled;
   final bool isLoading;
+  final bool? isOutline;
+  final Color? color;
+  final Color? borderColor;
   final DoiButtonStyle? buttonStyle;
  final TextStyle? textStyle;
+
   final VoidCallback onPressed;
   final String? leading;
 
@@ -48,6 +52,9 @@ class DoiButton extends StatefulWidget {
     required this.onPressed,
     this.leading,
     this.textStyle,
+    this.color,
+    this.borderColor,
+    this.isOutline,
     Key? key,
   }) : super(key: key);
 
@@ -80,16 +87,22 @@ class _DoiButton extends State<DoiButton> {
           height: widget.height,
           width: widget.width,
           decoration: BoxDecoration(
-            boxShadow: [
+            border:(widget.isOutline==true)?
+             DoiButtonStyle.outline().border:Border.all(color: Colors.transparent),
+            boxShadow: (widget.isOutline==true)?
+            []:
+             [
+            
               BoxShadow(
-                color: _buttonStyle.borderColor,
+                color: widget.borderColor??
+                _buttonStyle.borderColor,
                 offset: const Offset(0, 5),
                 blurRadius: 0,
                 spreadRadius: 0,
               ),
             ],
             borderRadius: BorderRadius.circular(widget.cornerRadius),
-            color: _buttonStyle.background,
+            color:widget.color?? _buttonStyle.background,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

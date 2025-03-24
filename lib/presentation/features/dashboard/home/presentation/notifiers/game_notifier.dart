@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
@@ -72,6 +73,8 @@ class GameNotifier extends Notifier<GameState> {
       winner: null,
       gameMode: gameMode,
       aiDifficulty: aiDifficulty,
+      gameCoins: 0,
+      gamePoints: 0,
     );
 
     _saveGameState();
@@ -226,17 +229,43 @@ class GameNotifier extends Notifier<GameState> {
 
   void _endGame({String? winner}) {
     _timer?.cancel();
-    state = state.copyWith(
-      isGameOver: true,
-      winner: winner,
-      timerActive: false,
-    );
+    if (winner == 'player') {
+      final earnedPoints = calculatePoints(state);
+      final earnedCoins = calculateCoins(earnedPoints);
+      _gameRepository.updatePoints(earnedPoints);
+      _gameRepository.updateCoins(earnedCoins);
+      _gameRepository.addToLeaderboard(earnedPoints);
+      state = state.copyWith(
+        isGameOver: true,
+        winner: winner,
+        timerActive: false,
+        gameCoins: earnedCoins,
+        gamePoints: earnedPoints,
+      );
+    } else {
+      state = state.copyWith(
+        isGameOver: true,
+        winner: winner,
+        timerActive: false,
+      );
+    }
+
     _saveGameState();
   }
 
   void _saveGameState() {
     final gameState = state.toJson();
     _gameRepository.saveGame(gameState);
+  }
+
+  void toggleTimer() {
+    if (state.timeRemaining > 0 && !state.isGameOver) {
+      if (state.timerActive) {
+        pauseTimer();
+      } else {
+        resumeTimer();
+      }
+    }
   }
 
   _FeedbackResult _calculateFeedback(String guess, String secretCode) {
@@ -272,6 +301,47 @@ class GameNotifier extends Notifier<GameState> {
 
   String _generateSecretCode() {
     return AiStrategy.generateSecretCode();
+  }
+
+  int calculatePoints(GameState gameState) {
+    int basePoints;
+    double timeMultiplier = 1.0;
+    double difficultyMultiplier = 1.0;
+
+    if (gameState.timerValue != '0') {
+      basePoints = 1000;
+
+      int totalTime = int.parse(gameState.timerValue) * 60;
+      int remainingTime = gameState.timeRemaining;
+      timeMultiplier = remainingTime / totalTime;
+    } else {
+      basePoints = 500;
+
+      int numberOfGuesses = gameState.playerGuesses.length;
+
+      timeMultiplier = min(10 / numberOfGuesses, 2.0);
+    }
+
+    if (gameState.gameMode == 'mystery') {
+      difficultyMultiplier *= 1.5;
+    }
+
+    if (gameState.aiDifficulty == 1) {
+      difficultyMultiplier *= 1.2;
+    }
+
+    int finalPoints =
+        (basePoints * timeMultiplier * difficultyMultiplier).round();
+
+    if (gameState.winner == 'player' && finalPoints < 100) {
+      finalPoints = 100;
+    }
+
+    return finalPoints;
+  }
+
+  int calculateCoins(int points) {
+    return (points / 100).floor();
   }
 }
 

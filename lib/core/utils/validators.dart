@@ -119,6 +119,15 @@ class Validators {
     };
   }
 
+  static Validator userName() {
+    return (String? value) {
+      if (value!.isEmpty) {
+        return 'Field cannot be empty.';
+      }
+      return null;
+    };
+  }
+
   static Validator minLength(int minLength) {
     return (String? value) {
       if ((value?.length ?? 0) < minLength) {
@@ -327,7 +336,7 @@ class Validators {
       }
 
       if (value.length != 4) {
-        return 'Code must be exactly 4 digits';
+        return 'Code must be 4 digits';
       }
 
       if (!RegExp(r'^\d+$').hasMatch(value)) {
@@ -337,7 +346,7 @@ class Validators {
       final digits = value.split('');
       final uniqueDigits = digits.toSet();
       if (uniqueDigits.length != digits.length) {
-        return 'Please enter a 4-digit code with unique digits';
+        return 'You can’t use double digits';
       }
 
       return null;

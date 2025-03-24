@@ -2,6 +2,7 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository_impl.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ class CoinCount extends ConsumerWidget {
           totalCoins.toString(),
           style: context.textTheme.bodyMedium?.copyWith(
             color: AppColors.dark,
+            fontSize: 20.sp,
+            fontFamily: FontFamily.jungleAdventurer,
           ),
         ),
         2.horizontalSpace,

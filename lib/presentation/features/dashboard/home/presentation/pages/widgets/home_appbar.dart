@@ -2,6 +2,7 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,8 @@ class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
                     '0',
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: AppColors.dark,
+                      fontSize: 20.sp,
+                      fontFamily: FontFamily.jungleAdventurer,
                     ),
                   )
                 ],

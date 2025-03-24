@@ -100,7 +100,7 @@ class GameStatusBar extends ConsumerWidget {
                                                 Text(
                                                   '${latestGuess?.deadCount ?? 0}',
                                                   style: context
-                                                      .textTheme.bodyMedium
+                                                      .textTheme.bodySmall
                                                       ?.copyWith(
                                                     color: AppColors.greenText,
                                                     fontSize: 12.sp,
@@ -120,7 +120,7 @@ class GameStatusBar extends ConsumerWidget {
                                                 Text(
                                                   '${latestGuess?.injuredCount ?? 0}',
                                                   style: context
-                                                      .textTheme.bodyMedium
+                                                      .textTheme.bodySmall
                                                       ?.copyWith(
                                                     color: AppColors.greenText,
                                                     fontSize: 12.sp,

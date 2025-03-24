@@ -2,6 +2,7 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -233,7 +234,11 @@ class _GameKeyboardState extends State<GameKeyboard> {
         alignment: Alignment.center,
         child: Text(
           'SUBMIT',
-          style: context.textTheme.bodyMedium,
+          style: context.textTheme.bodyMedium?.copyWith(
+            fontFamily: FontFamily.jungleAdventurer,
+            fontSize: 22.sp,
+            color: AppColors.white,
+          ),
           textScaler: const TextScaler.linear(1.0),
         ),
       ),

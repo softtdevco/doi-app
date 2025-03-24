@@ -37,8 +37,14 @@ class $AssetsImagesGen {
   AssetGenImage get listofavatar =>
       const AssetGenImage('assets/images/listofavatar.png');
 
+  /// File path: assets/images/loss.png
+  AssetGenImage get loss => const AssetGenImage('assets/images/loss.png');
+
   /// File path: assets/images/user1.png
   AssetGenImage get user1 => const AssetGenImage('assets/images/user1.png');
+
+  /// File path: assets/images/win.png
+  AssetGenImage get win => const AssetGenImage('assets/images/win.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -50,7 +56,9 @@ class $AssetsImagesGen {
         avatar4,
         doi,
         listofavatar,
-        user1
+        loss,
+        user1,
+        win
       ];
 }
 
@@ -153,6 +161,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/settings2.svg
   String get settings2 => 'assets/svgs/settings2.svg';
 
+  /// File path: assets/svgs/single-player.svg
+  String get singlePlayer => 'assets/svgs/single-player.svg';
+
   /// File path: assets/svgs/skull.svg
   String get skull => 'assets/svgs/skull.svg';
 
@@ -211,6 +222,7 @@ class $AssetsSvgsGen {
         pause,
         settings,
         settings2,
+        singlePlayer,
         skull,
         streak,
         tournaments,

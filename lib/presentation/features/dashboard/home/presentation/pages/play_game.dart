@@ -1,7 +1,11 @@
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
+import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_state.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_keyboard.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_status_bar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/guess_display.dart';
@@ -20,10 +24,39 @@ class PlayGame extends ConsumerStatefulWidget {
 class _PlayGameState extends ConsumerState<PlayGame> {
   final List<String> currentInput = [];
   bool showKeyboard = true;
+  bool _hasNavigatedAfterWin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.listenManual<GameState>(gameNotifierProvider, (previous, current) {
+        if (!_hasNavigatedAfterWin &&
+            current.isGameOver &&
+            previous?.isGameOver != true) {
+          _hasNavigatedAfterWin = true;
+
+          Future.delayed(Duration(seconds: 1), () {
+            context.replaceNamed(AppRouter.result,
+                arguments: switch (current.winner) {
+                  'player' => true,
+                  _ => false,
+                });
+          });
+        }
+      });
+
+      ref.listenManual<GameStatus>(gameStatusProvider, (previous, current) {
+        if (previous != current) {
+          _handleStatusChange(current);
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final gameState = ref.watch(gameNotifierProvider);
-    final gameStatus = ref.watch(gameStatusProvider);
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -40,23 +73,7 @@ class _PlayGameState extends ConsumerState<PlayGame> {
                   timerActive: gameState.timerActive,
                   timeRemaining: gameState.timeRemaining,
                 ),
-                30.verticalSpace,
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                  color: AppColors.green,
-                  child: Text(
-                    gameStatus == GameStatus.playerTurn
-                        ? 'your turn'.toUpperCase()
-                        : 'ai turn'.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                ),
+                60.verticalSpace,
                 Expanded(
                   child: GuessDisplay(
                     currentInput: currentInput,
@@ -131,6 +148,28 @@ class _PlayGameState extends ConsumerState<PlayGame> {
       setState(() {
         currentInput.clear();
       });
+    }
+  }
+
+  void _handleStatusChange(GameStatus status) {
+    switch (status) {
+      case GameStatus.playerTurn:
+        context.showSuccess(message: 'YOUR TURN!');
+        break;
+      case GameStatus.aiTurn:
+        break;
+      case GameStatus.playerWon:
+        context.showSuccess(message: 'YOU WIN!');
+        break;
+      case GameStatus.aiWon:
+        context.showError(message: 'YOU LOST');
+        break;
+      case GameStatus.draw:
+        context.showError(message: 'YOU LOST');
+        break;
+      case GameStatus.timeUp:
+        context.showError(message: 'YOU LOST');
+        break;
     }
   }
 }

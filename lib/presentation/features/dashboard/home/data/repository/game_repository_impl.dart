@@ -66,6 +66,58 @@ class GameRepositoryImpl implements GameRepository {
   void _notifyGameStateChange(Map<String, dynamic>? gameState) {
     _ref.read(currentGameStateProvider.notifier).state = gameState;
   }
+
+  @override
+  getTotalPoints() {
+    return _storage.get(HiveKeys.totalPoints) ?? 0;
+  }
+
+  @override
+  void updatePoints(int points) {
+    final currentPoints = getTotalPoints();
+    final newPoints = currentPoints + points;
+    _storage.put(HiveKeys.totalPoints, newPoints);
+    _ref.read(totalPointsProvider.notifier).state = newPoints;
+  }
+
+  @override
+  int getTotalCoins() {
+    return _storage.get(HiveKeys.totalCoins) ?? 0;
+  }
+
+  @override
+  void updateCoins(int coins) {
+    final currentCoins = getTotalCoins();
+    final newCoins = currentCoins + coins;
+    _storage.put(HiveKeys.totalCoins, newCoins);
+    _ref.read(totalCoinsProvider.notifier).state = newCoins;
+  }
+
+  @override
+  List<int> getRecentScores() {
+    final scoresData = _storage.get(HiveKeys.recentScores);
+    if (scoresData == null) return [];
+
+    try {
+      final List decodedList = json.decode(scoresData) as List;
+      return decodedList.map((score) => score as int).toList();
+    } catch (e) {
+      debugPrint('Error parsing scores data: $e');
+      return [];
+    }
+  }
+
+  void addToLeaderboard(int score) {
+    List<int> recentScores = getRecentScores();
+    recentScores.add(score);
+
+    if (recentScores.length > 10) {
+      recentScores = recentScores.sublist(recentScores.length - 10);
+    }
+
+    _storage.put(HiveKeys.recentScores, json.encode(recentScores));
+    _ref.read(recentScoresProvider.notifier).state = recentScores;
+  }
 }
 
 final gameRepositoryProvider = Provider<GameRepository>(
@@ -78,3 +130,17 @@ final gameRepositoryProvider = Provider<GameRepository>(
 final currentGameStateProvider = StateProvider<Map<String, dynamic>?>(
   (ref) => ref.read(gameRepositoryProvider).getCurrentGame(),
 );
+final totalPointsProvider = StateProvider<int>((ref) {
+  final repo = ref.read(gameRepositoryProvider);
+  return repo.getTotalPoints();
+});
+
+final totalCoinsProvider = StateProvider<int>((ref) {
+  final repo = ref.read(gameRepositoryProvider);
+  return repo.getTotalCoins();
+});
+
+final recentScoresProvider = StateProvider<List<int>>((ref) {
+  final repo = ref.read(gameRepositoryProvider);
+  return repo.getRecentScores();
+});

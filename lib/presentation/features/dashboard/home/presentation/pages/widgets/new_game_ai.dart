@@ -8,6 +8,7 @@ import 'package:doi_mobile/core/utils/validators.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -156,43 +157,19 @@ class _NewGameAiState extends ConsumerState<NewGameAi> {
                   ),
                 ),
                 14.verticalSpace,
-                SizedBox(
-                  width: 157.w,
-                  height: 68.h,
-                  child: TextFormField(
-                    onChanged: (c) {
-                      setState(() {
-                        isEnabled = _formKey.currentState!.validate();
-                      });
-                    },
-                    controller: _secretCodeController,
-                    validator: Validators.code(),
-                    textAlign: TextAlign.center,
-                    style: context.textTheme.bodySmall!
-                        .copyWith(fontSize: 20.sp, color: AppColors.greenText),
-                    decoration: InputDecoration(
-                      filled: true,
-                      hintText: context.l10n.enterYourName,
-                      hintStyle: context.textTheme.bodySmall!.copyWith(
-                        fontSize: 20.sp,
-                        color: AppColors.greenText.withValues(alpha: 0.5),
-                      ),
-                      fillColor: AppColors.lightGreen,
-                      errorStyle: const TextStyle(
-                        color: AppColors.red,
-                        fontSize: 12,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: AppColors.greenBorder,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(4),
-                    ],
-                  ),
+                MinFormField(
+                  onChange: (c) {
+                    setState(() {
+                      isEnabled = _formKey.currentState!.validate();
+                    });
+                  },
+                  hintText: '1234',
+                  keyboardType: TextInputType.number,
+                  controller: _secretCodeController,
+                  validateFunction: Validators.code(),
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(4),
+                  ],
                 ),
               ],
               61.verticalSpace,

@@ -41,7 +41,7 @@ class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   2.horizontalSpace,
                   Text(
-                    '4',
+                    '0',
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: AppColors.dark,
                     ),

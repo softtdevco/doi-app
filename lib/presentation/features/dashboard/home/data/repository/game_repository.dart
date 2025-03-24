@@ -6,4 +6,10 @@ abstract interface class GameRepository {
   String getGameMode();
   bool isAiPlaybackEnabled();
   String getTimerValue();
+  void updatePoints(int points);
+  void updateCoins(int coins);
+  int getTotalPoints();
+  int getTotalCoins();
+  void addToLeaderboard(int score);
+  List<int> getRecentScores();
 }

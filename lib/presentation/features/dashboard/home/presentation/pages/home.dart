@@ -8,7 +8,6 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/start_game.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
-import 'package:doi_mobile/presentation/general_widgets/game_paused.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -55,8 +54,7 @@ class _HomeState extends State<Home> {
                 44.verticalSpace,
                 DoiButton(
                   text: context.l10n.newGame,
-                  onPressed: () {
-                                },
+                  onPressed: () {},
                 ),
                 16.verticalSpace,
                 DoiButton(

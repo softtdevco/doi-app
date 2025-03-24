@@ -31,7 +31,7 @@ class _ResultState extends ConsumerState<Result> {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (timeRemaining <= 0) {
         timer.cancel();
-        //popAndReset();
+        popAndReset();
         return;
       }
       setState(() {

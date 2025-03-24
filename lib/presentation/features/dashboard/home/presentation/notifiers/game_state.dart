@@ -1,6 +1,5 @@
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
 
-
 class GameState {
   final String playerSecretCode;
   final String aiSecretCode;
@@ -15,6 +14,8 @@ class GameState {
   final String? winner; // 'player', 'ai', 'draw', 'timeout' or null
   final String gameMode; // 'hint' or 'mystery'
   final int aiDifficulty; // 0 for easy, 1 for hard
+  final int gamePoints;
+  final int gameCoins;
 
   GameState({
     required this.playerSecretCode,
@@ -30,8 +31,10 @@ class GameState {
     required this.winner,
     required this.gameMode,
     required this.aiDifficulty,
+    required this.gamePoints,
+    required this.gameCoins,
   });
-  
+
   factory GameState.initial() {
     return GameState(
       playerSecretCode: '',
@@ -47,9 +50,11 @@ class GameState {
       winner: null,
       gameMode: 'hint',
       aiDifficulty: 0,
+      gamePoints: 0,
+      gameCoins: 0,
     );
   }
-  
+
   GameState copyWith({
     String? playerSecretCode,
     String? aiSecretCode,
@@ -64,6 +69,8 @@ class GameState {
     String? winner,
     String? gameMode,
     int? aiDifficulty,
+    int? gamePoints,
+    int? gameCoins,
   }) {
     return GameState(
       playerSecretCode: playerSecretCode ?? this.playerSecretCode,
@@ -79,9 +86,11 @@ class GameState {
       winner: winner ?? this.winner,
       gameMode: gameMode ?? this.gameMode,
       aiDifficulty: aiDifficulty ?? this.aiDifficulty,
+      gamePoints: gamePoints ?? this.gamePoints,
+      gameCoins: gameCoins ?? this.gameCoins,
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     return {
       'playerSecretCode': playerSecretCode,
@@ -97,9 +106,11 @@ class GameState {
       'winner': winner,
       'gameMode': gameMode,
       'aiDifficulty': aiDifficulty,
+      'gamePoints': gamePoints,
+      'gameCoins': gameCoins,
     };
   }
-  
+
   factory GameState.fromJson(Map<String, dynamic> json) {
     return GameState(
       playerSecretCode: json['playerSecretCode'] as String,
@@ -119,6 +130,8 @@ class GameState {
       winner: json['winner'] as String?,
       gameMode: json['gameMode'] as String,
       aiDifficulty: json['aiDifficulty'] as int,
+      gamePoints: json['gamePoints'] as int,
+      gameCoins: json['gameCoins'] as int,
     );
   }
 }

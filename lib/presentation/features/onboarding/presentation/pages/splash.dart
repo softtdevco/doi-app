@@ -136,7 +136,9 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                     23.verticalSpace,
                     Text(
                       "Loading",
-                      style: context.textTheme.titleSmall,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        fontSize: 14.sp,
+                      ),
                     ),
                     6.verticalSpace,
                     AnimatedBuilder(

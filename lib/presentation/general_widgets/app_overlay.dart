@@ -1,6 +1,8 @@
+import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/core/utils/type_defs.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,10 +78,6 @@ class AppOverLayState extends State<AppOverLay> {
                         offset: Offset(0, value),
                         child: _messageWidget(
                           messageText: listen.msg,
-                          messageColor:
-                              listen.msg?.messageType == MessageType.error
-                                  ? AppColors.red
-                                  : Color(0xFF005304),
                           onClose: () {
                             controller.removeOverLay();
                           },
@@ -99,7 +97,6 @@ class AppOverLayState extends State<AppOverLay> {
 
   Widget _messageWidget({
     required MessageText? messageText,
-    required Color messageColor,
     required VoidCallback onClose,
   }) {
     return Container(
@@ -130,9 +127,12 @@ class AppOverLayState extends State<AppOverLay> {
             messageText?.message ?? '',
             maxLines: 10,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: messageColor,
-                ),
+            style: context.textTheme.bodyMedium?.copyWith(
+              fontFamily: FontFamily.jungleAdventurer,
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w400,
+              color: AppColors.white,
+            ),
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.center,
           ),

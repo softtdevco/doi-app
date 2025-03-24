@@ -156,41 +156,6 @@ class GuessDisplay extends StatelessWidget {
                     }),
                   ],
                 ),
-                if (isGameOver)
-                  Container(
-                    margin: EdgeInsets.only(top: 16.r),
-                    padding: EdgeInsets.all(16.r),
-                    decoration: BoxDecoration(
-                      color: AppColors.lightGreen,
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          winner == 'player'
-                              ? 'You win'
-                              : winner == 'ai'
-                                  ? 'Ai wins'
-                                  : winner == 'draw'
-                                      ? 'Draw'
-                                      : 'Time Up',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.greenText,
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          '${'secreet code'}: $aiSecretCode',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.greenText,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
               ],
             ),
           ),

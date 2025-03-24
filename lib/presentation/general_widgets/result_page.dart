@@ -9,20 +9,23 @@ import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository_impl.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Result extends StatefulWidget {
+class Result extends ConsumerStatefulWidget {
   const Result({super.key});
 
   @override
-  State<Result> createState() => _ResultState();
+  ConsumerState<Result> createState() => _ResultState();
 }
 
-class _ResultState extends State<Result> {
+class _ResultState extends ConsumerState<Result> {
   void startTimer() {
     _timer?.cancel();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -61,6 +64,8 @@ class _ResultState extends State<Result> {
   @override
   Widget build(BuildContext context) {
     final win = ModalRoute.of(context)!.settings.arguments as bool;
+    final state = ref.watch(gameNotifierProvider);
+    final totalPoints = ref.watch(totalPointsProvider);
     return DoiScaffold(
       backgroundImage:
           win ? Assets.images.win.provider() : Assets.images.loss.provider(),
@@ -98,7 +103,7 @@ class _ResultState extends State<Result> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '3200 +',
+                          '${state.gamePoints} +',
                           style: context.textTheme.bodyMedium?.copyWith(
                               fontSize: 40.sp,
                               color:
@@ -106,7 +111,7 @@ class _ResultState extends State<Result> {
                         ),
                         AppSvgIcon(path: Assets.svgs.coin),
                         Text(
-                          '100',
+                          '${state.gameCoins} ',
                           style: context.textTheme.bodyMedium?.copyWith(
                               fontSize: 40.sp,
                               color:
@@ -158,7 +163,7 @@ class _ResultState extends State<Result> {
                   ),
                   Spacer(),
                   Text(
-                    '33,590',
+                    totalPoints.toString(),
                     style: context.textTheme.bodySmall!.copyWith(
                         fontSize: 14.sp,
                         color: win ? AppColors.greenText : AppColors.red58),

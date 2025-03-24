@@ -1,6 +1,8 @@
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
+import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_state.dart';
@@ -34,7 +36,7 @@ class _PlayGameState extends ConsumerState<PlayGame> {
             previous?.isGameOver != true) {
           _hasNavigatedAfterWin = true;
 
-          Future.delayed(Duration(milliseconds: 15000), () {
+          Future.delayed(Duration(seconds: 1), () {
             context.replaceNamed(AppRouter.result,
                 arguments: switch (current.winner) {
                   'player' => true,
@@ -42,8 +44,12 @@ class _PlayGameState extends ConsumerState<PlayGame> {
                 });
           });
         }
+      });
 
-        // context.showSuccess(message: 'Your Turn!');
+      ref.listenManual<GameStatus>(gameStatusProvider, (previous, current) {
+        if (previous != current) {
+          _handleStatusChange(current);
+        }
       });
     });
   }
@@ -142,6 +148,28 @@ class _PlayGameState extends ConsumerState<PlayGame> {
       setState(() {
         currentInput.clear();
       });
+    }
+  }
+
+  void _handleStatusChange(GameStatus status) {
+    switch (status) {
+      case GameStatus.playerTurn:
+        context.showSuccess(message: 'YOUR TURN!');
+        break;
+      case GameStatus.aiTurn:
+        break;
+      case GameStatus.playerWon:
+        context.showSuccess(message: 'YOU WIN!');
+        break;
+      case GameStatus.aiWon:
+        context.showError(message: 'YOU LOST');
+        break;
+      case GameStatus.draw:
+        context.showError(message: 'YOU LOST');
+        break;
+      case GameStatus.timeUp:
+        context.showError(message: 'YOU LOST');
+        break;
     }
   }
 }

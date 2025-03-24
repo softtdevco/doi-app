@@ -25,7 +25,7 @@ class GameKeyboard extends StatefulWidget {
 }
 
 class _GameKeyboardState extends State<GameKeyboard> {
-  bool showPowerUps = true;
+  bool showPowerUps = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +42,7 @@ class _GameKeyboardState extends State<GameKeyboard> {
                     _buildColorButton(
                       AppColors.primaryColor,
                       () {},
-                      Assets.svgs.dices,
+                      Assets.svgs.lightbulb,
                     ),
                     _buildColorButton(
                       AppColors.wine,
@@ -59,13 +59,13 @@ class _GameKeyboardState extends State<GameKeyboard> {
               _buildColorButton(
                 AppColors.primaryColor,
                 () {},
-                Assets.svgs.lightbulb,
+                Assets.svgs.dices,
               ),
               GestureDetector(
                 onTap: () {
-                  setState(() {
-                    showPowerUps = !showPowerUps;
-                  });
+                  // setState(() {
+                  //   showPowerUps = !showPowerUps;
+                  // });
                 },
                 child: RotatedBox(
                   quarterTurns: showPowerUps ? 0 : 2,

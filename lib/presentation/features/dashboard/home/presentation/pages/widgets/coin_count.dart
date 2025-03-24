@@ -2,15 +2,18 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository_impl.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CoinCount extends StatelessWidget {
+class CoinCount extends ConsumerWidget {
   const CoinCount({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final totalCoins = ref.watch(totalCoinsProvider);
     return Row(
       children: [
         AppSvgIcon(
@@ -19,7 +22,7 @@ class CoinCount extends StatelessWidget {
         ),
         2.horizontalSpace,
         Text(
-          '0',
+          totalCoins.toString(),
           style: context.textTheme.bodyMedium?.copyWith(
             color: AppColors.dark,
           ),

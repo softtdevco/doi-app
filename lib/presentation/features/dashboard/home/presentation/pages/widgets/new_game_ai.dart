@@ -44,6 +44,11 @@ class _NewGameAiState extends ConsumerState<NewGameAi> {
       padding: const EdgeInsets.fromLTRB(32, 16, 32, 36),
       child: Form(
         key: _formKey,
+        onChanged: () {
+          setState(() {
+            isEnabled = _formKey.currentState!.validate();
+          });
+        },
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -158,11 +163,6 @@ class _NewGameAiState extends ConsumerState<NewGameAi> {
                 ),
                 14.verticalSpace,
                 MinFormField(
-                  onChange: (c) {
-                    setState(() {
-                      isEnabled = _formKey.currentState!.validate();
-                    });
-                  },
                   hintText: '1234',
                   keyboardType: TextInputType.number,
                   controller: _secretCodeController,
@@ -181,7 +181,12 @@ class _NewGameAiState extends ConsumerState<NewGameAi> {
                       borderColor: AppColors.greenBorder,
                     ),
                     text: context.l10n.startMatch,
+                    //isEnabled: isEnabled,
                     onPressed: () {
+                      if (!isEnabled) {
+                        _formKey.currentState?.save();
+                        return;
+                      }
                       final secretCode = _secretCodeController.text;
 
                       ref.read(gameNotifierProvider.notifier).startNewGame(

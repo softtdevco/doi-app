@@ -3,7 +3,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/core/utils/type_defs.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:doi_mobile/presentation/general_widgets/app_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -56,7 +56,7 @@ class AppOverLayState extends State<AppOverLay> {
               return Positioned.fill(
                 child: Material(
                   color: Colors.black.withValues(alpha: .5),
-                  child: CupertinoActivityIndicator(
+                  child: AppLoader(
                     color: listen.color ?? Colors.white,
                   ),
                 ),

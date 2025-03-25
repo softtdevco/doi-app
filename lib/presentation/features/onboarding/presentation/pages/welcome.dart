@@ -1,6 +1,8 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
@@ -44,13 +46,11 @@ class Welcome extends StatelessWidget {
             ),
           ),
           DoiButton(
-              width: 197,
-              height: 48,
-              text: context.l10n.start,
-              onPressed: () => context.showPopUp(
-                  horizontalPadding: 12,
-                  Authentication(),
-                  color: AppColors.white)),
+            width: 197,
+            height: 48,
+            text: context.l10n.start,
+            onPressed: () => context.replaceAll(AppRouter.dashboard),
+          ),
           32.verticalSpace,
           DoiButton(
             width: 239,
@@ -58,7 +58,10 @@ class Welcome extends StatelessWidget {
             leading: Assets.svgs.union,
             buttonStyle: DoiButtonStyle.secondary(),
             text: context.l10n.syncProgress,
-            onPressed: () {},
+            onPressed: () => context.showPopUp(
+                horizontalPadding: 12,
+                Authentication(),
+                color: AppColors.white),
           ),
           82.verticalSpace,
         ],

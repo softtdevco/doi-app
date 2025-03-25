@@ -100,7 +100,7 @@ class _PlayGameState extends ConsumerState<PlayGame> {
                     ),
                   ),
                 20.verticalSpace,
-                if (showKeyboard && !gameState.isGameOver)
+                if (showKeyboard && !gameState.isGameOver && gameState.isPlayerTurn)
                   GameKeyboard(
                     onNumberPressed: _onNumberPressed,
                     onDeletePressed: _onDeletePressed,

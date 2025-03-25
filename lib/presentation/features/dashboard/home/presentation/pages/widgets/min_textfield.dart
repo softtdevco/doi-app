@@ -120,9 +120,12 @@ class _MinFormFieldState extends State<MinFormField> {
                     return null;
                   },
             onSaved: (val) {
-              error = widget.validateFunction!(val);
+              widget.validateFunction != null
+                  ? error = widget.validateFunction!(val)
+                  : error = null;
               setState(() {});
-              widget.onSaved!(val!);
+
+              if (widget.onSaved != null) widget.onSaved!.call(val!);
             },
             onChanged: (val) {
               widget.validateFunction != null

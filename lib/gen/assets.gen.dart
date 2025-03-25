@@ -101,6 +101,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/close.svg
   String get close => 'assets/svgs/close.svg';
 
+  /// File path: assets/svgs/code_swap.svg
+  String get codeSwap => 'assets/svgs/code_swap.svg';
+
   /// File path: assets/svgs/delete.svg
   String get delete => 'assets/svgs/delete.svg';
 
@@ -112,6 +115,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/dropdown.svg
   String get dropdown => 'assets/svgs/dropdown.svg';
+
+  /// File path: assets/svgs/freeze_time.svg
+  String get freezeTime => 'assets/svgs/freeze_time.svg';
 
   /// File path: assets/svgs/friends.svg
   String get friends => 'assets/svgs/friends.svg';
@@ -155,6 +161,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/pause.svg
   String get pause => 'assets/svgs/pause.svg';
 
+  /// File path: assets/svgs/reveal.svg
+  String get reveal => 'assets/svgs/reveal.svg';
+
   /// File path: assets/svgs/settings.svg
   String get settings => 'assets/svgs/settings.svg';
 
@@ -166,6 +175,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/skull.svg
   String get skull => 'assets/svgs/skull.svg';
+
+  /// File path: assets/svgs/store.svg
+  String get store => 'assets/svgs/store.svg';
 
   /// File path: assets/svgs/streak.svg
   String get streak => 'assets/svgs/streak.svg';
@@ -202,10 +214,12 @@ class $AssetsSvgsGen {
         back,
         circleClock,
         close,
+        codeSwap,
         delete,
         dices,
         doi,
         dropdown,
+        freezeTime,
         friends,
         googleLogo,
         headphone,
@@ -220,10 +234,12 @@ class $AssetsSvgsGen {
         message,
         music,
         pause,
+        reveal,
         settings,
         settings2,
         singlePlayer,
         skull,
+        store,
         streak,
         tournaments,
         unchecked,

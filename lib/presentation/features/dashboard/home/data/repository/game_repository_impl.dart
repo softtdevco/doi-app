@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/data/local_storage/storage.dart';
 import 'package:doi_mobile/data/local_storage/storage_impl.dart';
 import 'package:doi_mobile/data/local_storage/storage_keys.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GameRepositoryImpl implements GameRepository {
@@ -22,7 +22,7 @@ class GameRepositoryImpl implements GameRepository {
     try {
       return json.decode(gameData) as Map<String, dynamic>;
     } catch (e) {
-      debugPrint('Error parsing game data: $e');
+      debugLog('Error parsing game data: $e');
       return null;
     }
   }
@@ -102,7 +102,7 @@ class GameRepositoryImpl implements GameRepository {
       final List decodedList = json.decode(scoresData) as List;
       return decodedList.map((score) => score as int).toList();
     } catch (e) {
-      debugPrint('Error parsing scores data: $e');
+      debugLog('Error parsing scores data: $e');
       return [];
     }
   }

@@ -1,6 +1,8 @@
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DoiCard extends StatelessWidget {
   const DoiCard({
@@ -34,7 +36,11 @@ class DoiCard extends StatelessWidget {
       child: Center(
         child: Text(
           letter,
-          style: context.textTheme.bodyLarge,
+          style: context.textTheme.bodyLarge?.copyWith(
+            fontFamily: FontFamily.oswald,
+            fontSize: 22.sp,
+            color: AppColors.white,
+          ),
         ),
       ),
     );

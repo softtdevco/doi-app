@@ -5,6 +5,7 @@ import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/string_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
@@ -138,7 +139,8 @@ class _GamePausedState extends ConsumerState<GamePaused> {
                   color: AppColors.darkShadeOrange,
                 ),
                 text: context.l10n.forfeitMatch,
-                onPressed: () {}),
+                onPressed: () =>
+                    context.popUntil(ModalRoute.withName(AppRouter.dashboard))),
             15.verticalSpace,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

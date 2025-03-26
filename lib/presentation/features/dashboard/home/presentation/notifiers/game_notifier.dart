@@ -44,7 +44,7 @@ class GameNotifier extends Notifier<GameState> {
     required String gameMode,
     required String timerValue,
     required int aiDifficulty,
-  }) {
+  }) async {
     final aiCode = _generateSecretCode();
     debugLog('==== GAME STARTED ====');
     debugLog('AI secret code (for player to guess): $aiCode');
@@ -58,7 +58,6 @@ class GameNotifier extends Notifier<GameState> {
     if (timerValue != '0') {
       timerSeconds = int.parse(timerValue) * 60;
     }
-
     state = GameState(
       playerSecretCode: playerCode,
       aiSecretCode: aiCode,
@@ -75,6 +74,8 @@ class GameNotifier extends Notifier<GameState> {
       aiDifficulty: aiDifficulty,
       gameCoins: 0,
       gamePoints: 0,
+      codeSwapsRemaining: 1,
+      maxCodeSwaps: 1,
     );
 
     _saveGameState();
@@ -82,6 +83,27 @@ class GameNotifier extends Notifier<GameState> {
     if (timerSeconds > 0) {
       startTimer();
     }
+  }
+
+  void swapPlayerCode({required void Function() onCodeChange}) {
+    if (!state.aiPlaybackEnabled ||
+        state.codeSwapsRemaining <= 0 ||
+        state.isGameOver) {
+      return;
+    }
+
+    String newCode;
+    do {
+      newCode = _generateSecretCode();
+    } while (newCode == state.playerSecretCode);
+    debugLog('New Player secret code (for AI to guess): $newCode');
+    onCodeChange();
+    state = state.copyWith(
+      playerSecretCode: newCode,
+      codeSwapsRemaining: 0,
+    );
+
+    _saveGameState();
   }
 
   void makePlayerGuess(String guessCode) {

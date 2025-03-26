@@ -22,6 +22,7 @@ dependencies:
   uuid: ^4.5.1
   device_preview: ^1.2.0
   in_app_purchase: ^3.2.1
+  lottie: ^3.3.1
 
 
   flutter:
@@ -47,6 +48,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svgs/
+    - assets/jsons/
    
 
   fonts:

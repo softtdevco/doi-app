@@ -62,6 +62,16 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsJsonsGen {
+  const $AssetsJsonsGen();
+
+  /// File path: assets/jsons/success.json
+  String get success => 'assets/jsons/success.json';
+
+  /// List of all assets
+  List<String> get values => [success];
+}
+
 class $AssetsSvgsGen {
   const $AssetsSvgsGen();
 
@@ -254,6 +264,7 @@ class Assets {
   const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsJsonsGen jsons = $AssetsJsonsGen();
   static const $AssetsSvgsGen svgs = $AssetsSvgsGen();
 }
 

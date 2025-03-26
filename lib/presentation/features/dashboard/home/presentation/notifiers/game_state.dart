@@ -16,6 +16,8 @@ class GameState {
   final int aiDifficulty; // 0 for easy, 1 for hard
   final int gamePoints;
   final int gameCoins;
+  final int codeSwapsRemaining;
+  final int maxCodeSwaps;
 
   GameState({
     required this.playerSecretCode,
@@ -33,6 +35,8 @@ class GameState {
     required this.aiDifficulty,
     required this.gamePoints,
     required this.gameCoins,
+    required this.codeSwapsRemaining,
+    required this.maxCodeSwaps,
   });
 
   factory GameState.initial() {
@@ -52,6 +56,8 @@ class GameState {
       aiDifficulty: 0,
       gamePoints: 0,
       gameCoins: 0,
+      codeSwapsRemaining: 1,
+      maxCodeSwaps: 1,
     );
   }
 
@@ -71,6 +77,8 @@ class GameState {
     int? aiDifficulty,
     int? gamePoints,
     int? gameCoins,
+    int? codeSwapsRemaining,
+    int? maxCodeSwaps,
   }) {
     return GameState(
       playerSecretCode: playerSecretCode ?? this.playerSecretCode,
@@ -88,6 +96,8 @@ class GameState {
       aiDifficulty: aiDifficulty ?? this.aiDifficulty,
       gamePoints: gamePoints ?? this.gamePoints,
       gameCoins: gameCoins ?? this.gameCoins,
+      codeSwapsRemaining: codeSwapsRemaining ?? this.codeSwapsRemaining,
+      maxCodeSwaps: maxCodeSwaps ?? this.maxCodeSwaps,
     );
   }
 
@@ -108,6 +118,8 @@ class GameState {
       'aiDifficulty': aiDifficulty,
       'gamePoints': gamePoints,
       'gameCoins': gameCoins,
+      'codeSwapsRemaining': codeSwapsRemaining,
+      'maxCodeSwaps': maxCodeSwaps,
     };
   }
 
@@ -132,6 +144,8 @@ class GameState {
       aiDifficulty: json['aiDifficulty'] as int,
       gamePoints: json['gamePoints'] as int,
       gameCoins: json['gameCoins'] as int,
+      codeSwapsRemaining: json['codeSwapsRemaining'] as int,
+      maxCodeSwaps: json['maxCodeSwaps'] as int,
     );
   }
 }

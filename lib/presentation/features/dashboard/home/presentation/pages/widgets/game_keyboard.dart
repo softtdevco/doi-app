@@ -1,17 +1,20 @@
+import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
-import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GameKeyboard extends StatefulWidget {
+class GameKeyboard extends ConsumerStatefulWidget {
   final Function(String) onNumberPressed;
   final VoidCallback onDeletePressed;
   final VoidCallback onSubmitPressed;
   final bool canSubmit;
+  final bool aiPlaybackEnabled;
 
   const GameKeyboard({
     Key? key,
@@ -19,66 +22,64 @@ class GameKeyboard extends StatefulWidget {
     required this.onDeletePressed,
     required this.onSubmitPressed,
     required this.canSubmit,
+    required this.aiPlaybackEnabled,
   }) : super(key: key);
 
   @override
-  State<GameKeyboard> createState() => _GameKeyboardState();
+  ConsumerState<GameKeyboard> createState() => _GameKeyboardState();
 }
 
-class _GameKeyboardState extends State<GameKeyboard> {
+class _GameKeyboardState extends ConsumerState<GameKeyboard> {
   bool showPowerUps = false;
   @override
   Widget build(BuildContext context) {
+    final swapsRemaining =
+        ref.watch(gameNotifierProvider.select((v) => v.codeSwapsRemaining));
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Column(
         children: [
-          Row(
-            spacing: 20.w,
-            children: [
-              if (showPowerUps)
-                Row(
-                  spacing: 20.w,
-                  children: [
-                    _buildColorButton(
-                      AppColors.primaryColor,
-                      () {},
-                      Assets.svgs.lightbulb,
+          if (widget.aiPlaybackEnabled) ...[
+            Row(
+              spacing: 20.w,
+              children: [
+                if (showPowerUps)
+                  Row(
+                    spacing: 20.w,
+                    children: [
+                      _buildColorButton(AppColors.primaryColor, () {},
+                          Assets.svgs.lightbulb, 0),
+                      _buildColorButton(
+                          AppColors.wine, () {}, Assets.svgs.wand, 0),
+                      _buildColorButton(
+                          AppColors.green, () {}, Assets.svgs.alarm, 0),
+                    ],
+                  ),
+                _buildColorButton(AppColors.primaryColor, () {
+                  ref.read(gameNotifierProvider.notifier).swapPlayerCode(
+                      onCodeChange: () {
+                    context.showSuccess(message: 'CODE SWAPPED SUCCESFULLY');
+                  });
+                }, Assets.svgs.dices, swapsRemaining),
+                GestureDetector(
+                  onTap: () {
+                    // setState(() {
+                    //   showPowerUps = !showPowerUps;
+                    // });
+                  },
+                  child: RotatedBox(
+                    quarterTurns: showPowerUps ? 0 : 2,
+                    child: AppSvgIcon(
+                      path: Assets.svgs.left,
+                      color: AppColors.dropColor,
                     ),
-                    _buildColorButton(
-                      AppColors.wine,
-                      () {},
-                      Assets.svgs.wand,
-                    ),
-                    _buildColorButton(
-                      AppColors.green,
-                      () {},
-                      Assets.svgs.alarm,
-                    ),
-                  ],
-                ),
-              _buildColorButton(
-                AppColors.primaryColor,
-                () {},
-                Assets.svgs.dices,
-              ),
-              GestureDetector(
-                onTap: () {
-                  // setState(() {
-                  //   showPowerUps = !showPowerUps;
-                  // });
-                },
-                child: RotatedBox(
-                  quarterTurns: showPowerUps ? 0 : 2,
-                  child: AppSvgIcon(
-                    path: Assets.svgs.left,
-                    color: AppColors.dropColor,
                   ),
                 ),
-              ),
-            ],
-          ),
-          20.verticalSpace,
+              ],
+            ),
+            20.verticalSpace,
+          ],
           Column(
             children: [
               Row(
@@ -139,17 +140,45 @@ class _GameKeyboardState extends State<GameKeyboard> {
     );
   }
 
-  Widget _buildColorButton(Color color, VoidCallback? onTap, String path) {
+  Widget _buildColorButton(
+      Color color, VoidCallback? onTap, String path, int trial) {
     return GestureDetector(
         onTap: onTap,
-        child: AppSvgIcon(
-          path: path,
-          fit: BoxFit.scaleDown,
-        ).withContainer(
-          width: 36.w,
-          height: 36.h,
-          color: color,
-          shape: BoxShape.circle,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+                width: 36.w,
+                height: 36.h,
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                ),
+                child: AppSvgIcon(
+                  path: path,
+                  fit: BoxFit.scaleDown,
+                )),
+            if (trial > 0)
+              Positioned(
+                top: -5,
+                right: -1,
+                child: Container(
+                  padding: EdgeInsets.all(6.r),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    '$trial',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 8.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ));
   }
 

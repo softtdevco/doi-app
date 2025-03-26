@@ -12,4 +12,8 @@ abstract interface class GameRepository {
   int getTotalCoins();
   void addToLeaderboard(int score);
   List<int> getRecentScores();
+  Future<int> getMaxCodeSwaps();
+  Future<void> setMaxCodeSwaps(int swaps);
+  Future<int> getCodeSwapsRemaining();
+  Future<void> setCodeSwapsRemaining(int swaps);
 }

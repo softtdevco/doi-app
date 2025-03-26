@@ -118,6 +118,25 @@ class GameRepositoryImpl implements GameRepository {
     _storage.put(HiveKeys.recentScores, json.encode(recentScores));
     _ref.read(recentScoresProvider.notifier).state = recentScores;
   }
+
+  @override
+  Future<int> getMaxCodeSwaps() async {
+    return _storage.get<int>(HiveKeys.maxCodeSwaps) ?? 1;
+  }
+
+  @override
+  Future<void> setMaxCodeSwaps(int swaps) async {
+    await _storage.put(HiveKeys.maxCodeSwaps, swaps);
+  }
+
+  @override
+  Future<int> getCodeSwapsRemaining() async {
+    return _storage.get<int>(HiveKeys.codeSwapsRemaining) ?? 1;
+  }
+    @override
+  Future<void> setCodeSwapsRemaining(int swaps) async {
+    await _storage.put(HiveKeys.codeSwapsRemaining, swaps);
+  }
 }
 
 final gameRepositoryProvider = Provider<GameRepository>(

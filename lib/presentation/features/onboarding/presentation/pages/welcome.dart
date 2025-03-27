@@ -52,16 +52,19 @@ class Welcome extends StatelessWidget {
             onPressed: () => context.replaceAll(AppRouter.home),
           ),
           32.verticalSpace,
-          DoiButton(
-            width: 239,
-            height: 48,
-            leading: Assets.svgs.union,
-            buttonStyle: DoiButtonStyle.secondary(),
-            text: context.l10n.syncProgress,
-            onPressed: () => context.showPopUp(
-                horizontalPadding: 12,
-                Authentication(),
-                color: AppColors.white),
+          Visibility(
+            visible: false,
+            child: DoiButton(
+              width: 239,
+              height: 48,
+              leading: Assets.svgs.union,
+              buttonStyle: DoiButtonStyle.secondary(),
+              text: context.l10n.syncProgress,
+              onPressed: () => context.showPopUp(
+                  horizontalPadding: 12,
+                  Authentication(),
+                  color: AppColors.white),
+            ),
           ),
           82.verticalSpace,
         ],

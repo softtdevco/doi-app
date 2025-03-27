@@ -1,6 +1,6 @@
 {
-    "name": "Doi Mobile",
-    "short_name": "Doi Mobile",
+    "name": "DOI",
+    "short_name": "DOI",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

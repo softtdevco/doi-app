@@ -62,12 +62,9 @@ class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
               CoinCount(),
             ],
           ),
-          Visibility(
-            visible: false,
-            child: AppSvgIcon(
-              path: Assets.svgs.settings,
-              fit: BoxFit.scaleDown,
-            ),
+          AppSvgIcon(
+            path: Assets.svgs.settings,
+            fit: BoxFit.scaleDown,
           ),
         ],
       ),

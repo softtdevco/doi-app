@@ -101,7 +101,7 @@ class _CountryFormState extends State<CountryForm> {
             width: 197,
             height: 48,
             text: context.l10n.letgo,
-            onPressed: () => {context.replaceAll(AppRouter.home)}),
+            onPressed: () => {context.replaceAll(AppRouter.dashboard)}),
         44.verticalSpace,
       ],
     );

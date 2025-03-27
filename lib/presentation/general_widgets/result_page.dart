@@ -54,7 +54,7 @@ class _ResultState extends ConsumerState<Result> {
 
   void popAndReset() {
     context.popUntil(
-      ModalRoute.withName(AppRouter.home),
+      ModalRoute.withName(AppRouter.dashboard),
     );
   }
 
@@ -185,7 +185,7 @@ class _ResultState extends ConsumerState<Result> {
             children: [
               GestureDetector(
                 onTap: () => context.popUntil(
-                  ModalRoute.withName(AppRouter.home),
+                  ModalRoute.withName(AppRouter.dashboard),
                 ),
                 child: Container(
                   width: 58,

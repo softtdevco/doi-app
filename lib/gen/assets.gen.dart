@@ -12,6 +12,10 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/Mobile Leaderboard.png
+  AssetGenImage get mobileLeaderboard =>
+      const AssetGenImage('assets/images/Mobile Leaderboard.png');
+
   /// File path: assets/images/Pattern.png
   AssetGenImage get pattern => const AssetGenImage('assets/images/Pattern.png');
 
@@ -48,6 +52,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        mobileLeaderboard,
         pattern,
         avatae4,
         avatar1,
@@ -80,6 +85,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/Coin.svg
   String get coin => 'assets/svgs/Coin.svg';
+
+  /// File path: assets/svgs/Mobile Leaderboard.svg
+  String get mobileLeaderboard => 'assets/svgs/Mobile Leaderboard.svg';
 
   /// File path: assets/svgs/Union.svg
   String get union => 'assets/svgs/Union.svg';
@@ -114,6 +122,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/code_swap.svg
   String get codeSwap => 'assets/svgs/code_swap.svg';
 
+  /// File path: assets/svgs/copy.svg
+  String get copy => 'assets/svgs/copy.svg';
+
   /// File path: assets/svgs/delete.svg
   String get delete => 'assets/svgs/delete.svg';
 
@@ -135,8 +146,14 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/google-logo.svg
   String get googleLogo => 'assets/svgs/google-logo.svg';
 
+  /// File path: assets/svgs/green-checked.svg
+  String get greenChecked => 'assets/svgs/green-checked.svg';
+
   /// File path: assets/svgs/headphone.svg
   String get headphone => 'assets/svgs/headphone.svg';
+
+  /// File path: assets/svgs/help.svg
+  String get help => 'assets/svgs/help.svg';
 
   /// File path: assets/svgs/home.svg
   String get home => 'assets/svgs/home.svg';
@@ -162,6 +179,15 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/lightbulb.svg
   String get lightbulb => 'assets/svgs/lightbulb.svg';
 
+  /// File path: assets/svgs/link.svg
+  String get link => 'assets/svgs/link.svg';
+
+  /// File path: assets/svgs/map-connect.svg
+  String get mapConnect => 'assets/svgs/map-connect.svg';
+
+  /// File path: assets/svgs/mark.svg
+  String get mark => 'assets/svgs/mark.svg';
+
   /// File path: assets/svgs/message.svg
   String get message => 'assets/svgs/message.svg';
 
@@ -171,8 +197,14 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/pause.svg
   String get pause => 'assets/svgs/pause.svg';
 
+  /// File path: assets/svgs/qr-code.svg
+  String get qrCode => 'assets/svgs/qr-code.svg';
+
   /// File path: assets/svgs/reveal.svg
   String get reveal => 'assets/svgs/reveal.svg';
+
+  /// File path: assets/svgs/search.svg
+  String get search => 'assets/svgs/search.svg';
 
   /// File path: assets/svgs/settings.svg
   String get settings => 'assets/svgs/settings.svg';
@@ -207,6 +239,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/warning.svg
   String get warning => 'assets/svgs/warning.svg';
 
+  /// File path: assets/svgs/welcome.svg
+  String get welcome => 'assets/svgs/welcome.svg';
+
   /// File path: assets/svgs/x_logo.svg
   String get xLogo => 'assets/svgs/x_logo.svg';
 
@@ -214,6 +249,7 @@ class $AssetsSvgsGen {
   List<String> get values => [
         checked,
         coin,
+        mobileLeaderboard,
         union,
         addCircle,
         ai,
@@ -225,6 +261,7 @@ class $AssetsSvgsGen {
         circleClock,
         close,
         codeSwap,
+        copy,
         delete,
         dices,
         doi,
@@ -232,7 +269,9 @@ class $AssetsSvgsGen {
         freezeTime,
         friends,
         googleLogo,
+        greenChecked,
         headphone,
+        help,
         home,
         home2,
         info,
@@ -241,10 +280,15 @@ class $AssetsSvgsGen {
         leader,
         left,
         lightbulb,
+        link,
+        mapConnect,
+        mark,
         message,
         music,
         pause,
+        qrCode,
         reveal,
+        search,
         settings,
         settings2,
         singlePlayer,
@@ -256,6 +300,7 @@ class $AssetsSvgsGen {
         wallet,
         wand,
         warning,
+        welcome,
         xLogo
       ];
 }

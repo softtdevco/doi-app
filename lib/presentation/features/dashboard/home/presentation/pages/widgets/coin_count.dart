@@ -16,6 +16,7 @@ class CoinCount extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final totalCoins = ref.watch(totalCoinsProvider);
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         AppSvgIcon(
           path: Assets.svgs.coin,

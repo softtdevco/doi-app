@@ -11,9 +11,13 @@ class TimerTile extends ConsumerStatefulWidget {
     super.key,
     required this.min,
     this.onTap,
+    this.textColor = AppColors.greenText,
+    this.color = AppColors.lightGreen,
   });
   final String min;
   final void Function()? onTap;
+  final Color textColor;
+  final Color color;
 
   @override
   ConsumerState<TimerTile> createState() => _TimerTileState();
@@ -29,18 +33,18 @@ class _TimerTileState extends ConsumerState<TimerTile> {
         widget.min,
         style: context.textTheme.bodySmall?.copyWith(
           fontSize: 14.sp,
-          color: AppColors.greenText,
+          color: widget.textColor,
         ),
       ).withContainer(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          color: AppColors.lightGreen,
+          color: widget.color,
           borderRadius: BorderRadius.circular(
             10.r,
           ),
           border: switch (selectedMin == widget.min) {
             true => Border.all(
                 width: 2,
-                color: AppColors.greenText,
+                color: widget.textColor,
               ),
             _ => null
           }),

@@ -1,6 +1,8 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/data/inapp_purchase/inapp_purchase_service.dart';
@@ -75,7 +77,8 @@ class _HomeState extends ConsumerState<Home> {
                   44.verticalSpace,
                   DoiButton(
                     text: context.l10n.newGame,
-                    onPressed: () {},
+                    onPressed: () =>
+                        context.pushNamed(AppRouter.decideOnlinePlay),
                   ),
                   16.verticalSpace,
                   DoiButton(

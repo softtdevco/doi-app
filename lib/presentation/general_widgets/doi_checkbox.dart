@@ -4,15 +4,20 @@ import 'package:flutter/material.dart';
 
 class DoiCheckbox extends StatelessWidget {
   final bool isChecked;
+  final bool isGreenCheck;
   final void Function(bool) onChecked;
-  const DoiCheckbox(
-      {super.key, this.isChecked = false, required this.onChecked});
+  const DoiCheckbox({
+    super.key,
+    this.isChecked = false,
+    required this.onChecked,
+    this.isGreenCheck = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppSvgIcon(
       path: switch (isChecked) {
-        true => Assets.svgs.checked,
+        true => isGreenCheck ? Assets.svgs.greenChecked : Assets.svgs.checked,
         _ => Assets.svgs.unchecked,
       },
       onTap: () {

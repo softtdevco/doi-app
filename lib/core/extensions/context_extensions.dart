@@ -14,7 +14,7 @@ extension BuildContextExt on BuildContext {
     Widget child, {
     bool? isDismissable,
     double? horizontalPadding,
-      double? size,
+    double? size,
     Color? color,
   }) async {
     return await showDialog(
@@ -32,12 +32,12 @@ extension BuildContextExt on BuildContext {
               children: [
                 Dialog(
                   backgroundColor: color ?? AppColors.background,
-                  insetPadding:   EdgeInsets.symmetric(horizontal: horizontalPadding??29),
+                  insetPadding:
+                      EdgeInsets.symmetric(horizontal: horizontalPadding ?? 29),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(17),
                   ),
                   child: Container(
-                     
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: child,
@@ -53,10 +53,11 @@ extension BuildContextExt on BuildContext {
   Future<T?> showBottomSheet<T>({
     required Widget child,
     Color? color,
+    bool? isDismissible,
   }) =>
       showModalBottomSheet(
           isScrollControlled: true,
-          isDismissible: false,
+          isDismissible: isDismissible ?? false,
           context: this,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),

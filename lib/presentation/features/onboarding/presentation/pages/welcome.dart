@@ -49,7 +49,7 @@ class Welcome extends StatelessWidget {
             width: 197,
             height: 48,
             text: context.l10n.start,
-            onPressed: () => context.replaceAll(AppRouter.dashboard),
+            onPressed: () => context.replaceAll(AppRouter.home),
           ),
           32.verticalSpace,
           DoiButton(

@@ -115,17 +115,17 @@ class _GamePausedState extends ConsumerState<GamePaused> {
               },
             ),
             16.verticalSpace,
-            DoiButton(
-                width: context.width,
-                height: 48.h,
-                textStyle: context.textTheme.bodyMedium!.copyWith(
-                  fontFamily: FontFamily.jungleAdventurer,
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.white,
-                ),
-                text: context.l10n.howToPlay,
-                onPressed: () {}),
+            // DoiButton(
+            //     width: context.width,
+            //     height: 48.h,
+            //     textStyle: context.textTheme.bodyMedium!.copyWith(
+            //       fontFamily: FontFamily.jungleAdventurer,
+            //       fontSize: 22.sp,
+            //       fontWeight: FontWeight.w400,
+            //       color: AppColors.white,
+            //     ),
+            //     text: context.l10n.howToPlay,
+            //     onPressed: () {}),
             16.verticalSpace,
             DoiButton(
                 width: context.width,
@@ -140,23 +140,23 @@ class _GamePausedState extends ConsumerState<GamePaused> {
                 ),
                 text: context.l10n.forfeitMatch,
                 onPressed: () =>
-                    context.popUntil(ModalRoute.withName(AppRouter.dashboard))),
+                    context.popUntil(ModalRoute.withName(AppRouter.home))),
             15.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(actions.length, (index) {
-                return AppSvgIcon(path: actions[index]).withContainer(
-                    width: 48.w,
-                    height: 48.h,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 33, horizontal: 12),
-                    border: Border.all(
-                      width: 2.w,
-                      color: AppColors.primaryColor,
-                    ),
-                    borderRadius: BorderRadius.circular(12.r));
-              }),
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: List.generate(actions.length, (index) {
+            //     return AppSvgIcon(path: actions[index]).withContainer(
+            //         width: 48.w,
+            //         height: 48.h,
+            //         alignment: Alignment.center,
+            //         margin: EdgeInsets.symmetric(vertical: 33, horizontal: 12),
+            //         border: Border.all(
+            //           width: 2.w,
+            //           color: AppColors.primaryColor,
+            //         ),
+            //         borderRadius: BorderRadius.circular(12.r));
+            //   }),
+            // )
           ],
         )
       ],

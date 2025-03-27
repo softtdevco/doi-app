@@ -75,10 +75,13 @@ class _HomeState extends ConsumerState<Home> {
               child: Column(
                 children: [
                   44.verticalSpace,
-                  DoiButton(
-                    text: context.l10n.newGame,
-                    onPressed: () =>
-                        context.pushNamed(AppRouter.decideOnlinePlay),
+                  Visibility(
+                    visible: false,
+                    child: DoiButton(
+                      text: context.l10n.newGame,
+                      onPressed: () =>
+                          context.pushNamed(AppRouter.decideOnlinePlay),
+                    ),
                   ),
                   16.verticalSpace,
                   DoiButton(
@@ -93,9 +96,12 @@ class _HomeState extends ConsumerState<Home> {
                     ),
                   ),
                   16.verticalSpace,
-                  DoiButton(
-                    text: context.l10n.storyMode,
-                    onPressed: () {},
+                  Visibility(
+                    visible: false,
+                    child: DoiButton(
+                      text: context.l10n.storyMode,
+                      onPressed: () {},
+                    ),
                   ),
                 ],
               ),

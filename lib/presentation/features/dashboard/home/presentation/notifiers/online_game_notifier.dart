@@ -6,6 +6,10 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   build() {
     return OnlineGameState.initial();
   }
+
+  void updateType(String type) {
+    state = state.copyWith(type: type);
+  }
 }
 
 final onlineGameNotifierProvider =

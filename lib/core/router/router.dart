@@ -1,5 +1,6 @@
 import 'package:doi_mobile/presentation/features/dashboard/dashboard.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/decide_online_play.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/game_created.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_game.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/setup_profile_loggedin.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/welcome.dart';
@@ -16,6 +17,7 @@ class AppRouter {
   static const String playGame = '/playGame';
   static const String result = '/result';
   static const String decideOnlinePlay = '/decideonlineplay';
+  static const String gameCreated = '/gameCreated';
 
   static final Map<String, Widget Function(BuildContext)> _routes = {
     welcome: (context) => Welcome(),
@@ -25,6 +27,7 @@ class AppRouter {
     playGame: (context) => PlayGame(),
     result: (context) => Result(),
     decideOnlinePlay: (context) => DecideOnlinePlay(),
+    gameCreated: (context) => GameCreated(),
   };
 
   static Map<String, Widget Function(BuildContext)> get routes => _routes;

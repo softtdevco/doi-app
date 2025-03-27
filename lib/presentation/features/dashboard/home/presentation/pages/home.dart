@@ -88,6 +88,7 @@ class _HomeState extends ConsumerState<Home> {
                     ),
                     text: context.l10n.singlePlayer,
                     onPressed: () => context.showBottomSheet(
+                      isDismissible: true,
                       color: AppColors.white,
                       child: StartGame(),
                     ),

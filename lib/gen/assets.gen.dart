@@ -44,6 +44,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/loss.png
   AssetGenImage get loss => const AssetGenImage('assets/images/loss.png');
 
+  /// File path: assets/images/multiple.png
+  AssetGenImage get multiple =>
+      const AssetGenImage('assets/images/multiple.png');
+
   /// File path: assets/images/user1.png
   AssetGenImage get user1 => const AssetGenImage('assets/images/user1.png');
 
@@ -62,6 +66,7 @@ class $AssetsImagesGen {
         doi,
         listofavatar,
         loss,
+        multiple,
         user1,
         win
       ];
@@ -200,6 +205,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/qr-code.svg
   String get qrCode => 'assets/svgs/qr-code.svg';
 
+  /// File path: assets/svgs/question.svg
+  String get question => 'assets/svgs/question.svg';
+
   /// File path: assets/svgs/reveal.svg
   String get reveal => 'assets/svgs/reveal.svg';
 
@@ -287,6 +295,7 @@ class $AssetsSvgsGen {
         music,
         pause,
         qrCode,
+        question,
         reveal,
         search,
         settings,

@@ -5,49 +5,49 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MinFormField extends StatefulWidget {
-  const MinFormField({
-    super.key,
-    this.textStyle,
-    this.width = 157,
-    this.height = 68,
-    this.labelSpace = 8,
-    this.textCapitalization = TextCapitalization.sentences,
-    this.onTap,
-    this.decoration,
-    this.hintStyle,
-    this.backgroundColor,
-    this.isLoading = false,
-    this.readOnly = false,
-    this.customLabel,
-    this.hintText,
-    this.controller,
-    this.minLines = 1,
-    this.obscureText = false,
-    this.enabled = true,
-    this.validateFunction,
-    this.borderSide,
-    this.onSaved,
-    this.onChange,
-    this.keyboardType,
-    this.textInputAction,
-    this.focusNode,
-    this.nextFocusNode,
-    this.submitAction,
-    this.enableErrorMessage = true,
-    this.maxLines = 1,
-    this.onFieldSubmitted,
-    this.suffixIcon,
-    this.prefixIcon,
-    this.bordercolor,
-    this.autofocus,
-    this.label,
-    this.inputFormatters,
-    this.borderRadius = 8,
-    this.initialValue,
-    this.labelSize,
-    this.labelColor,
-    this.cursorColor,
-  });
+  const MinFormField(
+      {super.key,
+      this.textStyle,
+      this.width = 157,
+      this.height = 68,
+      this.labelSpace = 8,
+      this.textCapitalization = TextCapitalization.sentences,
+      this.onTap,
+      this.decoration,
+      this.hintStyle,
+      this.backgroundColor,
+      this.isLoading = false,
+      this.readOnly = false,
+      this.customLabel,
+      this.hintText,
+      this.controller,
+      this.minLines = 1,
+      this.obscureText = false,
+      this.enabled = true,
+      this.validateFunction,
+      this.borderSide,
+      this.onSaved,
+      this.onChange,
+      this.keyboardType,
+      this.textInputAction,
+      this.focusNode,
+      this.nextFocusNode,
+      this.submitAction,
+      this.enableErrorMessage = true,
+      this.maxLines = 1,
+      this.onFieldSubmitted,
+      this.suffixIcon,
+      this.prefixIcon,
+      this.bordercolor,
+      this.autofocus,
+      this.label,
+      this.inputFormatters,
+      this.borderRadius = 8,
+      this.initialValue,
+      this.labelSize,
+      this.labelColor,
+      this.cursorColor,
+      this.textAlign});
   final double? width;
   final double? height;
   final double? labelSize;
@@ -87,7 +87,7 @@ class MinFormField extends StatefulWidget {
   final TextStyle? hintStyle;
   final TextStyle? textStyle;
   final BorderSide? borderSide;
-
+  final TextAlign? textAlign;
   final TextCapitalization textCapitalization;
 
   @override
@@ -109,7 +109,7 @@ class _MinFormFieldState extends State<MinFormField> {
             onTap: widget.onTap,
             readOnly: widget.readOnly,
             initialValue: widget.initialValue,
-            textAlign: TextAlign.center,
+            textAlign: widget.textAlign ?? TextAlign.center,
             inputFormatters: widget.inputFormatters,
             autofocus: widget.autofocus ?? false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -137,7 +137,7 @@ class _MinFormFieldState extends State<MinFormField> {
             style: widget.textStyle ??
                 context.textTheme.bodySmall?.copyWith(
                   fontSize: 14.sp,
-                  color: AppColors.greenText,
+                  color: widget.cursorColor ?? AppColors.greenText,
                 ),
             cursorColor: widget.cursorColor ?? AppColors.greenText,
             key: widget.key,

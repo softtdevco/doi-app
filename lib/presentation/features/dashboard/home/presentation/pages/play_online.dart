@@ -1,3 +1,5 @@
+import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
@@ -13,12 +15,15 @@ class PlayOnline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
+        showBackImage: false,
         bodyPadding: EdgeInsets.all(24),
+        backgroundColor: AppColors.background,
         appbar: DoiAppbar(
           title: CoinCount(),
           trailing: AppSvgIcon(path: Assets.svgs.help),
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             26.verticalSpace,
             Stack(
@@ -37,6 +42,23 @@ class PlayOnline extends StatelessWidget {
               ],
             ),
             50.verticalSpace,
+            Text(
+              'Your Turn',
+              style: context.textTheme.bodySmall?.copyWith(
+                fontSize: 14.sp,
+                color: Color(0XFFD7A07D),
+              ),
+            ),
+            17.verticalSpace,
+            Row(
+              children: [
+                Stack(
+                  children: [
+                    Assets.images.avatar2.image(),
+                  ],
+                )
+              ],
+            )
           ],
         ));
   }

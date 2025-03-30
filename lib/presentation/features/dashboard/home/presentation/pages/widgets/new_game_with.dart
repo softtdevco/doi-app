@@ -1,5 +1,7 @@
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/validators.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
@@ -130,6 +132,8 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
                         _formKey.currentState?.save();
                         return;
                       }
+
+                      context.popAndPushNamed(AppRouter.waitingScreen);
                     }),
               )
             ],

@@ -8,8 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InviteFriendTile extends StatelessWidget {
-  const InviteFriendTile({super.key, required this.index});
+  const InviteFriendTile({
+    super.key,
+    required this.index,
+    this.onTap,
+  });
   final int index;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +75,7 @@ class InviteFriendTile extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: onTap,
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                   decoration: BoxDecoration(
@@ -87,7 +92,7 @@ class InviteFriendTile extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    'Remove',
+                    index == 1 ? 'Add' : 'Remove',
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontFamily: FontFamily.jungleAdventurer,
                       fontSize: 16.sp,

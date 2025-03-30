@@ -1,6 +1,8 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
@@ -222,6 +224,11 @@ class _GameCreatedState extends State<GameCreated> {
                     4,
                     (i) => InviteFriendTile(
                       index: i + 1,
+                      onTap: () {
+                        if (i == 0) {
+                          context.pushNamed(AppRouter.addingFriend);
+                        }
+                      },
                     ),
                   ),
                 )

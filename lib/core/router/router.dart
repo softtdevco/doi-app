@@ -4,6 +4,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/game_created.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/home.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_game.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_online.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/waiting_screen.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/setup_profile_loggedin.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/welcome.dart';
@@ -24,6 +25,7 @@ class AppRouter {
   static const String home = '/home';
   static const String waitingScreen = '/waitingScreen';
   static const String addingFriend = '/addingFriend';
+  static const String playOnline = '/playOnline';
 
   static final Map<String, Widget Function(BuildContext)> _routes = {
     welcome: (context) => Welcome(),
@@ -37,6 +39,7 @@ class AppRouter {
     home: (context) => Home(),
     waitingScreen: (context) => WaitingScreen(),
     addingFriend: (context) => AddingFriend(),
+    playOnline: (context) => PlayOnline(),
   };
 
   static Map<String, Widget Function(BuildContext)> get routes => _routes;

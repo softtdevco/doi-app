@@ -12,6 +12,15 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/1.png
+  AssetGenImage get a1 => const AssetGenImage('assets/images/1.png');
+
+  /// File path: assets/images/2.png
+  AssetGenImage get a2 => const AssetGenImage('assets/images/2.png');
+
+  /// File path: assets/images/3.png
+  AssetGenImage get a3 => const AssetGenImage('assets/images/3.png');
+
   /// File path: assets/images/Mobile Leaderboard.png
   AssetGenImage get mobileLeaderboard =>
       const AssetGenImage('assets/images/Mobile Leaderboard.png');
@@ -34,6 +43,13 @@ class $AssetsImagesGen {
   /// File path: assets/images/avatar4.png
   AssetGenImage get avatar4 => const AssetGenImage('assets/images/avatar4.png');
 
+  /// File path: assets/images/brain.png
+  AssetGenImage get brain => const AssetGenImage('assets/images/brain.png');
+
+  /// File path: assets/images/cloud-gaming.png
+  AssetGenImage get cloudGaming =>
+      const AssetGenImage('assets/images/cloud-gaming.png');
+
   /// File path: assets/images/doi.png
   AssetGenImage get doi => const AssetGenImage('assets/images/doi.png');
 
@@ -48,6 +64,10 @@ class $AssetsImagesGen {
   AssetGenImage get multiple =>
       const AssetGenImage('assets/images/multiple.png');
 
+  /// File path: assets/images/target_point.png
+  AssetGenImage get targetPoint =>
+      const AssetGenImage('assets/images/target_point.png');
+
   /// File path: assets/images/user1.png
   AssetGenImage get user1 => const AssetGenImage('assets/images/user1.png');
 
@@ -56,6 +76,9 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        a1,
+        a2,
+        a3,
         mobileLeaderboard,
         pattern,
         avatae4,
@@ -63,10 +86,13 @@ class $AssetsImagesGen {
         avatar2,
         avatar3,
         avatar4,
+        brain,
+        cloudGaming,
         doi,
         listofavatar,
         loss,
         multiple,
+        targetPoint,
         user1,
         win
       ];
@@ -75,11 +101,14 @@ class $AssetsImagesGen {
 class $AssetsJsonsGen {
   const $AssetsJsonsGen();
 
+  /// File path: assets/jsons/flag.json
+  String get flag => 'assets/jsons/flag.json';
+
   /// File path: assets/jsons/success.json
   String get success => 'assets/jsons/success.json';
 
   /// List of all assets
-  List<String> get values => [success];
+  List<String> get values => [flag, success];
 }
 
 class $AssetsSvgsGen {
@@ -96,6 +125,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/Union.svg
   String get union => 'assets/svgs/Union.svg';
+
+  /// File path: assets/svgs/add.svg
+  String get add => 'assets/svgs/add.svg';
 
   /// File path: assets/svgs/add_circle.svg
   String get addCircle => 'assets/svgs/add_circle.svg';
@@ -117,6 +149,15 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/back.svg
   String get back => 'assets/svgs/back.svg';
+
+  /// File path: assets/svgs/bin.svg
+  String get bin => 'assets/svgs/bin.svg';
+
+  /// File path: assets/svgs/calendar-star.svg
+  String get calendarStar => 'assets/svgs/calendar-star.svg';
+
+  /// File path: assets/svgs/circle-check.svg
+  String get circleCheck => 'assets/svgs/circle-check.svg';
 
   /// File path: assets/svgs/circle-clock.svg
   String get circleClock => 'assets/svgs/circle-clock.svg';
@@ -196,6 +237,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/message.svg
   String get message => 'assets/svgs/message.svg';
 
+  /// File path: assets/svgs/mind-bender.svg
+  String get mindBender => 'assets/svgs/mind-bender.svg';
+
   /// File path: assets/svgs/music.svg
   String get music => 'assets/svgs/music.svg';
 
@@ -211,8 +255,14 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/reveal.svg
   String get reveal => 'assets/svgs/reveal.svg';
 
+  /// File path: assets/svgs/rocket.svg
+  String get rocket => 'assets/svgs/rocket.svg';
+
   /// File path: assets/svgs/search.svg
   String get search => 'assets/svgs/search.svg';
+
+  /// File path: assets/svgs/send-email.svg
+  String get sendEmail => 'assets/svgs/send-email.svg';
 
   /// File path: assets/svgs/settings.svg
   String get settings => 'assets/svgs/settings.svg';
@@ -226,11 +276,17 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/skull.svg
   String get skull => 'assets/svgs/skull.svg';
 
+  /// File path: assets/svgs/speed.svg
+  String get speed => 'assets/svgs/speed.svg';
+
   /// File path: assets/svgs/store.svg
   String get store => 'assets/svgs/store.svg';
 
   /// File path: assets/svgs/streak.svg
   String get streak => 'assets/svgs/streak.svg';
+
+  /// File path: assets/svgs/target.svg
+  String get target => 'assets/svgs/target.svg';
 
   /// File path: assets/svgs/tournaments.svg
   String get tournaments => 'assets/svgs/tournaments.svg';
@@ -259,6 +315,7 @@ class $AssetsSvgsGen {
         coin,
         mobileLeaderboard,
         union,
+        add,
         addCircle,
         ai,
         alarm,
@@ -266,6 +323,9 @@ class $AssetsSvgsGen {
         arrowForwardIos,
         arrowUp,
         back,
+        bin,
+        calendarStar,
+        circleCheck,
         circleClock,
         close,
         codeSwap,
@@ -292,18 +352,23 @@ class $AssetsSvgsGen {
         mapConnect,
         mark,
         message,
+        mindBender,
         music,
         pause,
         qrCode,
         question,
         reveal,
+        rocket,
         search,
+        sendEmail,
         settings,
         settings2,
         singlePlayer,
         skull,
+        speed,
         store,
         streak,
+        target,
         tournaments,
         unchecked,
         wallet,

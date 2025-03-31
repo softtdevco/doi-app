@@ -59,6 +59,10 @@ class _HomeState extends ConsumerState<Home> {
         child: Column(
           children: [
             24.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: AppSvgIcon(path: Assets.svgs.calendarStar),
+            ),
             Assets.images.doi.image(
               fit: BoxFit.cover,
               width: 86.w,
@@ -94,9 +98,17 @@ class _HomeState extends ConsumerState<Home> {
                     ),
                   ),
                   16.verticalSpace,
-                  DoiButton(
-                    text: context.l10n.storyMode,
-                    onPressed: () {},
+                  Stack(
+                    children: [
+                      DoiButton(
+                        text: context.l10n.arcade,
+                        onPressed: () => context.pushNamed(AppRouter.arcade),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: Assets.images.cloudGaming.image(),
+                      )
+                    ],
                   ),
                 ],
               ),

@@ -41,7 +41,7 @@ class DoiButton extends StatefulWidget {
 
   final VoidCallback onPressed;
   final String? leading;
-
+  final String? trailing;
   const DoiButton({
     this.height = DoiButtonStyle.buttonDefaultHeight,
     this.width = DoiButtonStyle.buttonDefaultWidth,
@@ -52,6 +52,7 @@ class DoiButton extends StatefulWidget {
     required this.text,
     required this.onPressed,
     this.leading,
+    this.trailing,
     this.textStyle,
     this.color,
     this.borderColor,
@@ -134,7 +135,14 @@ class _DoiButton extends State<DoiButton> {
                               color: _buttonStyle.textColor,
                               fontFamily: FontFamily.jungleAdventurer,
                               fontSize: 22.sp,
-                            ))
+                            )),
+                    if (widget.trailing != null) ...[
+                      10.horizontalSpace,
+                      AppSvgIcon(
+                        path: widget.trailing!,
+                        fit: BoxFit.scaleDown,
+                      ),
+                    ],
                   ],
                 )),
               if (widget.isLoading) ...[

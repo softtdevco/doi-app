@@ -41,7 +41,7 @@ class DoiAppbar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 switch (showBackButton == true) {
                   true => AppSvgIcon(
-                      path: Assets.svgs.back,
+                      path: leading ?? Assets.svgs.back,
                       fit: BoxFit.scaleDown,
                       onTap: onTap ?? () => context.pop(),
                     ),

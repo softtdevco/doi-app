@@ -46,6 +46,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/brain.png
   AssetGenImage get brain => const AssetGenImage('assets/images/brain.png');
 
+  /// File path: assets/images/brazil.png
+  AssetGenImage get brazil => const AssetGenImage('assets/images/brazil.png');
+
   /// File path: assets/images/cloud-gaming.png
   AssetGenImage get cloudGaming =>
       const AssetGenImage('assets/images/cloud-gaming.png');
@@ -63,6 +66,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/multiple.png
   AssetGenImage get multiple =>
       const AssetGenImage('assets/images/multiple.png');
+
+  /// File path: assets/images/opponet.png
+  AssetGenImage get opponet => const AssetGenImage('assets/images/opponet.png');
 
   /// File path: assets/images/target_point.png
   AssetGenImage get targetPoint =>
@@ -87,11 +93,13 @@ class $AssetsImagesGen {
         avatar3,
         avatar4,
         brain,
+        brazil,
         cloudGaming,
         doi,
         listofavatar,
         loss,
         multiple,
+        opponet,
         targetPoint,
         user1,
         win
@@ -155,6 +163,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/calendar-star.svg
   String get calendarStar => 'assets/svgs/calendar-star.svg';
+
+  /// File path: assets/svgs/check-square.svg
+  String get checkSquare => 'assets/svgs/check-square.svg';
 
   /// File path: assets/svgs/circle-check.svg
   String get circleCheck => 'assets/svgs/circle-check.svg';
@@ -325,6 +336,7 @@ class $AssetsSvgsGen {
         back,
         bin,
         calendarStar,
+        checkSquare,
         circleCheck,
         circleClock,
         close,

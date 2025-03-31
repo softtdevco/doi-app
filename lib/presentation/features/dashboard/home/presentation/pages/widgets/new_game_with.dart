@@ -16,7 +16,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class NewGameWith extends ConsumerStatefulWidget {
   const NewGameWith({
     Key? key,
+    this.isGroup = true,
   }) : super(key: key);
+
+  final bool isGroup;
 
   @override
   ConsumerState<NewGameWith> createState() => _NewGameWithState();
@@ -61,7 +64,9 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Assets.images.multiple.image(),
+                  widget.isGroup
+                      ? Assets.images.avatar2.image()
+                      : Assets.images.multiple.image(),
                   8.horizontalSpace,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +79,7 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
                         ),
                       ),
                       Text(
-                        '+ 4 others',
+                        widget.isGroup ? '+ 4 others' : 'Online',
                         style: context.textTheme.bodySmall?.copyWith(
                           fontSize: 14.sp,
                           color:

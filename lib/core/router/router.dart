@@ -1,6 +1,8 @@
+import 'package:doi_mobile/presentation/features/dashboard/Arcade/presentation/pages/arcade.dart';
 import 'package:doi_mobile/presentation/features/dashboard/dashboard.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/adding_friend.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/decide_online_play.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/finding_opponets.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/game_created.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/home.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_game.dart';
@@ -26,6 +28,8 @@ class AppRouter {
   static const String waitingScreen = '/waitingScreen';
   static const String addingFriend = '/addingFriend';
   static const String playOnline = '/playOnline';
+  static const String findingOpponents = '/findingOpponents';
+  static const String arcade = '/arcade';
 
   static final Map<String, Widget Function(BuildContext)> _routes = {
     welcome: (context) => Welcome(),
@@ -40,6 +44,8 @@ class AppRouter {
     waitingScreen: (context) => WaitingScreen(),
     addingFriend: (context) => AddingFriend(),
     playOnline: (context) => PlayOnline(),
+    findingOpponents: (context) => FindingOpponents(),
+    arcade: (context) => Arcade(),
   };
 
   static Map<String, Widget Function(BuildContext)> get routes => _routes;

@@ -224,5 +224,5 @@
     "@forfeitMatch": {
         "description": "Forfeit Match text"
     },
-         "arcade":"Arcade"
+    "arcade":"Arcade"
 }

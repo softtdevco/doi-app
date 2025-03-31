@@ -65,8 +65,8 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   widget.isGroup
-                      ? Assets.images.avatar2.image()
-                      : Assets.images.multiple.image(),
+                      ? Assets.images.multiple.image()
+                      : Assets.images.avatar2.image(),
                   8.horizontalSpace,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

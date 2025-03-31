@@ -102,7 +102,9 @@ class _FindingOpponentsState extends ConsumerState<FindingOpponents> {
                           onTap: () => context.showBottomSheet(
                             isDismissible: true,
                             color: AppColors.background,
-                            child: NewGameWith(),
+                            child: NewGameWith(
+                              isGroup: false,
+                            ),
                           ),
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 300),

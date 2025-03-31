@@ -38,6 +38,10 @@ extension BuildContextExt on BuildContext {
                     borderRadius: BorderRadius.circular(17),
                   ),
                   child: Container(
+                    decoration: BoxDecoration(
+                      color: color ?? AppColors.background,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: child,

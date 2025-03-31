@@ -1,8 +1,13 @@
+import 'package:doi_mobile/presentation/features/dashboard/Arcade/presentation/pages/arcade.dart';
 import 'package:doi_mobile/presentation/features/dashboard/dashboard.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/adding_friend.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/decide_online_play.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/finding_opponets.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/game_created.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/home.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_game.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_online.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/waiting_screen.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/setup_profile_loggedin.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/welcome.dart';
 import 'package:doi_mobile/presentation/general_widgets/result_page.dart';
@@ -20,6 +25,11 @@ class AppRouter {
   static const String decideOnlinePlay = '/decideonlineplay';
   static const String gameCreated = '/gameCreated';
   static const String home = '/home';
+  static const String waitingScreen = '/waitingScreen';
+  static const String addingFriend = '/addingFriend';
+  static const String playOnline = '/playOnline';
+  static const String findingOpponents = '/findingOpponents';
+  static const String arcade = '/arcade';
 
   static final Map<String, Widget Function(BuildContext)> _routes = {
     welcome: (context) => Welcome(),
@@ -31,6 +41,11 @@ class AppRouter {
     decideOnlinePlay: (context) => DecideOnlinePlay(),
     gameCreated: (context) => GameCreated(),
     home: (context) => Home(),
+    waitingScreen: (context) => WaitingScreen(),
+    addingFriend: (context) => AddingFriend(),
+    playOnline: (context) => PlayOnline(),
+    findingOpponents: (context) => FindingOpponents(),
+    arcade: (context) => Arcade(),
   };
 
   static Map<String, Widget Function(BuildContext)> get routes => _routes;

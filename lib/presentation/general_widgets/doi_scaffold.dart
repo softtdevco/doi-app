@@ -17,6 +17,8 @@ class DoiScaffold extends StatelessWidget {
     this.extendBody = false,
     this.backgroundColor,
     this.backgroundImage,
+    this.showBackImage = true,
+    this.footerPadding,
   });
   final Widget body;
   final bool? resizeToAvoidBottomInset;
@@ -25,10 +27,11 @@ class DoiScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final Widget? footerButton;
   final Widget? underFooterChild;
-  final EdgeInsetsGeometry? bodyPadding;
+  final EdgeInsetsGeometry? bodyPadding, footerPadding;
   final bool extendBody;
   final Color? backgroundColor;
   final ImageProvider? backgroundImage;
+  final bool showBackImage;
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +49,15 @@ class DoiScaffold extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Positioned.fill(
-                  child: Image(
-                    image: backgroundImage ?? Assets.images.pattern.provider(),
-                    fit: BoxFit.cover,
-                    repeat: ImageRepeat.repeat,
+                if (showBackImage)
+                  Positioned.fill(
+                    child: Image(
+                      image:
+                          backgroundImage ?? Assets.images.pattern.provider(),
+                      fit: BoxFit.cover,
+                      repeat: ImageRepeat.repeat,
+                    ),
                   ),
-                ),
                 Padding(
                   padding:
                       bodyPadding ?? EdgeInsets.symmetric(horizontal: 18.w),
@@ -66,8 +71,10 @@ class DoiScaffold extends StatelessWidget {
           persistentFooterButtons: (footerButton != null)
               ? [
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 10),
+                    padding: footerPadding ??
+                        EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                        ),
                     child: Container(
                       margin: context.bottomPaddingForTextField,
                       child: Column(

@@ -1,6 +1,8 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
@@ -96,49 +98,52 @@ class DecideOnlinePlay extends StatelessWidget {
               ),
             ),
             31.verticalSpace,
-            Column(
-              children: [
-                AppSvgIcon(path: Assets.svgs.mapConnect),
-                Container(
-                  padding: EdgeInsets.all(17),
-                  decoration: BoxDecoration(
-                    color: AppColors.green,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(12.r),
-                      bottomRight: Radius.circular(12.r),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.greenBorder,
-                        offset: const Offset(0, 5),
-                        blurRadius: 0,
-                        spreadRadius: 0,
+            GestureDetector(
+              onTap: () => context.pushNamed(AppRouter.playOnline),
+              child: Column(
+                children: [
+                  AppSvgIcon(path: Assets.svgs.mapConnect),
+                  Container(
+                    padding: EdgeInsets.all(17),
+                    decoration: BoxDecoration(
+                      color: AppColors.green,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(12.r),
+                        bottomRight: Radius.circular(12.r),
                       ),
-                    ],
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Play online'.toUpperCase(),
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.white,
-                      fontFamily: FontFamily.jungleAdventurer,
-                      fontSize: 22.sp,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.greenBorder,
+                          offset: const Offset(0, 5),
+                          blurRadius: 0,
+                          spreadRadius: 0,
+                        ),
+                      ],
                     ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Play online'.toUpperCase(),
+                      style: context.textTheme.bodyMedium?.copyWith(
+                        color: AppColors.white,
+                        fontFamily: FontFamily.jungleAdventurer,
+                        fontSize: 22.sp,
+                      ),
+                    ),
+                  )
+                ],
+              ).withContainer(
+                borderRadius: BorderRadius.circular(12.r),
+                color: Color(0xFFF4FFDF),
+                border: Border(
+                  top: BorderSide(
+                    color: AppColors.green,
                   ),
-                )
-              ],
-            ).withContainer(
-              borderRadius: BorderRadius.circular(12.r),
-              color: Color(0xFFF4FFDF),
-              border: Border(
-                top: BorderSide(
-                  color: AppColors.green,
-                ),
-                left: BorderSide(
-                  color: AppColors.green,
-                ),
-                right: BorderSide(
-                  color: AppColors.green,
+                  left: BorderSide(
+                    color: AppColors.green,
+                  ),
+                  right: BorderSide(
+                    color: AppColors.green,
+                  ),
                 ),
               ),
             ),

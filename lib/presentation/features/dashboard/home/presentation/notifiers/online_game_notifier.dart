@@ -10,6 +10,10 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   void updateType(String type) {
     state = state.copyWith(type: type);
   }
+
+  void updatePairing(String pairing) {
+    state = state.copyWith(pairing: pairing);
+  }
 }
 
 final onlineGameNotifierProvider =

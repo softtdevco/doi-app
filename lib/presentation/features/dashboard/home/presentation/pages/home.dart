@@ -53,101 +53,108 @@ class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
-      appbar: DoiHomeAppbar(),
-      bodyPadding: EdgeInsets.all(24),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            24.verticalSpace,
-            Align(
-              alignment: Alignment.topLeft,
-              child: AppSvgIcon(path: Assets.svgs.calendarStar),
-            ),
-            Assets.images.doi.image(
-              fit: BoxFit.cover,
-              width: 86.w,
-            ),
-            16.verticalSpace,
-            Text(
-              context.l10n.startNew,
-              style: context.textTheme.bodySmall?.copyWith(
-                fontSize: 16.sp,
-              ),
-            ),
+            DoiHomeAppbar(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: EdgeInsets.all(24),
               child: Column(
                 children: [
-                  44.verticalSpace,
-                  DoiButton(
-                    text: context.l10n.newGame,
-                    onPressed: () =>
-                        context.pushNamed(AppRouter.decideOnlinePlay),
+                  24.verticalSpace,
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: AppSvgIcon(path: Assets.svgs.calendarStar),
+                  ),
+                  Assets.images.doi.image(
+                    fit: BoxFit.cover,
+                    width: 86.w,
                   ),
                   16.verticalSpace,
-                  DoiButton(
-                    buttonStyle: DoiButtonStyle(
-                      background: AppColors.green,
-                      borderColor: AppColors.greenBorder,
-                    ),
-                    text: context.l10n.singlePlayer,
-                    onPressed: () => context.showBottomSheet(
-                      isDismissible: true,
-                      color: AppColors.white,
-                      child: StartGame(),
+                  Text(
+                    context.l10n.startNew,
+                    style: context.textTheme.bodySmall?.copyWith(
+                      fontSize: 16.sp,
                     ),
                   ),
-                  16.verticalSpace,
-                  Stack(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        44.verticalSpace,
+                        DoiButton(
+                          text: context.l10n.newGame,
+                          onPressed: () =>
+                              context.pushNamed(AppRouter.decideOnlinePlay),
+                        ),
+                        16.verticalSpace,
+                        DoiButton(
+                          buttonStyle: DoiButtonStyle(
+                            background: AppColors.green,
+                            borderColor: AppColors.greenBorder,
+                          ),
+                          text: context.l10n.singlePlayer,
+                          onPressed: () => context.showBottomSheet(
+                            isDismissible: true,
+                            color: AppColors.white,
+                            child: StartGame(),
+                          ),
+                        ),
+                        16.verticalSpace,
+                        Stack(
+                          children: [
+                            DoiButton(
+                              text: context.l10n.arcade,
+                              onPressed: () =>
+                                  context.pushNamed(AppRouter.arcade),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: Assets.images.cloudGaming.image(),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  89.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DoiButton(
-                        text: context.l10n.arcade,
-                        onPressed: () => context.pushNamed(AppRouter.arcade),
+                      Text(
+                        context.l10n.powerUps,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize: 16.sp,
+                        ),
                       ),
-                      Positioned(
-                        right: 0,
-                        child: Assets.images.cloudGaming.image(),
+                      Row(
+                        children: [
+                          Text(
+                            context.l10n.store,
+                            style: context.textTheme.bodySmall?.copyWith(
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                          4.horizontalSpace,
+                          AppSvgIcon(path: Assets.svgs.store)
+                        ],
                       )
                     ],
                   ),
+                  19.verticalSpace,
+                  PowerUpTile(
+                    label: 'Freeze Time',
+                    iconPath: Assets.svgs.freezeTime,
+                    onBuy: () => _buy(ProductIds.freezeTime),
+                  ),
+                  PowerUpTile(
+                    label: 'Reveal 1 Digit',
+                    iconPath: Assets.svgs.reveal,
+                    onBuy: () => _buy(ProductIds.revealDigit),
+                  )
                 ],
               ),
             ),
-            89.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  context.l10n.powerUps,
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontSize: 16.sp,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      context.l10n.store,
-                      style: context.textTheme.bodySmall?.copyWith(
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                    4.horizontalSpace,
-                    AppSvgIcon(path: Assets.svgs.store)
-                  ],
-                )
-              ],
-            ),
-            19.verticalSpace,
-            PowerUpTile(
-              label: 'Freeze Time',
-              iconPath: Assets.svgs.freezeTime,
-              onBuy: () => _buy(ProductIds.freezeTime),
-            ),
-            PowerUpTile(
-              label: 'Reveal 1 Digit',
-              iconPath: Assets.svgs.reveal,
-              onBuy: () => _buy(ProductIds.revealDigit),
-            )
           ],
         ),
       ),

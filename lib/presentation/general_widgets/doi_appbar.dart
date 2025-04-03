@@ -4,7 +4,7 @@ import 'package:doi_mobile/presentation/general_widgets/customizable_row.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 
-class DoiAppbar extends StatelessWidget implements PreferredSizeWidget {
+class DoiAppbar extends StatelessWidget {
   const DoiAppbar({
     this.showBackButton = true,
     this.title,
@@ -58,9 +58,4 @@ class DoiAppbar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  static final _appBar = AppBar();
-
-  @override
-  Size get preferredSize => _appBar.preferredSize;
 }

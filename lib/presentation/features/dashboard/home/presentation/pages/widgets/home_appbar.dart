@@ -8,7 +8,7 @@ import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
+class DoiHomeAppbar extends StatelessWidget {
   const DoiHomeAppbar({
     super.key,
   });
@@ -70,9 +70,4 @@ class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  static final _appBar = AppBar();
-
-  @override
-  Size get preferredSize => _appBar.preferredSize;
 }

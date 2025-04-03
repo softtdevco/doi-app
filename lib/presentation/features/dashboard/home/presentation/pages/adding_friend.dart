@@ -11,10 +11,12 @@ class AddingFriend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
-        appbar: DoiAppbar(
+        body: Column(
+      children: [
+        DoiAppbar(
           leading: Assets.svgs.close,
         ),
-        body: Column(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
@@ -31,6 +33,8 @@ class AddingFriend extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ],
-        ));
+        ),
+      ],
+    ));
   }
 }

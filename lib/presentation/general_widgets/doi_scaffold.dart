@@ -8,12 +8,10 @@ class DoiScaffold extends StatelessWidget {
     required this.body,
     super.key,
     this.resizeToAvoidBottomInset,
-    this.appbar,
     this.floatingActionButton,
     this.bottomNavigationBar,
     this.footerButton,
     this.underFooterChild,
-    this.bodyPadding,
     this.extendBody = false,
     this.backgroundColor,
     this.backgroundImage,
@@ -22,12 +20,12 @@ class DoiScaffold extends StatelessWidget {
   });
   final Widget body;
   final bool? resizeToAvoidBottomInset;
-  final PreferredSizeWidget? appbar;
+
   final Widget? floatingActionButton;
   final Widget? bottomNavigationBar;
   final Widget? footerButton;
   final Widget? underFooterChild;
-  final EdgeInsetsGeometry? bodyPadding, footerPadding;
+  final EdgeInsetsGeometry? footerPadding;
   final bool extendBody;
   final Color? backgroundColor;
   final ImageProvider? backgroundImage;
@@ -43,9 +41,9 @@ class DoiScaffold extends StatelessWidget {
         ),
         child: Scaffold(
           backgroundColor: backgroundColor,
-          appBar: appbar,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          body: SafeArea(
+          body: SizedBox(
+            height: context.height,
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -58,11 +56,7 @@ class DoiScaffold extends StatelessWidget {
                       repeat: ImageRepeat.repeat,
                     ),
                   ),
-                Padding(
-                  padding:
-                      bodyPadding ?? EdgeInsets.symmetric(horizontal: 18.w),
-                  child: body,
-                ),
+                body,
               ],
             ),
           ),

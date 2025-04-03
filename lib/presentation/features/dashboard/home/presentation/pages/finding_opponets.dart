@@ -69,12 +69,11 @@ class _FindingOpponentsState extends ConsumerState<FindingOpponents> {
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
-      bodyPadding: EdgeInsets.zero,
-      appbar: DoiAppbar(
-        leading: Assets.svgs.close,
-      ),
       body: Column(
         children: [
+          DoiAppbar(
+            leading: Assets.svgs.close,
+          ),
           24.verticalSpace,
           Text(
             'Finding an opponent...',

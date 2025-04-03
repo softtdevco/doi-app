@@ -84,91 +84,90 @@ class _PlayGameState extends ConsumerState<PlayGame>
 
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Container(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    GameStatusBar(
-                      aiGuesses: gameState.aiGuesses,
-                      aiPlaybackEnabled: gameState.aiPlaybackEnabled,
-                      timerActive: gameState.timerActive,
-                      timeRemaining: gameState.timeRemaining,
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  30.verticalSpace,
+                  GameStatusBar(
+                    aiGuesses: gameState.aiGuesses,
+                    aiPlaybackEnabled: gameState.aiPlaybackEnabled,
+                    timerActive: gameState.timerActive,
+                    timeRemaining: gameState.timeRemaining,
+                  ),
+                  60.verticalSpace,
+                  Expanded(
+                    child: GuessDisplay(
+                      currentInput: currentInput,
+                      playerGuesses: gameState.playerGuesses,
+                      gameMode: gameState.gameMode,
+                      aiSecretCode: gameState.aiSecretCode,
+                      isGameOver: gameState.isGameOver,
+                      winner: gameState.winner,
                     ),
-                    60.verticalSpace,
-                    Expanded(
-                      child: GuessDisplay(
-                        currentInput: currentInput,
-                        playerGuesses: gameState.playerGuesses,
-                        gameMode: gameState.gameMode,
-                        aiSecretCode: gameState.aiSecretCode,
-                        isGameOver: gameState.isGameOver,
-                        winner: gameState.winner,
-                      ),
-                    ),
-                    if (showKeyboard == true)
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            showKeyboard = !showKeyboard;
-                          });
-                        },
-                        child: RotatedBox(
-                          quarterTurns: 3,
-                          child: AppSvgIcon(
-                            path: Assets.svgs.left,
-                            color: AppColors.dropColor,
-                          ),
+                  ),
+                  if (showKeyboard == true)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showKeyboard = !showKeyboard;
+                        });
+                      },
+                      child: RotatedBox(
+                        quarterTurns: 3,
+                        child: AppSvgIcon(
+                          path: Assets.svgs.left,
+                          color: AppColors.dropColor,
                         ),
                       ),
-                    20.verticalSpace,
-                    if (showKeyboard &&
-                        !gameState.isGameOver &&
-                        gameState.isPlayerTurn)
-                      GameKeyboard(
-                        onNumberPressed: _onNumberPressed,
-                        onDeletePressed: _onDeletePressed,
-                        onSubmitPressed: _onSubmitPressed,
-                        canSubmit: currentInput.length == 4,
-                        aiPlaybackEnabled: gameState.aiPlaybackEnabled,
-                      ),
-                    if (showKeyboard == false)
-                      AppSvgIcon(
-                        path: Assets.svgs.keyboard,
-                        color: AppColors.dropColor,
-                        onTap: () {
-                          setState(() {
-                            showKeyboard = !showKeyboard;
-                          });
-                        },
-                      )
-                  ],
+                    ),
+                  20.verticalSpace,
+                  if (showKeyboard &&
+                      !gameState.isGameOver &&
+                      gameState.isPlayerTurn)
+                    GameKeyboard(
+                      onNumberPressed: _onNumberPressed,
+                      onDeletePressed: _onDeletePressed,
+                      onSubmitPressed: _onSubmitPressed,
+                      canSubmit: currentInput.length == 4,
+                      aiPlaybackEnabled: gameState.aiPlaybackEnabled,
+                    ),
+                  if (showKeyboard == false)
+                    AppSvgIcon(
+                      path: Assets.svgs.keyboard,
+                      color: AppColors.dropColor,
+                      onTap: () {
+                        setState(() {
+                          showKeyboard = !showKeyboard;
+                        });
+                      },
+                    )
+                ],
+              ),
+            ),
+          ),
+          if (_showConfetti)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 339.h,
+              child: IgnorePointer(
+                child: Lottie.asset(
+                  Assets.jsons.success,
+                  controller: _confettiController,
+                  fit: BoxFit.cover,
+                  onLoaded: (composition) {
+                    _confettiController.duration = composition.duration;
+                  },
                 ),
               ),
             ),
-            if (_showConfetti)
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 339.h,
-                child: IgnorePointer(
-                  child: Lottie.asset(
-                    Assets.jsons.success,
-                    controller: _confettiController,
-                    fit: BoxFit.cover,
-                    onLoaded: (composition) {
-                      _confettiController.duration = composition.duration;
-                    },
-                  ),
-                ),
-              ),
-          ],
-        ),
+        ],
       ),
     );
   }

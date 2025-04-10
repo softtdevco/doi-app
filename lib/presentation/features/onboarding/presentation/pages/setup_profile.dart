@@ -22,37 +22,34 @@ class _SetUpProfileState extends ConsumerState<SetUpProfile> {
     final selectedAuthenication = ref
         .watch(onboardingNotifierProvider.select((v) => v.authenicationIndex));
     return DoiScaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 24),
-        child: Column(
-          children: [
-            Column(
-              children: [
-                20.verticalSpace,
-                Assets.images.doi.image(
-                  fit: BoxFit.cover,
-                  width: 86.w,
+      bodyPadding: EdgeInsets.symmetric(vertical: 24),
+      body: Column(
+        children: [
+          Column(
+            children: [
+              Assets.images.doi.image(
+                fit: BoxFit.cover,
+                width: 86.w,
+              ),
+              49.verticalSpace,
+              Text(
+                context.l10n.whatShouldWeCallYou,
+                style: context.textTheme.bodySmall?.copyWith(
+                  fontSize: 16.sp,
                 ),
-                49.verticalSpace,
-                Text(
-                  context.l10n.whatShouldWeCallYou,
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontSize: 16.sp,
-                  ),
-                ),
-                40.verticalSpace,
-                Assets.images.listofavatar.image(
-                  fit: BoxFit.fitWidth,
-                ),
-              ],
-            ),
-            Spacer(),
-            switch (selectedAuthenication > 1) {
-              true => CountryForm(),
-              _ => Expanded(child: UserNameForm())
-            }
-          ],
-        ),
+              ),
+              40.verticalSpace,
+              Assets.images.listofavatar.image(
+                fit: BoxFit.fitWidth,
+              ),
+            ],
+          ),
+          Spacer(),
+          switch (selectedAuthenication > 1) {
+            true => CountryForm(),
+            _ => Expanded(child: UserNameForm())
+          }
+        ],
       ),
     );
   }

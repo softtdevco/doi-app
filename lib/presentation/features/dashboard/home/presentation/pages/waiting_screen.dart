@@ -13,23 +13,19 @@ class WaitingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
-  
+      bodyPadding: EdgeInsets.all(24),
       showBackImage: false,
+      appbar: DoiAppbar(
+        leading: Assets.svgs.close,
+      ),
       body: Column(
         children: [
-          DoiAppbar(
-            leading: Assets.svgs.close,
-          ),
           11.verticalSpace,
-          Padding(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              children: [
-                Text(
-                  'Waiting for friend to join',
-                  style: context.textTheme.bodySmall?.copyWith(fontSize: 20.sp),
-                ),
-                 46.verticalSpace,
+          Text(
+            'Waiting for friend to join',
+            style: context.textTheme.bodySmall?.copyWith(fontSize: 20.sp),
+          ),
+          46.verticalSpace,
           ClipRRect(
             child: Assets.images.avatar1.image(
               height: 61.h,
@@ -47,10 +43,6 @@ class WaitingScreen extends StatelessWidget {
               ),
             ),
           )
-              ],
-            ),
-          ),
-         
         ],
       ),
       footerButton: Assets.images.mobileLeaderboard.image(),

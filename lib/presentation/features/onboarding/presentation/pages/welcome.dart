@@ -20,29 +20,30 @@ class Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     return DoiScaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Spacer(),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Assets.images.doi.image(
-                fit: BoxFit.cover,
-                width: 144.w,
-              ),
-              37.verticalSpace,
-              Text(
-                context.l10n.deadOrInjured,
-                style: context.textTheme.bodySmall?.copyWith(
-                  fontSize: 22.sp,
+          Spacer(),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Assets.images.doi.image(
+                  fit: BoxFit.cover,
+                  width: 144.w,
                 ),
-              ),
-            ],
-          ).withContainer(
-            color: AppColors.background,
-            width: context.width,
-            shape: BoxShape.circle,
-            height: 269.h,
+                37.verticalSpace,
+                Text(
+                  context.l10n.deadOrInjured,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    fontSize: 22.sp,
+                  ),
+                ),
+              ],
+            ).withContainer(
+              color: AppColors.background,
+              width: context.width,
+              shape: BoxShape.circle,
+              height: 269.h,
+            ),
           ),
           DoiButton(
             width: 197,

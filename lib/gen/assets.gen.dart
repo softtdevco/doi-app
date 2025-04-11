@@ -21,6 +21,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/3.png
   AssetGenImage get a3 => const AssetGenImage('assets/images/3.png');
 
+  /// File path: assets/images/BADGE-BG.png
+  AssetGenImage get badgeBg =>
+      const AssetGenImage('assets/images/BADGE-BG.png');
+
   /// File path: assets/images/Mobile Leaderboard.png
   AssetGenImage get mobileLeaderboard =>
       const AssetGenImage('assets/images/Mobile Leaderboard.png');
@@ -85,6 +89,7 @@ class $AssetsImagesGen {
         a1,
         a2,
         a3,
+        badgeBg,
         mobileLeaderboard,
         pattern,
         avatae4,
@@ -140,6 +145,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/add_circle.svg
   String get addCircle => 'assets/svgs/add_circle.svg';
 
+  /// File path: assets/svgs/add_user.svg
+  String get addUser => 'assets/svgs/add_user.svg';
+
   /// File path: assets/svgs/ai.svg
   String get ai => 'assets/svgs/ai.svg';
 
@@ -170,11 +178,18 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/circle-check.svg
   String get circleCheck => 'assets/svgs/circle-check.svg';
 
+  /// File path: assets/svgs/circle-clock--clock-loading-measure-time-circle.svg
+  String get circleClockClockLoadingMeasureTimeCircle =>
+      'assets/svgs/circle-clock--clock-loading-measure-time-circle.svg';
+
   /// File path: assets/svgs/circle-clock.svg
   String get circleClock => 'assets/svgs/circle-clock.svg';
 
   /// File path: assets/svgs/close.svg
   String get close => 'assets/svgs/close.svg';
+
+  /// File path: assets/svgs/cloud-gaming.svg
+  String get cloudGaming => 'assets/svgs/cloud-gaming.svg';
 
   /// File path: assets/svgs/code_swap.svg
   String get codeSwap => 'assets/svgs/code_swap.svg';
@@ -193,6 +208,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/dropdown.svg
   String get dropdown => 'assets/svgs/dropdown.svg';
+
+  /// File path: assets/svgs/fb.svg
+  String get fb => 'assets/svgs/fb.svg';
 
   /// File path: assets/svgs/freeze_time.svg
   String get freezeTime => 'assets/svgs/freeze_time.svg';
@@ -224,6 +242,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/infocircle.svg
   String get infocircle => 'assets/svgs/infocircle.svg';
 
+  /// File path: assets/svgs/insta.svg
+  String get insta => 'assets/svgs/insta.svg';
+
   /// File path: assets/svgs/keyboard.svg
   String get keyboard => 'assets/svgs/keyboard.svg';
 
@@ -253,6 +274,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/music.svg
   String get music => 'assets/svgs/music.svg';
+
+  /// File path: assets/svgs/no-sound.svg
+  String get noSound => 'assets/svgs/no-sound.svg';
 
   /// File path: assets/svgs/pause.svg
   String get pause => 'assets/svgs/pause.svg';
@@ -287,6 +311,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/skull.svg
   String get skull => 'assets/svgs/skull.svg';
 
+  /// File path: assets/svgs/snooze.svg
+  String get snooze => 'assets/svgs/snooze.svg';
+
   /// File path: assets/svgs/speed.svg
   String get speed => 'assets/svgs/speed.svg';
 
@@ -317,6 +344,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/welcome.svg
   String get welcome => 'assets/svgs/welcome.svg';
 
+  /// File path: assets/svgs/x.svg
+  String get x => 'assets/svgs/x.svg';
+
   /// File path: assets/svgs/x_logo.svg
   String get xLogo => 'assets/svgs/x_logo.svg';
 
@@ -328,6 +358,7 @@ class $AssetsSvgsGen {
         union,
         add,
         addCircle,
+        addUser,
         ai,
         alarm,
         arrowDown,
@@ -338,14 +369,17 @@ class $AssetsSvgsGen {
         calendarStar,
         checkSquare,
         circleCheck,
+        circleClockClockLoadingMeasureTimeCircle,
         circleClock,
         close,
+        cloudGaming,
         codeSwap,
         copy,
         delete,
         dices,
         doi,
         dropdown,
+        fb,
         freezeTime,
         friends,
         googleLogo,
@@ -356,6 +390,7 @@ class $AssetsSvgsGen {
         home2,
         info,
         infocircle,
+        insta,
         keyboard,
         leader,
         left,
@@ -366,6 +401,7 @@ class $AssetsSvgsGen {
         message,
         mindBender,
         music,
+        noSound,
         pause,
         qrCode,
         question,
@@ -377,6 +413,7 @@ class $AssetsSvgsGen {
         settings2,
         singlePlayer,
         skull,
+        snooze,
         speed,
         store,
         streak,
@@ -387,6 +424,7 @@ class $AssetsSvgsGen {
         wand,
         warning,
         welcome,
+        x,
         xLogo
       ];
 }

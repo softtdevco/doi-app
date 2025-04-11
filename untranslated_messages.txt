@@ -49,6 +49,15 @@
     "newPosition",
     "leaderBoard",
     "you",
-    "arcade"
+    "arcade",
+    "friends",
+    "pending",
+    "searchFriends",
+    "play",
+    "accept",
+    "remove",
+    "userProfile",
+    "dailyStreak",
+    "matchesPlayed"
   ]
 }

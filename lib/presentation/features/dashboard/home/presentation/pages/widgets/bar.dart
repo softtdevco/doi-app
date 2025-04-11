@@ -48,12 +48,15 @@ class GameBarType extends StatefulWidget {
   final int index;
   final String label1;
   final String label2;
+  final Color textColor, cardColor;
   const GameBarType({
     super.key,
     this.onChanged,
     this.index = 0,
     required this.label1,
     required this.label2,
+    this.textColor = AppColors.greenText,
+    this.cardColor = AppColors.lightGreen,
   });
   @override
   State<GameBarType> createState() => _GameBarTypeState();
@@ -65,7 +68,7 @@ class _GameBarTypeState extends State<GameBarType> {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.lightGreen,
+        color: widget.cardColor,
         borderRadius: BorderRadius.circular(30.r),
       ),
       child: Row(
@@ -73,6 +76,7 @@ class _GameBarTypeState extends State<GameBarType> {
         children: [
           Expanded(
             child: Bar(
+              color: widget.textColor,
               isSelected: widget.index == 0,
               text: widget.label1,
               onTap: () => widget.onChanged!(0),
@@ -80,6 +84,7 @@ class _GameBarTypeState extends State<GameBarType> {
           ),
           Expanded(
             child: Bar(
+                color: widget.textColor,
                 isSelected: widget.index == 1,
                 text: widget.label2,
                 onTap: () {

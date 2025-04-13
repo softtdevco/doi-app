@@ -1,7 +1,9 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/invite_friend_sheet.dart';
 import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/pending_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/play_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/bar.dart';
@@ -78,7 +80,13 @@ class _FriendsState extends State<Friends> {
                       3,
                       (i) => PlayFriendTile(
                         index: i + 1,
-                        onTap: () {},
+                        onTap: () {
+                          context.showBottomSheet(
+                            isDismissible: true,
+                            color: AppColors.background,
+                            child: InviteFriendSheet(),
+                          );
+                        },
                       ),
                     ),
                   )

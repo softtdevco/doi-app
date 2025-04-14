@@ -47,6 +47,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/avatar4.png
   AssetGenImage get avatar4 => const AssetGenImage('assets/images/avatar4.png');
 
+  /// File path: assets/images/badge-lock.png
+  AssetGenImage get badgeLock =>
+      const AssetGenImage('assets/images/badge-lock.png');
+
   /// File path: assets/images/brain.png
   AssetGenImage get brain => const AssetGenImage('assets/images/brain.png');
 
@@ -97,6 +101,7 @@ class $AssetsImagesGen {
         avatar2,
         avatar3,
         avatar4,
+        badgeLock,
         brain,
         brazil,
         cloudGaming,

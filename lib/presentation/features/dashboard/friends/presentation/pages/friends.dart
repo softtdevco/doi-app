@@ -1,5 +1,7 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
@@ -26,6 +28,7 @@ class _FriendsState extends State<Friends> {
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
+      showBackImage: false,
       bodyPadding: EdgeInsets.all(24),
       appbar: DoiHomeAppbar(),
       body: Column(
@@ -98,7 +101,7 @@ class _FriendsState extends State<Friends> {
                   1,
                   (i) => PendingFriendTile(
                     index: i + 1,
-                    onTap: () {},
+                    onTap: ()=> context.pushNamed(AppRouter.friendProfile),
                   ),
                 ),
               )

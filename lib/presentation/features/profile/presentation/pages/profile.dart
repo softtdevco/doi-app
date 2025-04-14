@@ -205,13 +205,16 @@ class Profile extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(
-                  'See all',
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: AppColors.secondaryColor,
-                    fontSize: 16.sp,
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppColors.secondaryColor,
+                GestureDetector(
+                  onTap: () => context.pushNamed(AppRouter.myAchievements),
+                  child: Text(
+                    'See all',
+                    style: context.textTheme.bodySmall?.copyWith(
+                      color: AppColors.secondaryColor,
+                      fontSize: 16.sp,
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppColors.secondaryColor,
+                    ),
                   ),
                 )
               ],

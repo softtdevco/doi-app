@@ -8,6 +8,7 @@ import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/profile/presentation/widgets/how_to_play_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -105,9 +106,13 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
             ),
             24.verticalSpace,
             DoiButton(
-                width: context.width,
-                text: context.l10n.howToPlay,
-                onPressed: () {}),
+              width: context.width,
+              text: context.l10n.howToPlay,
+              onPressed: () {
+                context.pop();
+                context.showPopUp(SingleChildScrollView(child: HowToPlayPop()));
+              },
+            ),
             16.verticalSpace,
             Stack(
               children: [

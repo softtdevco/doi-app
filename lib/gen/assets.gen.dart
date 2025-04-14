@@ -223,6 +223,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/friends.svg
   String get friends => 'assets/svgs/friends.svg';
 
+  /// File path: assets/svgs/gameboy.svg
+  String get gameboy => 'assets/svgs/gameboy.svg';
+
   /// File path: assets/svgs/google-logo.svg
   String get googleLogo => 'assets/svgs/google-logo.svg';
 
@@ -387,6 +390,7 @@ class $AssetsSvgsGen {
         fb,
         freezeTime,
         friends,
+        gameboy,
         googleLogo,
         greenChecked,
         headphone,

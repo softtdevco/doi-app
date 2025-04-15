@@ -110,7 +110,9 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
               text: context.l10n.howToPlay,
               onPressed: () {
                 context.pop();
-                context.showPopUp(SingleChildScrollView(child: HowToPlayPop()));
+                context.showPopUp(
+                  size:context.height * 0.8,
+                  SingleChildScrollView(child: HowToPlayPop()));
               },
             ),
             16.verticalSpace,

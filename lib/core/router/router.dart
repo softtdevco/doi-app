@@ -6,6 +6,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/finding_opponets.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/game_created.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/home.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/leader_board.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_game.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_online.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/waiting_screen.dart';
@@ -38,6 +39,7 @@ class AppRouter {
   static const String profile = '/profile';
   static const String myFriends = '/myFriends';
   static const String myAchievements = '/myAchievements';
+   static const String leaderBoard = '/leaderBoard';
 
   static final Map<String, Widget Function(BuildContext)> _routes = {
     welcome: (context) => Welcome(),
@@ -58,6 +60,7 @@ class AppRouter {
     profile: (context) => Profile(),
     myFriends: (context) => MyFriends(),
     myAchievements: (context) => MyAchievements(),
+    leaderBoard: (context) => LeaderBoard(),
   };
 
   static Map<String, Widget Function(BuildContext)> get routes => _routes;

@@ -32,6 +32,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/Pattern.png
   AssetGenImage get pattern => const AssetGenImage('assets/images/Pattern.png');
 
+  /// File path: assets/images/Winner green.png
+  AssetGenImage get winnerGreen =>
+      const AssetGenImage('assets/images/Winner green.png');
+
   /// File path: assets/images/avatae4.png
   AssetGenImage get avatae4 => const AssetGenImage('assets/images/avatae4.png');
 
@@ -78,15 +82,35 @@ class $AssetsImagesGen {
   /// File path: assets/images/opponet.png
   AssetGenImage get opponet => const AssetGenImage('assets/images/opponet.png');
 
+  /// File path: assets/images/speed_crackdown.png
+  AssetGenImage get speedCrackdown =>
+      const AssetGenImage('assets/images/speed_crackdown.png');
+
   /// File path: assets/images/target_point.png
   AssetGenImage get targetPoint =>
       const AssetGenImage('assets/images/target_point.png');
+
+  /// File path: assets/images/tournament.png
+  AssetGenImage get tournament =>
+      const AssetGenImage('assets/images/tournament.png');
+
+  /// File path: assets/images/trophy1.png
+  AssetGenImage get trophy1 => const AssetGenImage('assets/images/trophy1.png');
+
+  /// File path: assets/images/trophy2.png
+  AssetGenImage get trophy2 => const AssetGenImage('assets/images/trophy2.png');
+
+  /// File path: assets/images/trophy3.png
+  AssetGenImage get trophy3 => const AssetGenImage('assets/images/trophy3.png');
 
   /// File path: assets/images/user1.png
   AssetGenImage get user1 => const AssetGenImage('assets/images/user1.png');
 
   /// File path: assets/images/win.png
   AssetGenImage get win => const AssetGenImage('assets/images/win.png');
+
+  /// File path: assets/images/winner.png
+  AssetGenImage get winner => const AssetGenImage('assets/images/winner.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -96,6 +120,7 @@ class $AssetsImagesGen {
         badgeBg,
         mobileLeaderboard,
         pattern,
+        winnerGreen,
         avatae4,
         avatar1,
         avatar2,
@@ -110,9 +135,15 @@ class $AssetsImagesGen {
         loss,
         multiple,
         opponet,
+        speedCrackdown,
         targetPoint,
+        tournament,
+        trophy1,
+        trophy2,
+        trophy3,
         user1,
-        win
+        win,
+        winner
       ];
 }
 
@@ -268,6 +299,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/link.svg
   String get link => 'assets/svgs/link.svg';
 
+  /// File path: assets/svgs/man-woman.svg
+  String get manWoman => 'assets/svgs/man-woman.svg';
+
   /// File path: assets/svgs/map-connect.svg
   String get mapConnect => 'assets/svgs/map-connect.svg';
 
@@ -337,6 +371,18 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/tournaments.svg
   String get tournaments => 'assets/svgs/tournaments.svg';
 
+  /// File path: assets/svgs/trophy--reward.svg
+  String get trophyReward => 'assets/svgs/trophy--reward.svg';
+
+  /// File path: assets/svgs/trophy1.svg
+  String get trophy1 => 'assets/svgs/trophy1.svg';
+
+  /// File path: assets/svgs/trophy2.svg
+  String get trophy2 => 'assets/svgs/trophy2.svg';
+
+  /// File path: assets/svgs/trophy3.svg
+  String get trophy3 => 'assets/svgs/trophy3.svg';
+
   /// File path: assets/svgs/unchecked.svg
   String get unchecked => 'assets/svgs/unchecked.svg';
 
@@ -405,6 +451,7 @@ class $AssetsSvgsGen {
         left,
         lightbulb,
         link,
+        manWoman,
         mapConnect,
         mark,
         message,
@@ -428,6 +475,10 @@ class $AssetsSvgsGen {
         streak,
         target,
         tournaments,
+        trophyReward,
+        trophy1,
+        trophy2,
+        trophy3,
         unchecked,
         wallet,
         wand,

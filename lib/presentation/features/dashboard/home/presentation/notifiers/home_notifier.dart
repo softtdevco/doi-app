@@ -16,8 +16,13 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
   void selectPlayBacksIndex(int index) {
     state = state.copyWith(playBackIndex: index);
   }
-   void updateTimer(String timer) {
+
+  void updateTimer(String timer) {
     state = state.copyWith(timer: timer);
+  }
+
+  void selectLeaderboardIndex(int index) {
+    state = state.copyWith(leaderboardIndex: index);
   }
 }
 

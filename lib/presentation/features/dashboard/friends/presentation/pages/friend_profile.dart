@@ -1,4 +1,6 @@
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
@@ -14,6 +16,8 @@ class FriendProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fromLeaderBoard =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return DoiScaffold(
       bodyPadding: EdgeInsets.all(24),
       showBackImage: false,
@@ -29,6 +33,7 @@ class FriendProfile extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
@@ -84,13 +89,13 @@ class FriendProfile extends StatelessWidget {
               ],
             ),
             14.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
+            if (fromLeaderBoard) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:24),
+                child: GestureDetector(
                   onTap: () {},
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 50),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 30),
                     decoration: BoxDecoration(
                       color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(12.r),
@@ -105,7 +110,7 @@ class FriendProfile extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      context.l10n.accept,
+                      'Add Friend'.toUpperCase(),
                       style: context.textTheme.bodyMedium?.copyWith(
                         fontFamily: FontFamily.jungleAdventurer,
                         fontSize: 16.sp,
@@ -115,37 +120,74 @@ class FriendProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-                16.horizontalSpace,
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 50),
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(12.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.secondaryColor,
-                          offset: const Offset(0, 5),
-                          blurRadius: 0,
-                          spreadRadius: 0,
+              ),
+              24.verticalSpace,
+              Assets.images.mobileLeaderboard.image()
+            ] else
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 50),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.secondaryColor,
+                            offset: const Offset(0, 5),
+                            blurRadius: 0,
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        context.l10n.accept,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          fontFamily: FontFamily.jungleAdventurer,
+                          fontSize: 16.sp,
+                          color: AppColors.white,
                         ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      context.l10n.remove,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        fontFamily: FontFamily.jungleAdventurer,
-                        fontSize: 16.sp,
-                        color: AppColors.white,
+                        textScaler: const TextScaler.linear(0.8),
                       ),
-                      textScaler: const TextScaler.linear(0.8),
                     ),
                   ),
-                ),
-              ],
-            ),
+                  16.horizontalSpace,
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 50),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.secondaryColor,
+                            offset: const Offset(0, 5),
+                            blurRadius: 0,
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        context.l10n.remove,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          fontFamily: FontFamily.jungleAdventurer,
+                          fontSize: 16.sp,
+                          color: AppColors.white,
+                        ),
+                        textScaler: const TextScaler.linear(0.8),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             50.verticalSpace,
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -215,13 +257,17 @@ class FriendProfile extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(
-                  'See all',
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: AppColors.secondaryColor,
-                    fontSize: 16.sp,
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppColors.secondaryColor,
+                GestureDetector(
+                  onTap: () => context.pushNamed(AppRouter.myAchievements,
+                      arguments: true),
+                  child: Text(
+                    'See all',
+                    style: context.textTheme.bodySmall?.copyWith(
+                      color: AppColors.secondaryColor,
+                      fontSize: 16.sp,
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppColors.secondaryColor,
+                    ),
                   ),
                 )
               ],
@@ -238,8 +284,10 @@ class FriendProfile extends StatelessWidget {
                             width: 72.w,
                           ))),
             ),
-            22.verticalSpace,
-            Assets.images.mobileLeaderboard.image()
+            if (!fromLeaderBoard) ...[
+              22.verticalSpace,
+              Assets.images.mobileLeaderboard.image()
+            ]
           ],
         ),
       ),

@@ -13,12 +13,16 @@ class MyAchievements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isFriend =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return DoiScaffold(
       bodyPadding: EdgeInsets.all(24),
       showBackImage: false,
       appbar: DoiAppbar(
         title: Text(
-          'my Achievements'.toUpperCase(),
+          isFriend
+              ? 'achievements'.toUpperCase()
+              : 'my Achievements'.toUpperCase(),
           style: context.textTheme.bodyMedium?.copyWith(
             fontSize: 20.sp,
             fontFamily: FontFamily.jungleAdventurer,
@@ -29,6 +33,17 @@ class MyAchievements extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (isFriend) ...[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(182.r),
+              child: Assets.images.opponet.image(
+                fit: BoxFit.cover,
+                height: 106.h,
+                width: 106.w,
+              ),
+            ),
+            12.verticalSpace,
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

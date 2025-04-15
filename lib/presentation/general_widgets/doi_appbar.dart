@@ -43,6 +43,7 @@ class DoiAppbar extends StatelessWidget implements PreferredSizeWidget {
                   true => AppSvgIcon(
                       path: leading ?? Assets.svgs.back,
                       fit: BoxFit.scaleDown,
+                      color: color,
                       onTap: onTap ?? () => context.pop(),
                     ),
                   _ => const SizedBox()

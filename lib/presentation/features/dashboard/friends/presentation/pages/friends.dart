@@ -1,8 +1,12 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
+import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/invite_friend_sheet.dart';
+import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/pending_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/play_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/bar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/home_appbar.dart';
@@ -24,6 +28,7 @@ class _FriendsState extends State<Friends> {
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
+      showBackImage: false,
       bodyPadding: EdgeInsets.all(24),
       appbar: DoiHomeAppbar(),
       body: Column(
@@ -31,8 +36,8 @@ class _FriendsState extends State<Friends> {
           GameBarType(
             textColor: AppColors.secondaryColor,
             cardColor: AppColors.indicator,
-            label1: 'Friends (3)',
-            label2: 'Pending (1)',
+            label1: context.l10n.friends('3'),
+            label2: context.l10n.pending('1'),
             index: index,
             onChanged: (p0) {
               setState(() {
@@ -41,53 +46,66 @@ class _FriendsState extends State<Friends> {
             },
           ),
           24.verticalSpace,
-          MinFormField(
-            width: double.infinity,
-            textAlign: TextAlign.left,
-            cursorColor: AppColors.primaryColor,
-            decoration: InputDecoration(
-              prefixIcon: AppSvgIcon(
-                path: Assets.svgs.search,
-                fit: BoxFit.scaleDown,
+          switch (index) {
+            0 => Column(
+                children: [
+                  MinFormField(
+                    width: double.infinity,
+                    textAlign: TextAlign.left,
+                    cursorColor: AppColors.primaryColor,
+                    decoration: InputDecoration(
+                      prefixIcon: AppSvgIcon(
+                        path: Assets.svgs.search,
+                        fit: BoxFit.scaleDown,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      fillColor: AppColors.indicator,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      hintText: context.l10n.searchFriends,
+                      hintStyle: context.textTheme.bodySmall?.copyWith(
+                        fontSize: 14.sp,
+                        color: Color(0xFFD7A07D),
+                      ),
+                    ),
+                  ),
+                  18.verticalSpace,
+                  Column(
+                    spacing: 16,
+                    children: List.generate(
+                      3,
+                      (i) => PlayFriendTile(
+                        index: i + 1,
+                        onTap: () {
+                          context.showBottomSheet(
+                            isDismissible: true,
+                            color: AppColors.background,
+                            child: InviteFriendSheet(),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
               ),
-              contentPadding: EdgeInsets.symmetric(horizontal: 16),
-              fillColor: AppColors.indicator,
-              filled: true,
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              hintText: 'Search friends',
-              hintStyle: context.textTheme.bodySmall?.copyWith(
-                fontSize: 14.sp,
-                color: Color(0xFFD7A07D),
-              ),
-            ),
-          ),
-          18.verticalSpace,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
+            _ => Column(
                 spacing: 16,
                 children: List.generate(
-                  3,
-                  (i) => PlayFriendTile(
+                  1,
+                  (i) => PendingFriendTile(
                     index: i + 1,
-                    onTap: () {
-                      if (i == 0) {
-                        context.pushNamed(AppRouter.addingFriend);
-                      }
-                    },
+                    onTap: ()=> context.pushNamed(AppRouter.friendProfile),
                   ),
                 ),
               )
-            ],
-          ),
+          }
         ],
       ),
     );

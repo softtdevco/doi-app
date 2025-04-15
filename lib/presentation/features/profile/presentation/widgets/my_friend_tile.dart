@@ -3,13 +3,12 @@ import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
-import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PlayFriendTile extends StatelessWidget {
-  const PlayFriendTile({
+class MyFriendTile extends StatelessWidget {
+  const MyFriendTile({
     super.key,
     required this.index,
     this.onTap,
@@ -21,7 +20,7 @@ class PlayFriendTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Assets.images.avatar2.image(
+        Assets.images.brazil.image(
           fit: BoxFit.cover,
           height: 45.h,
           width: 45.w,
@@ -93,7 +92,7 @@ class PlayFriendTile extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    context.l10n.play,
+                    'Add friend',
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontFamily: FontFamily.jungleAdventurer,
                       fontSize: 16.sp,

@@ -112,9 +112,10 @@ class Validators {
       if (value!.isEmpty) {
         return 'Field cannot be empty.';
       }
-      if (!value.contains(' ')) {
-        return 'Seperate names with spaces';
+      if (value.length < 2) {
+        return 'Name must be at least 2 characters';
       }
+
       return null;
     };
   }

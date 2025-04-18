@@ -8,7 +8,7 @@ class ProdEnv implements BaseEnv {
   ProdEnv._internal();
   static final ProdEnv _instance = ProdEnv._internal();
   @override
-  String get baseUrl => '';
+  String get baseUrl => 'https://doi-apis.fly.dev';
 
  
 }

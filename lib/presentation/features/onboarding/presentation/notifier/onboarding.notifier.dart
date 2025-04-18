@@ -10,6 +10,14 @@ class OnboardingNotifier extends AutoDisposeNotifier<OnboardingState> {
   void selectAuthenicationIndex(int index) {
     state = state.copyWith(authenicationIndex: index);
   }
+
+  void selectName(String userName) {
+    state = state.copyWith(userName: userName);
+  }
+
+  void selectCountry(String country) {
+    state = state.copyWith(country: country);
+  }
 }
 
 final onboardingNotifierProvider =

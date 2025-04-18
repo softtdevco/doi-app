@@ -6,5 +6,5 @@ class DevEnv implements BaseEnv {
   DevEnv._internal();
   static final DevEnv _instance = DevEnv._internal();
   @override
-  String get baseUrl => '';
+  String get baseUrl => 'https://doi-apis.fly.dev';
 }

@@ -7,5 +7,5 @@ class StagingEnv implements BaseEnv {
   StagingEnv._internal();
   static final StagingEnv _instance = StagingEnv._internal();
   @override
-  String get baseUrl => 'https://userapi.RouteAigard.com/api/v1';
+  String get baseUrl => 'https://doi-apis.fly.dev';
 }

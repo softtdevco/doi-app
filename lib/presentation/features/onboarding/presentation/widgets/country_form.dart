@@ -35,7 +35,7 @@ class _CountryFormState extends State<CountryForm> {
         Text(
           context.l10n.whereAreYouFrom,
           style: context.textTheme.bodySmall?.copyWith(
-            fontSize: 22,
+            fontSize: 16.sp,
             color: AppColors.primaryColor,
           ),
         ),
@@ -69,23 +69,29 @@ class _CountryFormState extends State<CountryForm> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppSvgIcon(path: Assets.svgs.infocircle),
-                  12.horizontalSpace,
-                  Text(
-                    countryInput.isEmpty
-                        ? context.l10n.selectCountry
-                        : countryInput,
-                    style: context.textTheme.bodySmall!.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: countryInput.isEmpty
-                            ? AppColors.darkShadeOrange
-                            : AppColors.black),
-                  )
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppSvgIcon(path: Assets.svgs.infocircle),
+                    12.horizontalSpace,
+                    Expanded(
+                      child: Text(
+                        countryInput.isEmpty
+                            ? context.l10n.selectCountry
+                            : countryInput,
+                        style: context.textTheme.bodySmall!.copyWith(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                            color: countryInput.isEmpty
+                                ? AppColors.darkShadeOrange
+                                : AppColors.black),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
+                ),
               ),
               AppSvgIcon(path: Assets.svgs.dropdown),
             ],

@@ -1,7 +1,8 @@
 import 'package:doi_mobile/core/utils/enums.dart';
 
-class OnboardingState{
-  final String userName;
+class OnboardingState {
+  final String? userName;
+  final String? country;
   final LoadState loadState;
   final int authenicationIndex;
   final bool submitUsername;
@@ -9,25 +10,29 @@ class OnboardingState{
     required this.submitUsername,
     required this.authenicationIndex,
     required this.loadState,
-    required this.userName
+    this.userName,
+    this.country,
   });
-  factory OnboardingState.initial(){
+  factory OnboardingState.initial() {
     return OnboardingState(
-      authenicationIndex:0,
+      authenicationIndex: 0,
       submitUsername: false,
-     userName: '', loadState: LoadState.loading);
-
-  
+      loadState: LoadState.loading,
+    );
   }
   OnboardingState copyWith({
-    String?userName,
+    String? userName,
+    String? country,
     LoadState? loadState,
     int? authenicationIndex,
-    bool?submitUsername,
-  }){
+    bool? submitUsername,
+  }) {
     return OnboardingState(
-      loadState: loadState ?? this.loadState,
-      submitUsername: submitUsername?? this.submitUsername,
-     userName: userName?? this.userName, authenicationIndex: authenicationIndex?? this.authenicationIndex);
+        loadState: loadState ?? this.loadState,
+        submitUsername: submitUsername ?? this.submitUsername,
+        userName: userName ?? this.userName,
+        authenicationIndex: authenicationIndex ?? this.authenicationIndex,
+        country: country ?? this.country,
+        );
   }
 }

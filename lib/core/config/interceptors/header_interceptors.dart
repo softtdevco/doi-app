@@ -45,6 +45,10 @@ class HeaderInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
+    // if (err.response != null && err.response!.statusCode == 401) {
+    //   await _refreshToken(err, handler, dio, userRepository, ref);
+    //   return;
+    // }
     debugLog('[ERROR] ${err.requestOptions.uri}');
     debugLog('[ERROR] ${err.response}');
     handler.next(err);
@@ -63,3 +67,36 @@ class HeaderInterceptor extends Interceptor {
     return response;
   }
 }
+
+// Future<void> _refreshToken(DioException error, ErrorInterceptorHandler handler,
+//     Dio dio, UserRepository userRepository, Ref ref) async {
+//   final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+//   ref.read(onboardingNotifierProvider.notifier).loginDevice(
+//       deviceId: deviceId,
+//       onCompleted: () {
+//         handleError(handler, error, dio);
+//       },
+//       onError: (p0){
+
+//       }
+//       );
+// }
+
+// Future<void> handleError(
+//   ErrorInterceptorHandler handler,
+//   DioException err,
+//   Dio dio,
+// ) async {
+//   final opts = Options(
+//     method: err.requestOptions.method,
+//     headers: err.requestOptions.headers,
+//   );
+//   final cloneReq = await dio.request<Map<String, dynamic>?>(
+//     err.requestOptions.path,
+//     options: opts,
+//     data: err.requestOptions.data,
+//     queryParameters: err.requestOptions.queryParameters,
+//   );
+
+//   return handler.resolve(cloneReq);
+// }

@@ -29,7 +29,7 @@ Map<String, dynamic> _$MsgToJson(Msg instance) => <String, dynamic>{
     };
 
 DoiUser _$DoiUserFromJson(Map<String, dynamic> json) => DoiUser(
-      authToken: json['authToken'] as String,
+      authToken: json['authToken'] as String? ?? '',
       username: (json['username'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??

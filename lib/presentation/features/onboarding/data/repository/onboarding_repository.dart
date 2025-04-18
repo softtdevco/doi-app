@@ -4,8 +4,10 @@ import 'package:doi_mobile/core/extensions/object_extensions.dart';
 import 'package:doi_mobile/core/utils/type_defs.dart';
 import 'package:doi_mobile/data/client/rest_client.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/login_sync_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_response.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/signup_sync_request.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +26,7 @@ base class OnboardingRepository {
   ) async {
     try {
       final r = await _restClient.registerDevice(request);
-      await _userRepository.saveToken(r.msg.data.authToken);
+      await _userRepository.saveToken(r.msg.data.authToken ?? '');
       await _userRepository.updateUser(r.msg.data);
       return r.toBaseResponse(
         message: 'Device Registeration Successful',
@@ -44,6 +46,36 @@ base class OnboardingRepository {
 
       return r.toBaseResponse(
         message: 'Device Registeration Successful',
+        status: true,
+      );
+    } on DioException catch (e) {
+      return AppException.handleError(e);
+    }
+  }
+
+  Future<BaseResponse<LoginDeviceResponse>> syncSignup(
+      SignupSyncRequest request) async {
+    try {
+      final r = await _restClient.syncSignup(request);
+
+      return r.toBaseResponse(
+        message: r.msg.data,
+        status: true,
+      );
+    } on DioException catch (e) {
+      return AppException.handleError(e);
+    }
+  }
+
+  Future<BaseResponse<RegisterDeviceResponse>> syncLogin(
+    LoginSyncRequest request,
+  ) async {
+    try {
+      final r = await _restClient.syncLogin(request);
+      await _userRepository.saveToken(r.msg.data.authToken ?? '');
+      await _userRepository.updateUser(r.msg.data);
+      return r.toBaseResponse(
+        message: 'User account synced',
         status: true,
       );
     } on DioException catch (e) {

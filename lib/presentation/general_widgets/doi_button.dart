@@ -3,6 +3,7 @@ import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
+import 'package:doi_mobile/presentation/general_widgets/app_loader.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -146,7 +147,9 @@ class _DoiButton extends State<DoiButton> {
                   ],
                 )),
               if (widget.isLoading) ...[
-                const CircularProgressIndicator.adaptive()
+                const AppLoader(
+                  color: AppColors.white,
+                )
               ],
             ],
           ),

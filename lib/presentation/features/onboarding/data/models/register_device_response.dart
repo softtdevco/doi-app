@@ -33,7 +33,8 @@ class Msg {
 
 @JsonSerializable()
 class DoiUser {
-  final String authToken;
+  @JsonKey(defaultValue: '')
+  final String? authToken;
   @JsonKey(defaultValue: [])
   final List<String>? username;
   @JsonKey(defaultValue: '')
@@ -44,7 +45,7 @@ class DoiUser {
   final String? deviceId;
 
   const DoiUser({
-    required this.authToken,
+    this.authToken,
     this.username,
     this.country,
     this.avatar,

@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/core/utils/strings.dart';
@@ -10,6 +9,7 @@ class AppException implements Exception {
     T? data,
   }) {
     debugLog(e);
+
     if (e.response != null && DioExceptionType.badResponse == e.type) {
       if (e.response!.statusCode! >= 500) {
         return (
@@ -18,25 +18,35 @@ class AppException implements Exception {
           data: data,
         );
       }
-      if (e.response?.data is Map<String, dynamic>) {
-        debugLog(e.response?.data);
+
+      final responseData = e.response?.data;
+      debugLog(responseData);
+
+      if (responseData is Map<String, dynamic>) {
+        final msg = responseData['msg'];
+
+        String extractedMessage = Strings.genericErrorMessage;
+
+        if (msg is Map<String, dynamic> && msg['data'] is String) {
+          extractedMessage = msg['data'];
+        } else if (msg is String) {
+          extractedMessage = msg;
+        }
+
         return (
           status: false,
           data: data,
-          message: (e.response?.data as Map<String, dynamic>)['message'] is List
-              ? ((e.response?.data as Map<String, dynamic>)['message'] as List)
-                  .join(',')
-              : (e.response?.data as Map<String, dynamic>)['message'] ?? '',
+          message: extractedMessage,
         );
-      } else if (e.response?.data is String) {
-        debugLog(e.response?.data);
+      } else if (responseData is String) {
         return (
-          data: e.response?.data,
+          data: data,
           status: false,
-          message: e.response?.data as String,
+          message: responseData,
         );
       }
     }
+
     return (
       status: false,
       data: data,

@@ -36,11 +36,9 @@ class _CountryFormState extends ConsumerState<CountryForm> {
 
     final data = RegisterDeviceRequest(
       username: userName ?? '',
-      country: countryInput,
+      country: userCountry,
       avatar: 'blank',
       deviceId: deviceId,
-
-      //'Test unhpl',
     );
     ref.read(onboardingNotifierProvider.notifier).registerDevice(
         data: data,

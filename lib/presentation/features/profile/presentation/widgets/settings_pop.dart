@@ -8,6 +8,7 @@ import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication_page.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/how_to_play_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -111,8 +112,8 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
               onPressed: () {
                 context.pop();
                 context.showPopUp(
-                  size:context.height * 0.8,
-                  SingleChildScrollView(child: HowToPlayPop()));
+                    size: context.height * 0.8,
+                    SingleChildScrollView(child: HowToPlayPop()));
               },
             ),
             16.verticalSpace,
@@ -151,7 +152,13 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
               leading: Assets.svgs.union,
               buttonStyle: DoiButtonStyle.secondary(),
               text: context.l10n.syncProgress,
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+                context.showPopUp(
+                    horizontalPadding: 12,
+                    Authentication(),
+                    color: AppColors.white);
+              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

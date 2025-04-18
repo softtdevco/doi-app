@@ -74,6 +74,7 @@ class _SignPageState extends ConsumerState<SignPage> {
               keyboardType: TextInputType.emailAddress,
               validator: Validators.email(),
             ),
+            5.verticalSpace,
             TextFormField(
               decoration: InputDecoration().textfielddesign(
                 context,
@@ -83,6 +84,7 @@ class _SignPageState extends ConsumerState<SignPage> {
               controller: _passwordController,
               validator: Validators.password(),
             ),
+            5.verticalSpace,
             TextFormField(
               decoration: InputDecoration().textfielddesign(context,
                   hint: "Confirm Password",

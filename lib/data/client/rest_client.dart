@@ -6,6 +6,8 @@ import 'package:doi_mobile/core/config/env/staging_env.dart';
 import 'package:doi_mobile/core/config/interceptors/header_interceptors.dart';
 import 'package:doi_mobile/data/local_storage/storage_impl.dart';
 import 'package:doi_mobile/data/local_storage/storage_keys.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_sync_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
@@ -38,6 +40,12 @@ abstract class RestClient {
 
   @POST('/user/sync/login')
   Future<RegisterDeviceResponse> syncLogin(@Body() LoginSyncRequest request);
+
+  //<====================> Game Play <====================>
+  @POST('/host/multiplayer/createGame')
+  Future<CreateGameResponse> createGame(
+    @Body() CreateGameRequest request,
+  );
 }
 
 ////////////////////////////////////////////////////////////////

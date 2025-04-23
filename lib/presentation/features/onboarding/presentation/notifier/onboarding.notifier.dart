@@ -32,14 +32,14 @@ class OnboardingNotifier extends AutoDisposeNotifier<OnboardingState> {
   Future<void> registerDevice({
     required RegisterDeviceRequest data,
     required void Function(String) onError,
-    required void Function(String) onCompleted,
+    required void Function() onCompleted,
   }) async {
     state = state.copyWith(registerDeviceLoadstate: LoadState.loading);
     try {
       final response = await _onboardingRepository.registerDevice(data);
       if (!response.status) throw response.message;
       state = state.copyWith(registerDeviceLoadstate: LoadState.success);
-      onCompleted(response.message);
+      onCompleted();
     } catch (e) {
       state = state.copyWith(registerDeviceLoadstate: LoadState.error);
       onError(e.toString());

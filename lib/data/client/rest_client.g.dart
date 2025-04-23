@@ -36,7 +36,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          '/user/deviceID/registration',
+          '/auth/register-without-email',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -70,7 +70,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          '/user/deviceID/auth',
+          '/auth/login-without-email',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -172,7 +172,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          '/host/multiplayer/createGame',
+          '/game/create-session',
           queryParameters: queryParameters,
           data: _data,
         )

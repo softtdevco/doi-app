@@ -25,12 +25,12 @@ abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
   //<====================> Authentication <====================>
-  @POST('/user/deviceID/registration')
+  @POST('/auth/register-without-email')
   Future<RegisterDeviceResponse> registerDevice(
     @Body() RegisterDeviceRequest request,
   );
 
-  @POST('/user/deviceID/auth')
+  @POST('/auth/login-without-email')
   Future<LoginDeviceResponse> loginDevice(
     @Body() Map<String, dynamic> request,
   );
@@ -42,7 +42,7 @@ abstract class RestClient {
   Future<RegisterDeviceResponse> syncLogin(@Body() LoginSyncRequest request);
 
   //<====================> Game Play <====================>
-  @POST('/host/multiplayer/createGame')
+  @POST('/game/create-session')
   Future<CreateGameResponse> createGame(
     @Body() CreateGameRequest request,
   );

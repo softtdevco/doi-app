@@ -37,7 +37,7 @@ class _CountryFormState extends ConsumerState<CountryForm> {
     final data = RegisterDeviceRequest(
       username: userName ?? '',
       country: userCountry,
-      avatar: 'blank',
+      avatar: 'blank.svg',
       deviceId: deviceId,
     );
     ref.read(onboardingNotifierProvider.notifier).registerDevice(
@@ -48,10 +48,28 @@ class _CountryFormState extends ConsumerState<CountryForm> {
             message: p0,
           );
         },
-        onCompleted: (p0) {
+        onCompleted: () {
+          _loginDevice();
+        });
+  }
+
+  _loginDevice() async {
+    context.showLoading();
+
+    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+
+    ref.read(onboardingNotifierProvider.notifier).loginDevice(
+        deviceId: deviceId,
+        onError: (p0) {
+          context.hideOverLay();
+          context.showError(
+            message: p0,
+          );
+        },
+        onCompleted: () {
           context
             ..hideOverLay()
-            ..showSuccess(message: p0);
+            ..showSuccess(message: ' Device registered successfully');
           context.replaceAll(AppRouter.dashboard);
         });
   }

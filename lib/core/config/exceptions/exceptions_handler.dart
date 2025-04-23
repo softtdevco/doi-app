@@ -9,7 +9,6 @@ class AppException implements Exception {
     T? data,
   }) {
     debugLog(e);
-
     if (e.response != null && DioExceptionType.badResponse == e.type) {
       if (e.response!.statusCode! >= 500) {
         return (
@@ -18,35 +17,25 @@ class AppException implements Exception {
           data: data,
         );
       }
-
-      final responseData = e.response?.data;
-      debugLog(responseData);
-
-      if (responseData is Map<String, dynamic>) {
-        final msg = responseData['msg'];
-
-        String extractedMessage = Strings.genericErrorMessage;
-
-        if (msg is Map<String, dynamic> && msg['data'] is String) {
-          extractedMessage = msg['data'];
-        } else if (msg is String) {
-          extractedMessage = msg;
-        }
-
+      if (e.response?.data is Map<String, dynamic>) {
+        debugLog(e.response?.data);
         return (
           status: false,
           data: data,
-          message: extractedMessage,
+          message: (e.response?.data as Map<String, dynamic>)['message'] is List
+              ? ((e.response?.data as Map<String, dynamic>)['message'] as List)
+                  .join(',')
+              : (e.response?.data as Map<String, dynamic>)['message'] ?? '',
         );
-      } else if (responseData is String) {
+      } else if (e.response?.data is String) {
+        debugLog(e.response?.data);
         return (
-          data: data,
+          data: e.response?.data,
           status: false,
-          message: responseData,
+          message: e.response?.data as String,
         );
       }
     }
-
     return (
       status: false,
       data: data,

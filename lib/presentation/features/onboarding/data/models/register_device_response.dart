@@ -1,59 +1,26 @@
+import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'register_device_response.g.dart';
 
 @JsonSerializable()
 class RegisterDeviceResponse {
-  final String reqStatus;
-  final Msg msg;
+  final bool? success;
+  final String? message;
+  final int? code;
+  final String? returnStatus;
+  final DoiUser? data;
 
   const RegisterDeviceResponse({
-    required this.reqStatus,
-    required this.msg,
+    this.success,
+    this.message,
+    this.code,
+    this.returnStatus,
+    this.data,
   });
 
   factory RegisterDeviceResponse.fromJson(Map<String, dynamic> json) =>
       _$RegisterDeviceResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$RegisterDeviceResponseToJson(this);
-}
-
-@JsonSerializable()
-class Msg {
-  final DoiUser data;
-
-  const Msg({
-    required this.data,
-  });
-
-  factory Msg.fromJson(Map<String, dynamic> json) => _$MsgFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MsgToJson(this);
-}
-
-@JsonSerializable()
-class DoiUser {
-  @JsonKey(defaultValue: '')
-  final String? authToken;
-  @JsonKey(defaultValue: [])
-  final List<String>? username;
-  @JsonKey(defaultValue: '')
-  final String? country;
-  @JsonKey(defaultValue: '')
-  final String? avatar;
-  @JsonKey(name: 'deviceID', defaultValue: '')
-  final String? deviceId;
-
-  const DoiUser({
-    this.authToken,
-    this.username,
-    this.country,
-    this.avatar,
-    this.deviceId,
-  });
-
-  factory DoiUser.fromJson(Map<String, dynamic> json) =>
-      _$DoiUserFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DoiUserToJson(this);
 }

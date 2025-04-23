@@ -8,26 +8,51 @@ part of 'create_game_response.dart';
 
 CreateGameResponse _$CreateGameResponseFromJson(Map<String, dynamic> json) =>
     CreateGameResponse(
-      reqStatus: json['reqStatus'] as String?,
-      msg: json['msg'] == null
+      success: json['success'] as bool?,
+      message: json['message'] as String?,
+      code: (json['code'] as num?)?.toInt(),
+      returnStatus: json['returnStatus'] as String?,
+      data: json['data'] == null
           ? null
-          : Msg.fromJson(json['msg'] as Map<String, dynamic>),
+          : CreateGameResponseData.fromJson(
+              json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CreateGameResponseToJson(CreateGameResponse instance) =>
     <String, dynamic>{
-      'reqStatus': instance.reqStatus,
-      'msg': instance.msg,
+      'success': instance.success,
+      'message': instance.message,
+      'code': instance.code,
+      'returnStatus': instance.returnStatus,
+      'data': instance.data,
     };
 
-Msg _$MsgFromJson(Map<String, dynamic> json) => Msg(
+CreateGameResponseData _$CreateGameResponseDataFromJson(
+        Map<String, dynamic> json) =>
+    CreateGameResponseData(
+      ok: json['ok'] as bool?,
       data: json['data'] == null
           ? null
-          : JoinGameData.fromJson(json['data'] as Map<String, dynamic>),
+          : DataData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$MsgToJson(Msg instance) => <String, dynamic>{
+Map<String, dynamic> _$CreateGameResponseDataToJson(
+        CreateGameResponseData instance) =>
+    <String, dynamic>{
+      'ok': instance.ok,
       'data': instance.data,
+    };
+
+DataData _$DataDataFromJson(Map<String, dynamic> json) => DataData(
+      type: json['type'] as String?,
+      msg: json['msg'] == null
+          ? null
+          : JoinGameData.fromJson(json['msg'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DataDataToJson(DataData instance) => <String, dynamic>{
+      'type': instance.type,
+      'msg': instance.msg,
     };
 
 JoinGameData _$JoinGameDataFromJson(Map<String, dynamic> json) => JoinGameData(

@@ -4,7 +4,7 @@ import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/data/local_storage/storage.dart';
 import 'package:doi_mobile/data/local_storage/storage_impl.dart';
 import 'package:doi_mobile/data/local_storage/storage_keys.dart';
-import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_response.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

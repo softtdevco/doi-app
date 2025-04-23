@@ -1,5 +1,5 @@
 import 'package:doi_mobile/core/utils/enums.dart';
-import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_response.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 
 abstract interface class UserRepository {
   Language getLanguage();

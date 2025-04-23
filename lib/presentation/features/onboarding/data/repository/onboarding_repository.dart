@@ -26,8 +26,8 @@ base class OnboardingRepository {
   ) async {
     try {
       final r = await _restClient.registerDevice(request);
-      await _userRepository.saveToken(r.msg.data.authToken ?? '');
-      await _userRepository.updateUser(r.msg.data);
+
+      await _userRepository.updateUser(r.data!);
       return r.toBaseResponse(
         message: 'Device Registeration Successful',
         status: true,
@@ -42,8 +42,8 @@ base class OnboardingRepository {
   }) async {
     try {
       final r = await _restClient.loginDevice({"deviceID": deviceId});
-      await _userRepository.saveToken(r.msg.data);
-
+      await _userRepository.saveToken(r.data!.token ?? '');
+      await _userRepository.updateUser(r.data!.user!);
       return r.toBaseResponse(
         message: 'Device Registeration Successful',
         status: true,
@@ -59,7 +59,7 @@ base class OnboardingRepository {
       final r = await _restClient.syncSignup(request);
 
       return r.toBaseResponse(
-        message: r.msg.data,
+        message: r.message ?? '',
         status: true,
       );
     } on DioException catch (e) {
@@ -72,8 +72,8 @@ base class OnboardingRepository {
   ) async {
     try {
       final r = await _restClient.syncLogin(request);
-      await _userRepository.saveToken(r.msg.data.authToken ?? '');
-      await _userRepository.updateUser(r.msg.data);
+      // await _userRepository.saveToken(r.msg.data.authToken ?? '');
+      await _userRepository.updateUser(r.data!);
       return r.toBaseResponse(
         message: 'User account synced',
         status: true,

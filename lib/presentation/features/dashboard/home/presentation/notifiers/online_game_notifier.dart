@@ -33,7 +33,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       if (!response.status) throw response.message;
       state = state.copyWith(
         createGameLoadState: LoadState.success,
-        joinGameData: response.data?.msg?.data,
+        joinGameData: response.data?.data?.data?.msg,
       );
       onCompleted();
     } catch (e) {

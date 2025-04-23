@@ -10,6 +10,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_game.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_online.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/waiting_screen.dart';
+import 'package:doi_mobile/presentation/features/dashboard/store/presenation/pages/store.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/setup_profile_loggedin.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/welcome.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/pages/my_achievements.dart';
@@ -39,7 +40,8 @@ class AppRouter {
   static const String profile = '/profile';
   static const String myFriends = '/myFriends';
   static const String myAchievements = '/myAchievements';
-   static const String leaderBoard = '/leaderBoard';
+  static const String leaderBoard = '/leaderBoard';
+  static const String store = '/store';
 
   static final Map<String, Widget Function(BuildContext)> _routes = {
     welcome: (context) => Welcome(),
@@ -61,6 +63,7 @@ class AppRouter {
     myFriends: (context) => MyFriends(),
     myAchievements: (context) => MyAchievements(),
     leaderBoard: (context) => LeaderBoard(),
+    store: (context) => Store(),
   };
 
   static Map<String, Widget Function(BuildContext)> get routes => _routes;

@@ -41,4 +41,8 @@ class AppColors {
   static const Color winBorder = Color(0xFF709D15);
   static const Color disableLock = Color(0xFFD7A07D);
   static const Color deadPosition = Color(0xFF009B3A);
+  static const Color glassfill = Color(0xFFFFD7BD);
+   static const Color claimColor = Color(0xFFFF6A00);
+ 
+
 }

@@ -9,8 +9,9 @@ import 'package:doi_mobile/data/inapp_purchase/inapp_purchase_service.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/in_app_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/daily_rewards_sheet.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/home_appbar.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/power_up_tile.dart';
+import 'package:doi_mobile/presentation/features/dashboard/store/presenation/pages/widgets/power_up_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/start_game.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
@@ -54,7 +55,11 @@ class _HomeState extends ConsumerState<Home> {
   Widget build(BuildContext context) {
     return DoiScaffold(
       appbar: DoiHomeAppbar(),
-      bodyPadding: EdgeInsets.all(24),
+      bodyPadding: EdgeInsets.only(
+        top: 24,
+        left: 24,
+        right: 24,
+      ),
       body: Column(
         children: [
           24.verticalSpace,
@@ -62,9 +67,16 @@ class _HomeState extends ConsumerState<Home> {
             alignment: Alignment.topLeft,
             child: AppSvgIcon(path: Assets.svgs.calendarStar),
           ),
-          Assets.images.doi.image(
-            fit: BoxFit.cover,
-            width: 86.w,
+          GestureDetector(
+            onTap: () => context.showBottomSheet(
+              isDismissible: true,
+              color: AppColors.background,
+              child: DailyRewardsSheet(),
+            ),
+            child: Assets.images.doi.image(
+              fit: BoxFit.cover,
+              width: 86.w,
+            ),
           ),
           16.verticalSpace,
           Text(
@@ -112,7 +124,7 @@ class _HomeState extends ConsumerState<Home> {
               ],
             ),
           ),
-          89.verticalSpace,
+          69.verticalSpace,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -122,17 +134,20 @@ class _HomeState extends ConsumerState<Home> {
                   fontSize: 16.sp,
                 ),
               ),
-              Row(
-                children: [
-                  Text(
-                    context.l10n.store,
-                    style: context.textTheme.bodySmall?.copyWith(
-                      fontSize: 16.sp,
+              GestureDetector(
+                onTap: ()=> context.pushNamed(AppRouter.store),
+                child: Row(
+                  children: [
+                    Text(
+                      context.l10n.store,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        fontSize: 16.sp,
+                      ),
                     ),
-                  ),
-                  4.horizontalSpace,
-                  AppSvgIcon(path: Assets.svgs.store)
-                ],
+                    4.horizontalSpace,
+                    AppSvgIcon(path: Assets.svgs.store)
+                  ],
+                ),
               )
             ],
           ),

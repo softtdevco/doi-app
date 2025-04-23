@@ -65,6 +65,10 @@ class $AssetsImagesGen {
   AssetGenImage get cloudGaming =>
       const AssetGenImage('assets/images/cloud-gaming.png');
 
+  /// File path: assets/images/daily_reward.png
+  AssetGenImage get dailyReward =>
+      const AssetGenImage('assets/images/daily_reward.png');
+
   /// File path: assets/images/doi.png
   AssetGenImage get doi => const AssetGenImage('assets/images/doi.png');
 
@@ -130,6 +134,7 @@ class $AssetsImagesGen {
         brain,
         brazil,
         cloudGaming,
+        dailyReward,
         doi,
         listofavatar,
         loss,
@@ -229,6 +234,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/code_swap.svg
   String get codeSwap => 'assets/svgs/code_swap.svg';
+
+  /// File path: assets/svgs/coin_checked.svg
+  String get coinChecked => 'assets/svgs/coin_checked.svg';
 
   /// File path: assets/svgs/copy.svg
   String get copy => 'assets/svgs/copy.svg';
@@ -428,6 +436,7 @@ class $AssetsSvgsGen {
         close,
         cloudGaming,
         codeSwap,
+        coinChecked,
         copy,
         delete,
         dices,

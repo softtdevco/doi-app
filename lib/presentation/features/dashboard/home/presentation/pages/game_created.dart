@@ -9,7 +9,6 @@ import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/invite_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/new_game_with.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/scan_to_join.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
@@ -242,10 +241,7 @@ class _GameCreatedState extends State<GameCreated> {
         child: DoiButton(
           text: 'Start game',
           onPressed: () {
-            context.showBottomSheet(
-              color: AppColors.white,
-              child: NewGameWith(),
-            );
+            context.popAndPushNamed(AppRouter.waitingScreen);
           },
         ),
       ),

@@ -137,8 +137,8 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
                         _formKey.currentState?.save();
                         return;
                       }
-
-                      context.popAndPushNamed(AppRouter.waitingScreen);
+     context.popAndPushNamed(AppRouter.gameCreated);
+                  
                     }),
               )
             ],

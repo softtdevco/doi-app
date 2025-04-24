@@ -1,41 +1,56 @@
-
 import 'package:json_annotation/json_annotation.dart';
+
 part 'create_game_request.g.dart';
 
 @JsonSerializable()
 class CreateGameRequest {
-    final String jwtToken;
-    final GameDuration gameDuration;
-    final String playersCount;
-    final String gameType;
-    final String gameMode;
-    final String guessDigitCount;
+  @JsonKey(name: "userID")
+  final String userId;
+  final TournamentInfo tournamentInfo;
+  final GameDuration duration;
+  final int playersCount;
+  final String gameType;
+  final int guessDigitCount;
+  final String gameMode;
+  final String secretCode;
 
-    const CreateGameRequest({
-        required this.jwtToken,
-        required this.gameDuration,
-        required this.playersCount,
-        required this.gameType,
-        required this.gameMode,
-        required this.guessDigitCount,
-    });
+  CreateGameRequest({
+    required this.userId,
+    required this.tournamentInfo,
+    required this.duration,
+    required this.playersCount,
+    required this.gameType,
+    required this.guessDigitCount,
+    required this.gameMode,
+    required this.secretCode,
+  });
 
-    factory CreateGameRequest.fromJson(Map<String, dynamic> json) => _$CreateGameRequestFromJson(json);
+  factory CreateGameRequest.fromJson(Map<String, dynamic> json) =>
+     _$CreateGameRequestFromJson(json);
 
-    Map<String, dynamic> toJson() => _$CreateGameRequestToJson(this);
+  Map<String, dynamic> toJson() => _$CreateGameRequestToJson(this);
+}
+@JsonSerializable()
+class TournamentInfo {
+  TournamentInfo();
+
+  factory TournamentInfo.fromJson(Map<String, dynamic> json) =>_$TournamentInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TournamentInfoToJson(this);
 }
 
 @JsonSerializable()
 class GameDuration {
-    final int minute;
-    final int seconds;
+  final int minute;
+  final int seconds;
 
-    const GameDuration({
-        required this.minute,
-        required this.seconds,
-    });
+  const GameDuration({
+    required this.minute,
+    required this.seconds,
+  });
 
-    factory GameDuration.fromJson(Map<String, dynamic> json) => _$GameDurationFromJson(json);
+  factory GameDuration.fromJson(Map<String, dynamic> json) =>
+      _$GameDurationFromJson(json);
 
-    Map<String, dynamic> toJson() => _$GameDurationToJson(this);
+  Map<String, dynamic> toJson() => _$GameDurationToJson(this);
 }

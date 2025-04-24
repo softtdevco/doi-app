@@ -1,10 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="app.doi.game">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    
     <application
         android:label="${appName}"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -25,11 +28,35 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+				<!-- If utilizing $deeplink_path please explicitly declare your hosts, or utilize a wildcard(*) -->
+				<!-- REPLACE `android:scheme` with your Android URI scheme -->
+				<data android:scheme="crackein" android:host="open" />
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+			</intent-filter>
+            <!-- Branch App Links - Test App -->
+			<intent-filter android:autoVerify="true">
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="https" android:host="lgx9g.app.link"/>
+				<!-- REPLACE `android:host` with your `-alternate` domain (required for proper functioning of App Links and Deepviews) -->
+				<data android:scheme="https" android:host="lgx9g-alternate.app.link"/>
+			</intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Branch init -->
+		<!-- REPLACE `BranchKey` with the value from your Branch Dashboard -->
+		<meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_dDrjehvWbEIZuANr1ErGeajaADf9NSdy"/>
+		<!-- REPLACE `BranchKey.test` with the value from your Branch Dashboard -->
+		<meta-data android:name="io.branch.sdk.BranchKey.test" android:value="secret_live_hUWuJT1Kv9Uk04k2qnN7FfGn8I2d2zzu" />
+		<!-- Set to `true` to use `BranchKey.test` -->
+		<meta-data android:name="io.branch.sdk.TestMode" android:value="false" />    
     </application>
 </manifest>

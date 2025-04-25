@@ -51,7 +51,9 @@ class AppRouter {
     playGame: (context) => PlayGame(),
     result: (context) => Result(),
     decideOnlinePlay: (context) => DecideOnlinePlay(),
-    gameCreated: (context) => GameCreated(),
+    gameCreated: (context) => GameCreated(
+      inviteLink:  ModalRoute.of(context)!.settings.arguments as String,
+    ),
     home: (context) => Home(),
     waitingScreen: (context) => WaitingScreen(),
     addingFriend: (context) => AddingFriend(),

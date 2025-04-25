@@ -330,14 +330,14 @@ class Validators {
     return fourDigitsYear < now.year;
   }
 
-  static Validator code() {
+  static Validator code(int length) {
     return (String? value) {
       if (value == null || value.isEmpty) {
         return 'Please enter a code';
       }
 
-      if (value.length != 4) {
-        return 'Code must be 4 digits';
+      if (value.length != length) {
+        return 'Code must be ${length} digits';
       }
 
       if (!RegExp(r'^\d+$').hasMatch(value)) {

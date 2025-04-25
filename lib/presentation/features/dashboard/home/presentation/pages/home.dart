@@ -72,6 +72,8 @@ class _HomeState extends ConsumerState<Home> {
       child: GameInviteSheet(
         inviteCode: gameData['gameCode'] ?? '',
         invitee: gameData['inviteeName'] ?? '',
+        digitCount: int.parse(gameData['digitCount']),
+        playerCount: int.parse(gameData['playerCount']),
       ),
     );
     debugLog(gameData);

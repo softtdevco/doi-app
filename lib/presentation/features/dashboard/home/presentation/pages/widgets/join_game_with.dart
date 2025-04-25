@@ -4,114 +4,60 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
-import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/core/utils/validators.dart';
-import 'package:doi_mobile/data/third_party_services/branch_service.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
-import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NewGameWith extends ConsumerStatefulWidget {
-  const NewGameWith({
+class JoinGameWith extends ConsumerStatefulWidget {
+  const JoinGameWith({
     Key? key,
     this.isGroup = true,
     this.playerCount = 2,
     this.guessDigits = 4,
+    required this.hostName,
+    required this.inviteCode,
   }) : super(key: key);
 
   final bool isGroup;
-
+  final String hostName;
   final int playerCount;
   final int guessDigits;
-
+  final String inviteCode;
   @override
-  ConsumerState<NewGameWith> createState() => _NewGameWithState();
+  ConsumerState<JoinGameWith> createState() => _JoinGameWithState();
 }
 
-class _NewGameWithState extends ConsumerState<NewGameWith> {
+class _JoinGameWithState extends ConsumerState<JoinGameWith> {
   final TextEditingController _secretCodeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isEnabled = false;
-  String? _inviteLink;
-  bool isLoading = true;
-  _createGame() {
+
+  _joinGame() {
     context.showLoading();
-    final user = ref.watch(currentUserProvider);
-    final type = ref.watch(onlineGameNotifierProvider.select((v) => v.type));
-    final timerValue = ref.watch(homeNotifierProvider.select((v) => v.timer));
-    int totalSeconds = int.parse(timerValue) * 60;
-    int minutes = totalSeconds ~/ 60;
-    int seconds = totalSeconds % 60;
-    final data = CreateGameRequest(
-      userId: user.id ?? '',
-      tournamentInfo: TournamentInfo(),
-      gameMode: widget.isGroup ? 'gv1' : '1v1',
-      duration: GameDuration(
-        minute: minutes,
-        seconds: seconds,
-      ),
-      playersCount: widget.playerCount,
-      guessDigitCount: widget.guessDigits,
-      gameType: type,
-      secretCode: _secretCodeController.text.trim(),
-    );
-    ref.read(onlineGameNotifierProvider.notifier).createGame(
-        data: data,
+    ref.read(onlineGameNotifierProvider.notifier).joinGame(
+        secretCode: _secretCodeController.text.trim(),
+        joinCode: widget.inviteCode,
         onError: (p0) {
           context.hideOverLay();
           context.showError(
             message: p0,
           );
         },
-        onCompleted: (p0) {
-          _generateInviteLink(p0);
+        onCompleted: () {
           context.hideOverLay();
+          context.popAndPushNamed(AppRouter.waitingScreen);
         });
-  }
-
-  Future<void> _generateInviteLink(String code) async {
-    final user = ref.watch(currentUserProvider);
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      final link = await BranchLinkService().createGameInviteLink(
-        gameCode: code,
-        inviteeName: user.username ?? '',
-        digitCount: widget.guessDigits.toString(),
-        playerCount: widget.playerCount.toString(),
-      );
-
-      setState(() {
-        _inviteLink = link;
-        isLoading = false;
-      });
-      debugLog('link: $_inviteLink');
-      context.popAndPushNamed(
-        AppRouter.gameCreated,
-        arguments: _inviteLink,
-      );
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      debugLog('Failed to generate invite link');
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(currentUserProvider);
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 16, 32, 36),
       child: Form(
@@ -153,7 +99,7 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        (user.username ?? '').toUpperCase(),
+                        widget.hostName.toUpperCase(),
                         style: context.textTheme.bodyMedium?.copyWith(
                           color: AppColors.secondaryColor,
                           fontSize: 20.sp,
@@ -213,14 +159,14 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 22.w),
                 child: DoiButton(
-                    text: context.l10n.startGame,
+                    text: 'Join Game',
                     //isEnabled: isEnabled,
                     onPressed: () {
                       if (!isEnabled) {
                         _formKey.currentState?.save();
                         return;
                       }
-                      _createGame();
+                      _joinGame();
                     }),
               )
             ],

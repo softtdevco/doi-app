@@ -1,10 +1,11 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
-import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/join_game_with.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,11 +16,15 @@ class GameInviteSheet extends ConsumerStatefulWidget {
     Key? key,
     required this.inviteCode,
     required this.invitee,
+    required this.digitCount,
+    required this.playerCount,
   }) : super(
           key: key,
         );
   final String inviteCode;
   final String invitee;
+  final int digitCount;
+  final int playerCount;
   @override
   ConsumerState<GameInviteSheet> createState() => _GameInviteSheetState();
 }
@@ -76,7 +81,17 @@ class _GameInviteSheetState extends ConsumerState<GameInviteSheet> {
               child: DoiButton(
                   text: 'Accept & Join',
                   onPressed: () {
-                    context.popAndPushNamed(AppRouter.waitingScreen);
+                    context.pop();
+                    context.showBottomSheet(
+                      color: AppColors.white,
+                      child: JoinGameWith(
+                        isGroup: widget.playerCount > 2,
+                        playerCount: widget.playerCount,
+                        guessDigits: widget.digitCount,
+                        hostName: widget.invitee,
+                        inviteCode: widget.inviteCode,
+                      ),
+                    );
                   }),
             ),
             16.verticalSpace,

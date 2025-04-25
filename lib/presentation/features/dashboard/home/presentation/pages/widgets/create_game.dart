@@ -2,8 +2,6 @@ import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
-import 'package:doi_mobile/core/utils/logger.dart';
-import 'package:doi_mobile/data/third_party_services/branch_service.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
@@ -11,7 +9,6 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_counter.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/type_tile.dart';
-import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_checkbox.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -29,44 +26,15 @@ class CreateGame extends ConsumerStatefulWidget {
 class _CreateGameState extends ConsumerState<CreateGame> {
   bool moreThan2Checked = false;
   bool setTimer = false;
-  String? _inviteLink;
-  bool _isLoading = true;
+
   final List<String> mins = ['3', '5', '10'];
   int timerCount = 0;
-  int guessCount = 0;
+  int guessCount = 4;
   int playersCount = 2;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _generateInviteLink();
-    });
-  }
-
-  Future<void> _generateInviteLink() async {
-    final user = ref.watch(currentUserProvider);
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      final link = await BranchLinkService().createGameInviteLink(
-        gameCode: '234567yy',
-        inviteeName: user.username ?? '',
-      );
-
-      setState(() {
-        _inviteLink = link;
-        _isLoading = false;
-      });
-      debugLog('link: $_inviteLink');
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-      debugLog('Failed to generate invite link');
-    }
   }
 
   @override
@@ -191,14 +159,14 @@ class _CreateGameState extends ConsumerState<CreateGame> {
                     background: AppColors.indicator,
                     quantity: guessCount,
                     minus: () {
-                      if (guessCount > 1) {
+                      if (guessCount > 3) {
                         setState(() {
                           guessCount--;
                         });
                       }
                     },
                     add: () {
-                      if (guessCount < 90) {
+                      if (guessCount < 7) {
                         setState(() {
                           guessCount++;
                         });
@@ -297,7 +265,11 @@ class _CreateGameState extends ConsumerState<CreateGame> {
                     context.pop();
                     context.showBottomSheet(
                       color: AppColors.white,
-                      child: NewGameWith(),
+                      child: NewGameWith(
+                        isGroup: playersCount > 2,
+                        playerCount: playersCount,
+                        guessDigits: guessCount,
+                      ),
                     );
                   },
                 );

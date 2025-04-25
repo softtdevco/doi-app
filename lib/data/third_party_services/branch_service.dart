@@ -11,6 +11,8 @@ class BranchLinkService {
   Future<String> createGameInviteLink({
     required String gameCode,
     String? inviteeName,
+    String digitCount = '4',
+    String playerCount = '2',
   }) async {
     BranchUniversalObject buo = BranchUniversalObject(
       canonicalIdentifier: 'game/$gameCode',
@@ -33,7 +35,8 @@ class BranchLinkService {
     if (inviteeName != null) {
       lp.addControlParam('invitee_name', inviteeName);
     }
-
+    lp.addControlParam('digit_count', digitCount);
+    lp.addControlParam('player_count', playerCount);
     try {
       BranchResponse response = await FlutterBranchSdk.getShortUrl(
         buo: buo,
@@ -65,7 +68,12 @@ class BranchLinkService {
           if (data.containsKey("invitee_name")) {
             gameData["inviteeName"] = data["invitee_name"];
           }
-
+          if (data.containsKey("digit_count")) {
+            gameData["digitCount"] = data["digit_count"];
+          }
+          if (data.containsKey("player_count")) {
+            gameData["playerCount"] = data["player_count"];
+          }
           onLinkOpened(gameData);
         }
       }

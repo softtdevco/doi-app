@@ -23,7 +23,7 @@ class HeaderInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) {
     try {
-      final token = '';
+      final token = userRepository.getToken();
       if (token.isNotEmpty && !_authRoutes.contains(options.path)) {
         options.headers['Authorization'] = 'Bearer $token';
         debugLog('[TOKEN]$token');

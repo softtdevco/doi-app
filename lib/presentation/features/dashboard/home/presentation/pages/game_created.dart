@@ -1,5 +1,6 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
+import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
@@ -15,16 +16,27 @@ import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
 
 class GameCreated extends StatefulWidget {
-  const GameCreated({super.key});
-
+  const GameCreated({
+    super.key,
+    required this.inviteLink,
+  });
+  final String inviteLink;
   @override
   State<GameCreated> createState() => _GameCreatedState();
 }
 
 class _GameCreatedState extends State<GameCreated> {
+  void sharePost() {
+    SharePlus.instance.share(
+      ShareParams(text: widget.inviteLink),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
@@ -74,7 +86,7 @@ class _GameCreatedState extends State<GameCreated> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: sharePost,
                       child: Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 15),
@@ -103,7 +115,10 @@ class _GameCreatedState extends State<GameCreated> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () async => Clipboard.setData(
+                              ClipboardData(text: widget.inviteLink))
+                          .then((value) => context.showSuccess(
+                              message: 'Copied to clipboard	')),
                       child: Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 15),
@@ -131,7 +146,7 @@ class _GameCreatedState extends State<GameCreated> {
                       onTap: () => context.showPopUp(
                         color: Color(0xFFFFF5EF),
                         isDismissable: true,
-                        ScanToJoin(),
+                        ScanToJoin(inviteLink: widget.inviteLink),
                       ),
                       child: Container(
                         padding:

@@ -8,6 +8,7 @@ import 'package:doi_mobile/data/local_storage/storage_impl.dart';
 import 'package:doi_mobile/data/local_storage/storage_keys.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/join_game_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_sync_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
@@ -46,6 +47,15 @@ abstract class RestClient {
   Future<CreateGameResponse> createGame(
     @Body() CreateGameRequest request,
   );
+  @POST('/game/join-session/{joinCode}/{secretCode}')
+  Future<JoinGameResponse> joinGame({
+    @Path('joinCode') required String joinCode,
+    @Path('secretCode') required String secretCode,
+  });
+  @GET('/game/session/{joinCode}')
+  Future<JoinGameResponse> getGameSession({
+    @Path('joinCode') required String joinCode,
+  });
 }
 
 ////////////////////////////////////////////////////////////////

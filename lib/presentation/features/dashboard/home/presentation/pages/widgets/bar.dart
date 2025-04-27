@@ -10,6 +10,7 @@ class Bar extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
   final Color color;
+  final EdgeInsetsGeometry? padding;
 
   const Bar({
     super.key,
@@ -17,6 +18,7 @@ class Bar extends StatelessWidget {
     required this.text,
     this.onTap,
     this.color = AppColors.greenText,
+    this.padding,
   });
 
   @override
@@ -28,12 +30,13 @@ class Bar extends StatelessWidget {
         style: context.textTheme.bodySmall?.copyWith(
           fontSize: 14.sp,
           fontFamily: FontFamily.rimouski,
-          color: color,
+          color:isSelected ? color : color.withValues(alpha: 0.7),
         ),
         overflow: TextOverflow.ellipsis,
       ).withContainer(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+          padding:
+              padding ?? EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
           borderRadius: BorderRadius.circular(10.r),
           color: switch (isSelected) {
             true => AppColors.white,

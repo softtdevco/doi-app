@@ -7,9 +7,14 @@ import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class WaitingScreen extends StatelessWidget {
+class WaitingScreen extends StatefulWidget {
   const WaitingScreen({super.key});
 
+  @override
+  State<WaitingScreen> createState() => _WaitingScreenState();
+}
+
+class _WaitingScreenState extends State<WaitingScreen> {
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(

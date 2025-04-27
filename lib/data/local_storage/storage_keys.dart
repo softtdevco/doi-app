@@ -7,4 +7,7 @@ class HiveKeys {
   static const String recentScores = 'recent_scores';
   static const String maxCodeSwaps = 'max_code_swaps';
   static const String codeSwapsRemaining = 'code_swaps_remaining';
+  static const String token = 'token';
+  static const String user = 'user';
+  static const String refreshToken = 'refresh_token';
 }

@@ -1,10 +1,11 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
-import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/new_game_with.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_counter.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/type_tile.dart';
@@ -25,10 +26,17 @@ class CreateGame extends ConsumerStatefulWidget {
 class _CreateGameState extends ConsumerState<CreateGame> {
   bool moreThan2Checked = false;
   bool setTimer = false;
+
   final List<String> mins = ['3', '5', '10'];
   int timerCount = 0;
-  int guessCount = 0;
+  int guessCount = 4;
   int playersCount = 2;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(homeNotifierProvider.notifier);
@@ -151,14 +159,14 @@ class _CreateGameState extends ConsumerState<CreateGame> {
                     background: AppColors.indicator,
                     quantity: guessCount,
                     minus: () {
-                      if (guessCount > 1) {
+                      if (guessCount > 3) {
                         setState(() {
                           guessCount--;
                         });
                       }
                     },
                     add: () {
-                      if (guessCount < 90) {
+                      if (guessCount < 7) {
                         setState(() {
                           guessCount++;
                         });
@@ -254,7 +262,15 @@ class _CreateGameState extends ConsumerState<CreateGame> {
                 return DoiButton(
                   text: 'Create game',
                   onPressed: () {
-                    context.popAndPushNamed(AppRouter.gameCreated);
+                    context.pop();
+                    context.showBottomSheet(
+                      color: AppColors.white,
+                      child: NewGameWith(
+                        isGroup: playersCount > 2,
+                        playerCount: playersCount,
+                        guessDigits: guessCount,
+                      ),
+                    );
                   },
                 );
               }),

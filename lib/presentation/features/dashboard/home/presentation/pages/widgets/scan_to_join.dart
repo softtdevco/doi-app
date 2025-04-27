@@ -9,7 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ScanToJoin extends StatelessWidget {
-  const ScanToJoin({super.key});
+  const ScanToJoin({super.key, required this.inviteLink});
+  final String inviteLink;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class ScanToJoin extends StatelessWidget {
               ),
               width: 260.w,
               child: QrImageView(
-                data: 'http://join',
+                data: inviteLink,
                 version: QrVersions.auto,
                 eyeStyle: QrEyeStyle(
                   eyeShape: QrEyeShape.square,

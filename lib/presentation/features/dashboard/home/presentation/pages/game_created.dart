@@ -1,5 +1,6 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
+import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
@@ -9,23 +10,34 @@ import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/invite_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/new_game_with.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/scan_to_join.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
 
-class GameCreated extends StatefulWidget {
-  const GameCreated({super.key});
-
+class GameCreated extends ConsumerStatefulWidget {
+  const GameCreated({
+    super.key,
+    required this.arg,
+  });
+  final (String, String) arg;
   @override
-  State<GameCreated> createState() => _GameCreatedState();
+  ConsumerState<GameCreated> createState() => _GameCreatedState();
 }
 
-class _GameCreatedState extends State<GameCreated> {
+class _GameCreatedState extends ConsumerState<GameCreated> {
+  void sharePost() {
+    SharePlus.instance.share(
+      ShareParams(text: widget.arg.$1),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
@@ -75,7 +87,7 @@ class _GameCreatedState extends State<GameCreated> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: sharePost,
                       child: Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 15),
@@ -104,7 +116,10 @@ class _GameCreatedState extends State<GameCreated> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () async => Clipboard.setData(
+                              ClipboardData(text: widget.arg.$1))
+                          .then((value) => context.showSuccess(
+                              message: 'Copied to clipboard	')),
                       child: Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 15),
@@ -132,7 +147,7 @@ class _GameCreatedState extends State<GameCreated> {
                       onTap: () => context.showPopUp(
                         color: Color(0xFFFFF5EF),
                         isDismissable: true,
-                        ScanToJoin(),
+                        ScanToJoin(inviteLink: widget.arg.$1),
                       ),
                       child: Container(
                         padding:
@@ -242,10 +257,7 @@ class _GameCreatedState extends State<GameCreated> {
         child: DoiButton(
           text: 'Start game',
           onPressed: () {
-            context.showBottomSheet(
-              color: AppColors.white,
-              child: NewGameWith(),
-            );
+            context.popAndPushNamed(AppRouter.waitingScreen);
           },
         ),
       ),

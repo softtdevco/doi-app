@@ -224,5 +224,30 @@
     "@forfeitMatch": {
         "description": "Forfeit Match text"
     },
-    "arcade":"Arcade"
+    "arcade":"Arcade",
+    "friends": "Friends ({number})",
+  "@friends": {
+    "description": "friends text",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+     "pending": "Pending ({number})",
+  "@pending": {
+    "description": "pending text",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+"searchFriends":"Search friends",
+"play":"Play",
+"accept":"Accept",
+"remove":"Remove",
+"userProfile":"User profile",
+"dailyStreak":"Daily streak",   
+"matchesPlayed":"Matches Played" 
 }

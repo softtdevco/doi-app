@@ -17,23 +17,24 @@ import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_plus/share_plus.dart';
 
-class GameCreated extends StatefulWidget {
+class GameCreated extends ConsumerStatefulWidget {
   const GameCreated({
     super.key,
-    required this.inviteLink,
+    required this.arg,
   });
-  final String inviteLink;
+  final (String, String) arg;
   @override
-  State<GameCreated> createState() => _GameCreatedState();
+  ConsumerState<GameCreated> createState() => _GameCreatedState();
 }
 
-class _GameCreatedState extends State<GameCreated> {
+class _GameCreatedState extends ConsumerState<GameCreated> {
   void sharePost() {
     SharePlus.instance.share(
-      ShareParams(text: widget.inviteLink),
+      ShareParams(text: widget.arg.$1),
     );
   }
 
@@ -116,7 +117,7 @@ class _GameCreatedState extends State<GameCreated> {
                     ),
                     GestureDetector(
                       onTap: () async => Clipboard.setData(
-                              ClipboardData(text: widget.inviteLink))
+                              ClipboardData(text: widget.arg.$1))
                           .then((value) => context.showSuccess(
                               message: 'Copied to clipboard	')),
                       child: Container(
@@ -146,7 +147,7 @@ class _GameCreatedState extends State<GameCreated> {
                       onTap: () => context.showPopUp(
                         color: Color(0xFFFFF5EF),
                         isDismissable: true,
-                        ScanToJoin(inviteLink: widget.inviteLink),
+                        ScanToJoin(inviteLink: widget.arg.$1),
                       ),
                       child: Container(
                         padding:

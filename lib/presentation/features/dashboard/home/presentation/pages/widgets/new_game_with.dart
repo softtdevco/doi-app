@@ -99,7 +99,7 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
       debugLog('link: $_inviteLink');
       context.popAndPushNamed(
         AppRouter.gameCreated,
-        arguments: _inviteLink,
+        arguments: (_inviteLink, widget.playerCount),
       );
     } catch (e) {
       setState(() {

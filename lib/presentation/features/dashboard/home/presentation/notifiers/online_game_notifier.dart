@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
@@ -12,7 +14,40 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   @override
   build() {
     _onlineGameRepository = ref.read(onlineGameRepositoryProvider);
+    ref.onDispose(() {
+      stopPolling();
+    });
     return OnlineGameState.initial();
+  }
+
+  Timer? _pollingTimer;
+
+  void startPolling({
+    required String joinCode,
+    required int expectedPlayerCount,
+    final Function()? onAllPlayersJoined,
+  }) {
+    state = state.copyWith(
+      expectedPlayerCount: expectedPlayerCount,
+      joinCode: joinCode,
+    );
+
+    getGameSession(
+      joinCode: joinCode,
+      onAllPlayersJoined: onAllPlayersJoined,
+    );
+
+    _pollingTimer = Timer.periodic(Duration(seconds: 3), (_) {
+      getGameSession(
+        joinCode: joinCode,
+        onAllPlayersJoined: onAllPlayersJoined,
+      );
+    });
+  }
+
+  void stopPolling() {
+    _pollingTimer?.cancel();
+    _pollingTimer = null;
   }
 
   void updateType(String type) {
@@ -69,6 +104,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
 
   Future<void> getGameSession({
     required String joinCode,
+    final Function()? onAllPlayersJoined,
   }) async {
     state = state.copyWith(gameSessionLoadState: LoadState.loading);
     try {
@@ -80,6 +116,14 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
         gameSessionLoadState: LoadState.success,
         gameSessionData: response.data?.data,
       );
+
+      if (response.data?.data?.players != null &&
+          response.data!.data!.players!.length >= state.expectedPlayerCount) {
+        stopPolling();
+        if (onAllPlayersJoined != null) {
+          onAllPlayersJoined();
+        }
+      }
     } catch (e) {
       state = state.copyWith(gameSessionLoadState: LoadState.error);
       debugLog(e.toString());

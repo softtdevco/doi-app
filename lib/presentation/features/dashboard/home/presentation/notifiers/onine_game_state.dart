@@ -11,6 +11,8 @@ class OnlineGameState {
   final GameSessionData? gameSessionData;
   final LoadState joinGameLoadState;
   final LoadState gameSessionLoadState;
+  final int expectedPlayerCount;
+  final String? joinCode;
   OnlineGameState({
     required this.loadState,
     required this.type,
@@ -20,6 +22,8 @@ class OnlineGameState {
     this.gameSessionData,
     required this.joinGameLoadState,
     required this.gameSessionLoadState,
+    required this.expectedPlayerCount,
+    this.joinCode,
   });
 
   factory OnlineGameState.initial() {
@@ -30,6 +34,7 @@ class OnlineGameState {
       createGameLoadState: LoadState.idle,
       joinGameLoadState: LoadState.idle,
       gameSessionLoadState: LoadState.idle,
+      expectedPlayerCount: 0,
     );
   }
 
@@ -42,6 +47,8 @@ class OnlineGameState {
     GameSessionData? gameSessionData,
     LoadState? joinGameLoadState,
     LoadState? gameSessionLoadState,
+    int? expectedPlayerCount,
+    String? joinCode,
   }) {
     return OnlineGameState(
       loadState: loadState ?? this.loadState,
@@ -52,6 +59,8 @@ class OnlineGameState {
       gameSessionData: gameSessionData ?? this.gameSessionData,
       joinGameLoadState: joinGameLoadState ?? this.joinGameLoadState,
       gameSessionLoadState: gameSessionLoadState ?? this.gameSessionLoadState,
+      expectedPlayerCount: expectedPlayerCount ?? this.expectedPlayerCount,
+      joinCode: joinCode ?? this.joinCode,
     );
   }
 }

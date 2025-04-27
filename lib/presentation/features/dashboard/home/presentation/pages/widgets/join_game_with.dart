@@ -7,7 +7,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/validators.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';

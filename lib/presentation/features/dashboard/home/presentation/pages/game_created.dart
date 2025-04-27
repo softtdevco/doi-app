@@ -26,7 +26,7 @@ class GameCreated extends ConsumerStatefulWidget {
     super.key,
     required this.arg,
   });
-  final (String, String) arg;
+  final (String, int, String) arg;
   @override
   ConsumerState<GameCreated> createState() => _GameCreatedState();
 }
@@ -116,10 +116,10 @@ class _GameCreatedState extends ConsumerState<GameCreated> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () async => Clipboard.setData(
-                              ClipboardData(text: widget.arg.$1))
-                          .then((value) => context.showSuccess(
-                              message: 'Copied to clipboard	')),
+                      onTap: () async =>
+                          Clipboard.setData(ClipboardData(text: widget.arg.$1))
+                              .then((value) => context.showSuccess(
+                                  message: 'Copied to clipboard	')),
                       child: Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 15),
@@ -257,7 +257,10 @@ class _GameCreatedState extends ConsumerState<GameCreated> {
         child: DoiButton(
           text: 'Start game',
           onPressed: () {
-            context.popAndPushNamed(AppRouter.waitingScreen);
+            context.popAndPushNamed(AppRouter.waitingScreen, arguments: (
+              widget.arg.$2,
+              widget.arg.$3,
+            ));
           },
         ),
       ),

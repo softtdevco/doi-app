@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/online_game_repository.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/onine_game_state.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/repository/online_game_repository.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/onine_game_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OnlineGameNotifier extends Notifier<OnlineGameState> {

@@ -15,6 +15,7 @@ class GameKeyboard extends ConsumerStatefulWidget {
   final VoidCallback onSubmitPressed;
   final bool canSubmit;
   final bool aiPlaybackEnabled;
+  final bool isOnline;
 
   const GameKeyboard({
     Key? key,
@@ -23,6 +24,7 @@ class GameKeyboard extends ConsumerStatefulWidget {
     required this.onSubmitPressed,
     required this.canSubmit,
     required this.aiPlaybackEnabled,
+    this.isOnline = false,
   }) : super(key: key);
 
   @override
@@ -56,12 +58,20 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
                           AppColors.green, () {}, Assets.svgs.alarm, 0),
                     ],
                   ),
-                _buildColorButton(AppColors.primaryColor, () {
-                  ref.read(gameNotifierProvider.notifier).swapPlayerCode(
-                      onCodeChange: () {
-                    context.showSuccess(message: 'CODE SWAPPED SUCCESFULLY');
-                  });
-                }, Assets.svgs.dices, swapsRemaining),
+                _buildColorButton(
+                    AppColors.primaryColor,
+                    widget.isOnline
+                        ? () {}
+                        : () {
+                            ref
+                                .read(gameNotifierProvider.notifier)
+                                .swapPlayerCode(onCodeChange: () {
+                              context.showSuccess(
+                                  message: 'CODE SWAPPED SUCCESFULLY');
+                            });
+                          },
+                    Assets.svgs.dices,
+                    swapsRemaining),
                 GestureDetector(
                   onTap: () {
                     // setState(() {

@@ -1,6 +1,6 @@
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/data/model/join_game_response.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
 
 class OnlineGameState {
   final LoadState loadState;

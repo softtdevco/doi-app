@@ -11,7 +11,7 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
@@ -99,7 +99,11 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
       debugLog('link: $_inviteLink');
       context.popAndPushNamed(
         AppRouter.gameCreated,
-        arguments: (_inviteLink, widget.playerCount),
+        arguments: (
+          _inviteLink,
+          widget.playerCount,
+          code,
+        ),
       );
     } catch (e) {
       setState(() {

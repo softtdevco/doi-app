@@ -112,9 +112,10 @@ class Validators {
       if (value!.isEmpty) {
         return 'Field cannot be empty.';
       }
-      if (!value.contains(' ')) {
-        return 'Seperate names with spaces';
+      if (value.length < 2) {
+        return 'Name must be at least 2 characters';
       }
+
       return null;
     };
   }
@@ -329,14 +330,14 @@ class Validators {
     return fourDigitsYear < now.year;
   }
 
-  static Validator code() {
+  static Validator code(int length) {
     return (String? value) {
       if (value == null || value.isEmpty) {
         return 'Please enter a code';
       }
 
-      if (value.length != 4) {
-        return 'Code must be 4 digits';
+      if (value.length != length) {
+        return 'Code must be ${length} digits';
       }
 
       if (!RegExp(r'^\d+$').hasMatch(value)) {

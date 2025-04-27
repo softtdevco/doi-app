@@ -1,32 +1,88 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:doi_mobile/core/extensions/input.design.extension.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
+import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/data/third_party_services/device_info_service.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
+import 'package:doi_mobile/presentation/features/onboarding/presentation/notifier/onboarding.notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CountryForm extends StatefulWidget {
+class CountryForm extends ConsumerStatefulWidget {
   const CountryForm({super.key});
 
   @override
-  State<CountryForm> createState() => _CountryFormState();
+  ConsumerState<CountryForm> createState() => _CountryFormState();
 }
 
-class _CountryFormState extends State<CountryForm> {
+class _CountryFormState extends ConsumerState<CountryForm> {
   String countryInput = '';
+  String userCountry = '';
+
+  _registerDevice() async {
+    context.showLoading();
+    final userName =
+        ref.watch(onboardingNotifierProvider.select((v) => v.userName));
+    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+
+    final data = RegisterDeviceRequest(
+      username: userName ?? '',
+      country: userCountry,
+      avatar: 'blank.svg',
+      deviceId: deviceId,
+    );
+    ref.read(onboardingNotifierProvider.notifier).registerDevice(
+        data: data,
+        onError: (p0) {
+          context.hideOverLay();
+          context.showError(
+            message: p0,
+          );
+        },
+        onCompleted: () {
+          _loginDevice();
+        });
+  }
+
+  _loginDevice() async {
+    context.showLoading();
+
+    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+
+    ref.read(onboardingNotifierProvider.notifier).loginDevice(
+        deviceId: deviceId,
+        onError: (p0) {
+          context.hideOverLay();
+          context.showError(
+            message: p0,
+          );
+        },
+        onCompleted: () {
+          context
+            ..hideOverLay()
+            ..showSuccess(message: ' Device registered successfully');
+          context.replaceAll(AppRouter.dashboard);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final userName =
+        ref.watch(onboardingNotifierProvider.select((v) => v.userName));
+
     return Column(
       children: [
         Text(
-          context.l10n.hey + ' Alex!',
+          '${context.l10n.hey} ${(userName ?? '')}',
           style: context.textTheme.bodySmall?.copyWith(
             fontSize: 22,
           ),
@@ -35,7 +91,7 @@ class _CountryFormState extends State<CountryForm> {
         Text(
           context.l10n.whereAreYouFrom,
           style: context.textTheme.bodySmall?.copyWith(
-            fontSize: 22,
+            fontSize: 16.sp,
             color: AppColors.primaryColor,
           ),
         ),
@@ -47,6 +103,7 @@ class _CountryFormState extends State<CountryForm> {
               showPhoneCode: false,
               onSelect: (Country country) {
                 setState(() {
+                  userCountry = country.name;
                   countryInput =
                       "${country.flagEmoji} ${country.displayNameNoCountryCode}";
                 });
@@ -59,33 +116,41 @@ class _CountryFormState extends State<CountryForm> {
                   fontSize: 10.sp,
                   color: AppColors.black,
                 ),
-                inputDecoration: InputDecoration().textfielddesign(context,
-                    isOutline: true,
-                    borderRadius: BorderRadius.circular(2.r),
-                    hint: 'Search for country'),
+                inputDecoration: InputDecoration().textfielddesign(
+                  context,
+                  isOutline: true,
+                  borderRadius: BorderRadius.circular(2.r),
+                  hint: 'Search for country',
+                ),
               ),
             );
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppSvgIcon(path: Assets.svgs.infocircle),
-                  12.horizontalSpace,
-                  Text(
-                    countryInput.isEmpty
-                        ? context.l10n.selectCountry
-                        : countryInput,
-                    style: context.textTheme.bodySmall!.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: countryInput.isEmpty
-                            ? AppColors.darkShadeOrange
-                            : AppColors.black),
-                  )
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppSvgIcon(path: Assets.svgs.infocircle),
+                    12.horizontalSpace,
+                    Expanded(
+                      child: Text(
+                        countryInput.isEmpty
+                            ? context.l10n.selectCountry
+                            : countryInput,
+                        style: context.textTheme.bodySmall!.copyWith(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                            color: countryInput.isEmpty
+                                ? AppColors.darkShadeOrange
+                                : AppColors.black),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
+                ),
               ),
               AppSvgIcon(path: Assets.svgs.dropdown),
             ],
@@ -101,7 +166,13 @@ class _CountryFormState extends State<CountryForm> {
             width: 197,
             height: 48,
             text: context.l10n.letgo,
-            onPressed: () => {context.replaceAll(AppRouter.dashboard)}),
+            onPressed: () {
+              if (countryInput.isEmpty) {
+                return;
+              }
+
+              _registerDevice();
+            }),
         44.verticalSpace,
       ],
     );

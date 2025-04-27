@@ -4,6 +4,7 @@ import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/validators.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/notifier/onboarding.notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';
@@ -26,38 +27,28 @@ class _UserNameFormState extends ConsumerState<UserNameForm> {
     final notifier = ref.read(onboardingNotifierProvider.notifier);
     return Form(
       key: _formKey,
+      onChanged: () {
+        setState(() {
+          isEnabled = _formKey.currentState!.validate();
+        });
+      },
       child: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: TextFormField(
-                onChanged: (c) {
-                  setState(() {
-                    isEnabled = _formKey.currentState!.validate();
-                  });
-                },
+              child: MinFormField(
+                width: double.infinity,
+                hintText: context.l10n.enterYourName,
+                keyboardType: TextInputType.name,
                 controller: _userNameController,
-                validator: Validators.name(),
-                textAlign: TextAlign.center,
-                style: context.textTheme.bodySmall!.copyWith(
-                    fontSize: 20.sp, color: AppColors.darkShadeOrange),
-                decoration: InputDecoration(
-                  filled: true,
-                  hintText: context.l10n.enterYourName,
-                  hintStyle: context.textTheme.bodySmall!
-                      .copyWith(fontSize: 20.sp, color: AppColors.orangeFade),
-                  fillColor: AppColors.textFieldBg,
-                  errorStyle: const TextStyle(
-                    color: AppColors.red,
-                    fontSize: 12,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: AppColors.darkShadeOrange,
-                      width: 2,
-                    ),
-                  ),
+                validateFunction: Validators.name(),
+                cursorColor: AppColors.secondaryColor,
+                backgroundColor: AppColors.textFieldBg,
+                bordercolor: AppColors.secondaryColor,
+                hintStyle: context.textTheme.bodySmall!.copyWith(
+                  fontSize: 20.sp,
+                  color: AppColors.secondaryColor.withValues(alpha: 0.5),
                 ),
               ),
             ),
@@ -67,9 +58,12 @@ class _UserNameFormState extends ConsumerState<UserNameForm> {
                 height: 48,
                 text: context.l10n.continues,
                 onPressed: () {
-                  if (isEnabled) {
-                    notifier.selectAuthenicationIndex(2);
+                  if (!isEnabled) {
+                    _formKey.currentState?.save();
+                    return;
                   }
+                  notifier.selectName(_userNameController.text);
+                  notifier.selectAuthenicationIndex(2);
                 }),
           ],
         ).withContainer(

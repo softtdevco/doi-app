@@ -166,7 +166,7 @@ class _NewGameAiState extends ConsumerState<NewGameAi> {
                   hintText: '1234',
                   keyboardType: TextInputType.number,
                   controller: _secretCodeController,
-                  validateFunction: Validators.code(),
+                  validateFunction: Validators.code(4),
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(4),
                   ],

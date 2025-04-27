@@ -21,12 +21,20 @@ class $AssetsImagesGen {
   /// File path: assets/images/3.png
   AssetGenImage get a3 => const AssetGenImage('assets/images/3.png');
 
+  /// File path: assets/images/BADGE-BG.png
+  AssetGenImage get badgeBg =>
+      const AssetGenImage('assets/images/BADGE-BG.png');
+
   /// File path: assets/images/Mobile Leaderboard.png
   AssetGenImage get mobileLeaderboard =>
       const AssetGenImage('assets/images/Mobile Leaderboard.png');
 
   /// File path: assets/images/Pattern.png
   AssetGenImage get pattern => const AssetGenImage('assets/images/Pattern.png');
+
+  /// File path: assets/images/Winner green.png
+  AssetGenImage get winnerGreen =>
+      const AssetGenImage('assets/images/Winner green.png');
 
   /// File path: assets/images/avatae4.png
   AssetGenImage get avatae4 => const AssetGenImage('assets/images/avatae4.png');
@@ -43,6 +51,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/avatar4.png
   AssetGenImage get avatar4 => const AssetGenImage('assets/images/avatar4.png');
 
+  /// File path: assets/images/badge-lock.png
+  AssetGenImage get badgeLock =>
+      const AssetGenImage('assets/images/badge-lock.png');
+
   /// File path: assets/images/brain.png
   AssetGenImage get brain => const AssetGenImage('assets/images/brain.png');
 
@@ -52,6 +64,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/cloud-gaming.png
   AssetGenImage get cloudGaming =>
       const AssetGenImage('assets/images/cloud-gaming.png');
+
+  /// File path: assets/images/daily_reward.png
+  AssetGenImage get dailyReward =>
+      const AssetGenImage('assets/images/daily_reward.png');
 
   /// File path: assets/images/doi.png
   AssetGenImage get doi => const AssetGenImage('assets/images/doi.png');
@@ -70,9 +86,26 @@ class $AssetsImagesGen {
   /// File path: assets/images/opponet.png
   AssetGenImage get opponet => const AssetGenImage('assets/images/opponet.png');
 
+  /// File path: assets/images/speed_crackdown.png
+  AssetGenImage get speedCrackdown =>
+      const AssetGenImage('assets/images/speed_crackdown.png');
+
   /// File path: assets/images/target_point.png
   AssetGenImage get targetPoint =>
       const AssetGenImage('assets/images/target_point.png');
+
+  /// File path: assets/images/tournament.png
+  AssetGenImage get tournament =>
+      const AssetGenImage('assets/images/tournament.png');
+
+  /// File path: assets/images/trophy1.png
+  AssetGenImage get trophy1 => const AssetGenImage('assets/images/trophy1.png');
+
+  /// File path: assets/images/trophy2.png
+  AssetGenImage get trophy2 => const AssetGenImage('assets/images/trophy2.png');
+
+  /// File path: assets/images/trophy3.png
+  AssetGenImage get trophy3 => const AssetGenImage('assets/images/trophy3.png');
 
   /// File path: assets/images/user1.png
   AssetGenImage get user1 => const AssetGenImage('assets/images/user1.png');
@@ -80,29 +113,42 @@ class $AssetsImagesGen {
   /// File path: assets/images/win.png
   AssetGenImage get win => const AssetGenImage('assets/images/win.png');
 
+  /// File path: assets/images/winner.png
+  AssetGenImage get winner => const AssetGenImage('assets/images/winner.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         a1,
         a2,
         a3,
+        badgeBg,
         mobileLeaderboard,
         pattern,
+        winnerGreen,
         avatae4,
         avatar1,
         avatar2,
         avatar3,
         avatar4,
+        badgeLock,
         brain,
         brazil,
         cloudGaming,
+        dailyReward,
         doi,
         listofavatar,
         loss,
         multiple,
         opponet,
+        speedCrackdown,
         targetPoint,
+        tournament,
+        trophy1,
+        trophy2,
+        trophy3,
         user1,
-        win
+        win,
+        winner
       ];
 }
 
@@ -140,6 +186,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/add_circle.svg
   String get addCircle => 'assets/svgs/add_circle.svg';
 
+  /// File path: assets/svgs/add_user.svg
+  String get addUser => 'assets/svgs/add_user.svg';
+
   /// File path: assets/svgs/ai.svg
   String get ai => 'assets/svgs/ai.svg';
 
@@ -170,14 +219,24 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/circle-check.svg
   String get circleCheck => 'assets/svgs/circle-check.svg';
 
+  /// File path: assets/svgs/circle-clock--clock-loading-measure-time-circle.svg
+  String get circleClockClockLoadingMeasureTimeCircle =>
+      'assets/svgs/circle-clock--clock-loading-measure-time-circle.svg';
+
   /// File path: assets/svgs/circle-clock.svg
   String get circleClock => 'assets/svgs/circle-clock.svg';
 
   /// File path: assets/svgs/close.svg
   String get close => 'assets/svgs/close.svg';
 
+  /// File path: assets/svgs/cloud-gaming.svg
+  String get cloudGaming => 'assets/svgs/cloud-gaming.svg';
+
   /// File path: assets/svgs/code_swap.svg
   String get codeSwap => 'assets/svgs/code_swap.svg';
+
+  /// File path: assets/svgs/coin_checked.svg
+  String get coinChecked => 'assets/svgs/coin_checked.svg';
 
   /// File path: assets/svgs/copy.svg
   String get copy => 'assets/svgs/copy.svg';
@@ -194,11 +253,17 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/dropdown.svg
   String get dropdown => 'assets/svgs/dropdown.svg';
 
+  /// File path: assets/svgs/fb.svg
+  String get fb => 'assets/svgs/fb.svg';
+
   /// File path: assets/svgs/freeze_time.svg
   String get freezeTime => 'assets/svgs/freeze_time.svg';
 
   /// File path: assets/svgs/friends.svg
   String get friends => 'assets/svgs/friends.svg';
+
+  /// File path: assets/svgs/gameboy.svg
+  String get gameboy => 'assets/svgs/gameboy.svg';
 
   /// File path: assets/svgs/google-logo.svg
   String get googleLogo => 'assets/svgs/google-logo.svg';
@@ -224,6 +289,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/infocircle.svg
   String get infocircle => 'assets/svgs/infocircle.svg';
 
+  /// File path: assets/svgs/insta.svg
+  String get insta => 'assets/svgs/insta.svg';
+
   /// File path: assets/svgs/keyboard.svg
   String get keyboard => 'assets/svgs/keyboard.svg';
 
@@ -239,6 +307,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/link.svg
   String get link => 'assets/svgs/link.svg';
 
+  /// File path: assets/svgs/man-woman.svg
+  String get manWoman => 'assets/svgs/man-woman.svg';
+
   /// File path: assets/svgs/map-connect.svg
   String get mapConnect => 'assets/svgs/map-connect.svg';
 
@@ -253,6 +324,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/music.svg
   String get music => 'assets/svgs/music.svg';
+
+  /// File path: assets/svgs/no-sound.svg
+  String get noSound => 'assets/svgs/no-sound.svg';
 
   /// File path: assets/svgs/pause.svg
   String get pause => 'assets/svgs/pause.svg';
@@ -287,6 +361,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/skull.svg
   String get skull => 'assets/svgs/skull.svg';
 
+  /// File path: assets/svgs/snooze.svg
+  String get snooze => 'assets/svgs/snooze.svg';
+
   /// File path: assets/svgs/speed.svg
   String get speed => 'assets/svgs/speed.svg';
 
@@ -301,6 +378,18 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/tournaments.svg
   String get tournaments => 'assets/svgs/tournaments.svg';
+
+  /// File path: assets/svgs/trophy--reward.svg
+  String get trophyReward => 'assets/svgs/trophy--reward.svg';
+
+  /// File path: assets/svgs/trophy1.svg
+  String get trophy1 => 'assets/svgs/trophy1.svg';
+
+  /// File path: assets/svgs/trophy2.svg
+  String get trophy2 => 'assets/svgs/trophy2.svg';
+
+  /// File path: assets/svgs/trophy3.svg
+  String get trophy3 => 'assets/svgs/trophy3.svg';
 
   /// File path: assets/svgs/unchecked.svg
   String get unchecked => 'assets/svgs/unchecked.svg';
@@ -317,6 +406,9 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/welcome.svg
   String get welcome => 'assets/svgs/welcome.svg';
 
+  /// File path: assets/svgs/x.svg
+  String get x => 'assets/svgs/x.svg';
+
   /// File path: assets/svgs/x_logo.svg
   String get xLogo => 'assets/svgs/x_logo.svg';
 
@@ -328,6 +420,7 @@ class $AssetsSvgsGen {
         union,
         add,
         addCircle,
+        addUser,
         ai,
         alarm,
         arrowDown,
@@ -338,16 +431,21 @@ class $AssetsSvgsGen {
         calendarStar,
         checkSquare,
         circleCheck,
+        circleClockClockLoadingMeasureTimeCircle,
         circleClock,
         close,
+        cloudGaming,
         codeSwap,
+        coinChecked,
         copy,
         delete,
         dices,
         doi,
         dropdown,
+        fb,
         freezeTime,
         friends,
+        gameboy,
         googleLogo,
         greenChecked,
         headphone,
@@ -356,16 +454,19 @@ class $AssetsSvgsGen {
         home2,
         info,
         infocircle,
+        insta,
         keyboard,
         leader,
         left,
         lightbulb,
         link,
+        manWoman,
         mapConnect,
         mark,
         message,
         mindBender,
         music,
+        noSound,
         pause,
         qrCode,
         question,
@@ -377,16 +478,22 @@ class $AssetsSvgsGen {
         settings2,
         singlePlayer,
         skull,
+        snooze,
         speed,
         store,
         streak,
         target,
         tournaments,
+        trophyReward,
+        trophy1,
+        trophy2,
+        trophy3,
         unchecked,
         wallet,
         wand,
         warning,
         welcome,
+        x,
         xLogo
       ];
 }

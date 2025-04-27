@@ -1,12 +1,19 @@
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
+import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/core/utils/validators.dart';
+import 'package:doi_mobile/data/third_party_services/branch_service.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
+import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,9 +24,14 @@ class NewGameWith extends ConsumerStatefulWidget {
   const NewGameWith({
     Key? key,
     this.isGroup = true,
+    this.playerCount = 2,
+    this.guessDigits = 4,
   }) : super(key: key);
 
   final bool isGroup;
+
+  final int playerCount;
+  final int guessDigits;
 
   @override
   ConsumerState<NewGameWith> createState() => _NewGameWithState();
@@ -29,8 +41,77 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
   final TextEditingController _secretCodeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isEnabled = false;
+  String? _inviteLink;
+  bool isLoading = true;
+  _createGame() {
+    context.showLoading();
+    final user = ref.watch(currentUserProvider);
+    final type = ref.watch(onlineGameNotifierProvider.select((v) => v.type));
+    final timerValue = ref.watch(homeNotifierProvider.select((v) => v.timer));
+    int totalSeconds = int.parse(timerValue) * 60;
+    int minutes = totalSeconds ~/ 60;
+    int seconds = totalSeconds % 60;
+    final data = CreateGameRequest(
+      userId: user.id ?? '',
+      tournamentInfo: TournamentInfo(),
+      gameMode: widget.isGroup ? 'gv1' : '1v1',
+      duration: GameDuration(
+        minute: minutes,
+        seconds: seconds,
+      ),
+      playersCount: widget.playerCount,
+      guessDigitCount: widget.guessDigits,
+      gameType: type,
+      secretCode: _secretCodeController.text.trim(),
+    );
+    ref.read(onlineGameNotifierProvider.notifier).createGame(
+        data: data,
+        onError: (p0) {
+          context.hideOverLay();
+          context.showError(
+            message: p0,
+          );
+        },
+        onCompleted: (p0) {
+          _generateInviteLink(p0);
+          context.hideOverLay();
+        });
+  }
+
+  Future<void> _generateInviteLink(String code) async {
+    final user = ref.watch(currentUserProvider);
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final link = await BranchLinkService().createGameInviteLink(
+        gameCode: code,
+        inviteeName: user.username ?? '',
+        digitCount: widget.guessDigits.toString(),
+        playerCount: widget.playerCount.toString(),
+      );
+
+      setState(() {
+        _inviteLink = link;
+        isLoading = false;
+      });
+      debugLog('link: $_inviteLink');
+      context.popAndPushNamed(
+        AppRouter.gameCreated,
+        arguments: (_inviteLink, widget.playerCount),
+      );
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      debugLog('Failed to generate invite link');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(currentUserProvider);
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 16, 32, 36),
       child: Form(
@@ -72,14 +153,16 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Finneas'.toUpperCase(),
+                        (user.username ?? '').toUpperCase(),
                         style: context.textTheme.bodyMedium?.copyWith(
                           color: AppColors.secondaryColor,
                           fontSize: 20.sp,
                         ),
                       ),
                       Text(
-                        widget.isGroup ? '+ 4 others' : 'Online',
+                        widget.isGroup
+                            ? '+ ${widget.playerCount - 1} other(s)'
+                            : 'Online',
                         style: context.textTheme.bodySmall?.copyWith(
                           fontSize: 14.sp,
                           color:
@@ -114,9 +197,9 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
                 hintText: '1234',
                 keyboardType: TextInputType.number,
                 controller: _secretCodeController,
-                validateFunction: Validators.code(),
+                validateFunction: Validators.code(widget.guessDigits),
                 inputFormatters: [
-                  LengthLimitingTextInputFormatter(4),
+                  LengthLimitingTextInputFormatter(widget.guessDigits),
                 ],
                 cursorColor: AppColors.secondaryColor,
                 backgroundColor: AppColors.textFieldBg,
@@ -137,8 +220,7 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
                         _formKey.currentState?.save();
                         return;
                       }
-
-                      context.popAndPushNamed(AppRouter.waitingScreen);
+                      _createGame();
                     }),
               )
             ],

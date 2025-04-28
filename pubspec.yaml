@@ -27,6 +27,7 @@ dependencies:
   device_info_plus: ^10.1.2
   flutter_branch_sdk: ^8.4.1
   share_plus: ^11.0.0
+  socket_io_client: ^3.1.1
 
 
   flutter:

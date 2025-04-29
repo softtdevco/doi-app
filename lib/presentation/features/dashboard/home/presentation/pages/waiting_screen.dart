@@ -1,10 +1,11 @@
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
-import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/waiting_friend_tile.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +24,16 @@ class _WaitingScreenState extends ConsumerState<WaitingScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(onlineGameNotifierProvider.notifier).startPolling(
+      final notifier = ref.read(onlineGameNotifierProvider.notifier);
+      notifier.startPolling(
           joinCode: widget.arg.$2,
           expectedPlayerCount: widget.arg.$1,
           onAllPlayersJoined: () {
-            debugLog('All players joined');
+            notifier.startGame(
+                gameCode: widget.arg.$2,
+                onGameStart: () {
+                  context.pushNamed(AppRouter.onlineGame);
+                });
           });
     });
   }

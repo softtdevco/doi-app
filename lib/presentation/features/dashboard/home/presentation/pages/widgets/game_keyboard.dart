@@ -14,7 +14,7 @@ class GameKeyboard extends ConsumerStatefulWidget {
   final VoidCallback onDeletePressed;
   final VoidCallback onSubmitPressed;
   final bool canSubmit;
-  final bool aiPlaybackEnabled;
+   final bool aiPlaybackEnabled;
   final bool isOnline;
 
   const GameKeyboard({
@@ -23,7 +23,7 @@ class GameKeyboard extends ConsumerStatefulWidget {
     required this.onDeletePressed,
     required this.onSubmitPressed,
     required this.canSubmit,
-    required this.aiPlaybackEnabled,
+     required this.aiPlaybackEnabled,
     this.isOnline = false,
   }) : super(key: key);
 

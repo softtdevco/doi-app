@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
+import 'package:doi_mobile/data/third_party_services/socket_service.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/repository/online_game_repository.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/onine_game_state.dart';
@@ -10,13 +11,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class OnlineGameNotifier extends Notifier<OnlineGameState> {
   OnlineGameNotifier();
   late OnlineGameRepository _onlineGameRepository;
+  late SocketClient _gamePlaySocketManager;
+  late StreamSubscription _yourTurnSubscription;
 
   @override
   build() {
     _onlineGameRepository = ref.read(onlineGameRepositoryProvider);
+    _gamePlaySocketManager = ref.read(socketclient);
+
+    final eventStreamer = ref.read(socketEventsProvider);
+    _yourTurnSubscription = eventStreamer.yourTurn.listen(handleYourTurn);
+
     ref.onDispose(() {
       stopPolling();
+      _yourTurnSubscription.cancel();
     });
+
     return OnlineGameState.initial();
   }
 
@@ -128,6 +138,45 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       state = state.copyWith(gameSessionLoadState: LoadState.error);
       debugLog(e.toString());
     }
+  }
+
+  void handleYourTurn(dynamic data) {
+    debugLog("Your turn: $data");
+
+    state = state.copyWith(
+      yourTurn: true,
+    );
+  }
+
+  void startGame({required String gameCode, void Function()? onGameStart}) {
+    _gamePlaySocketManager.startGamePlay(
+      gameCode: gameCode,
+      onResponse: (response) {
+        debugLog("Start game response: $response");
+        if (response['ok'] == true) {
+          if (onGameStart != null) onGameStart();
+
+          debugLog("Game started successfully");
+        }
+      },
+    );
+  }
+
+  void makeGuess(String guess) {
+    if (state.gameSessionData?.gameId == null ||
+        state.gameSessionData?.gameId == '') {
+      debugLog("Cannot make guess: Game ID is null");
+      return;
+    }
+
+    _gamePlaySocketManager.guessNumber(
+      gameId: state.gameSessionData?.gameId ?? '',
+      guess: guess,
+      onResponse: (response) {
+        debugLog("Guess response: $response");
+        debugLog(state.gameSessionData?.gameId ?? '');
+      },
+    );
   }
 }
 

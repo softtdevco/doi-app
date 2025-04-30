@@ -3,10 +3,10 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_keyboard.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/guess_display.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/onine_game_state.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/widgets/online_game_status_bar.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/widgets/online_guess_display.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,11 +81,9 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                     ),
                     60.verticalSpace,
                     Expanded(
-                      child: GuessDisplay(
+                      child: OnlineGuessDisplay(
                         currentInput: currentInput,
                         playerGuesses: gameState.playerGuesses,
-                        gameMode: gameState.gameMode,
-                        aiSecretCode: gameState.aiSecretCode,
                         isGameOver: gameState.isGameOver,
                         winner: gameState.winner,
                       ),
@@ -101,7 +99,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                           quarterTurns: 3,
                           child: AppSvgIcon(
                             path: Assets.svgs.left,
-                            color: AppColors.dropColor,
+                            color: AppColors.disableLock,
                           ),
                         ),
                       ),
@@ -115,11 +113,12 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                         onSubmitPressed: _onSubmitPressed,
                         canSubmit: currentInput.length == 4,
                         aiPlaybackEnabled: true,
+                        isOnline: true,
                       ),
                     if (showKeyboard == false)
                       AppSvgIcon(
                         path: Assets.svgs.keyboard,
-                        color: AppColors.dropColor,
+                        color: AppColors.disableLock,
                         onTap: () {
                           setState(() {
                             showKeyboard = !showKeyboard;

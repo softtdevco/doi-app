@@ -66,6 +66,23 @@ class UserRepositoryImpl implements UserRepository {
     _ref.read(currentUserProvider.notifier).state = user;
     ;
   }
+
+  @override
+  CurrentState getCurrentState() {
+    switch (_storage.get(HiveKeys.currentState) ?? CurrentState.initial.name) {
+      case 'onboarded':
+        return CurrentState.onboarded;
+      case 'loggedIn':
+        return CurrentState.loggedIn;
+      default:
+        return CurrentState.initial;
+    }
+  }
+
+  @override
+  Future<void> saveCurrentState(CurrentState val) async {
+    await _storage.put(HiveKeys.currentState, val.name);
+  }
 }
 
 final userRepositoryProvider = Provider<UserRepository>(

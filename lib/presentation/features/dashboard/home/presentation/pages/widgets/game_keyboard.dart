@@ -14,7 +14,7 @@ class GameKeyboard extends ConsumerStatefulWidget {
   final VoidCallback onDeletePressed;
   final VoidCallback onSubmitPressed;
   final bool canSubmit;
-   final bool aiPlaybackEnabled;
+  final bool aiPlaybackEnabled;
   final bool isOnline;
 
   const GameKeyboard({
@@ -23,7 +23,7 @@ class GameKeyboard extends ConsumerStatefulWidget {
     required this.onDeletePressed,
     required this.onSubmitPressed,
     required this.canSubmit,
-     required this.aiPlaybackEnabled,
+    required this.aiPlaybackEnabled,
     this.isOnline = false,
   }) : super(key: key);
 
@@ -82,7 +82,9 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
                     quarterTurns: showPowerUps ? 0 : 2,
                     child: AppSvgIcon(
                       path: Assets.svgs.left,
-                      color: AppColors.dropColor,
+                      color: widget.isOnline
+                          ? AppColors.disableLock
+                          : AppColors.dropColor,
                     ),
                   ),
                 ),
@@ -198,11 +200,13 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
       child: Container(
         height: 48.r,
         decoration: BoxDecoration(
-          color: AppColors.lightGreen,
+          color: widget.isOnline ? AppColors.indicator : AppColors.lightGreen,
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.lightGreenBorder,
+              color: widget.isOnline
+                  ? Color(0xFFFFDBC4)
+                  : AppColors.lightGreenBorder,
               offset: const Offset(0, 5),
               blurRadius: 0,
               spreadRadius: 0,
@@ -215,7 +219,9 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
-            color: AppColors.greenText,
+            color: widget.isOnline
+                ? AppColors.secondaryColor
+                : AppColors.greenText,
           ),
           textScaler: const TextScaler.linear(1.0),
         ),
@@ -229,11 +235,13 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
       child: Container(
           height: 48.r,
           decoration: BoxDecoration(
-            color: AppColors.lightGreen,
+            color: widget.isOnline ? AppColors.indicator : AppColors.lightGreen,
             borderRadius: BorderRadius.circular(12.r),
             boxShadow: [
               BoxShadow(
-                color: AppColors.lightGreenBorder,
+                color: widget.isOnline
+                    ? Color(0xFFFFDBC4)
+                    : AppColors.lightGreenBorder,
                 offset: const Offset(0, 5),
                 blurRadius: 0,
                 spreadRadius: 0,
@@ -246,7 +254,9 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
             child: AppSvgIcon(
               path: icon,
               fit: BoxFit.scaleDown,
-              color: AppColors.greenText,
+              color: widget.isOnline
+                  ? AppColors.secondaryColor
+                  : AppColors.greenText,
             ),
           )),
     );
@@ -259,11 +269,13 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
         padding: EdgeInsets.all(4),
         height: 48.r,
         decoration: BoxDecoration(
-          color: AppColors.green,
+          color: widget.isOnline ? AppColors.primaryColor : AppColors.green,
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.greenBorder,
+              color: widget.isOnline
+                  ? AppColors.secondaryColor
+                  : AppColors.greenBorder,
               offset: const Offset(0, 5),
               blurRadius: 0,
               spreadRadius: 0,

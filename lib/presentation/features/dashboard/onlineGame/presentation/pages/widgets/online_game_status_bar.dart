@@ -1,6 +1,5 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
-import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
@@ -31,7 +30,7 @@ class OnlineGameStatusBar extends ConsumerWidget {
         ? 0
         : friendGuesses.map((g) => g.deadCount).reduce((a, b) => a > b ? a : b);
 
-    final aiProgress = bestDeadCount / 4;
+    final friendProgress = bestDeadCount / 4;
     final state = ref.watch(gameNotifierProvider);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -51,15 +50,13 @@ class OnlineGameStatusBar extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  AppSvgIcon(
-                    path: Assets.svgs.ai,
-                    fit: BoxFit.scaleDown,
-                  ).withContainer(
-                    color: AppColors.white,
-                    shape: BoxShape.circle,
-                    height: 50.h,
-                    width: 50.w,
-                  ),
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(82.6.r),
+                      child: Assets.images.opponet.image(
+                        fit: BoxFit.cover,
+                        height: 46.h,
+                        width: 45.w,
+                      )),
                   8.horizontalSpace,
                   Expanded(
                     child: Column(
@@ -84,7 +81,7 @@ class OnlineGameStatusBar extends ConsumerWidget {
                                       style:
                                           context.textTheme.bodySmall?.copyWith(
                                         fontSize: 12.6.sp,
-                                        color: AppColors.greenBorder,
+                                        color: AppColors.primaryColor,
                                       ),
                                     ),
                                     8.horizontalSpace,
@@ -97,7 +94,7 @@ class OnlineGameStatusBar extends ConsumerWidget {
                                             '${latestGuess?.deadCount ?? 0}',
                                             style: context.textTheme.bodySmall
                                                 ?.copyWith(
-                                              color: AppColors.greenText,
+                                              color: AppColors.secondaryColor,
                                               fontSize: 12.sp,
                                             ),
                                           ),
@@ -116,7 +113,7 @@ class OnlineGameStatusBar extends ConsumerWidget {
                                             '${latestGuess?.injuredCount ?? 0}',
                                             style: context.textTheme.bodySmall
                                                 ?.copyWith(
-                                              color: AppColors.greenText,
+                                              color: AppColors.secondaryColor,
                                               fontSize: 12.sp,
                                             ),
                                           ),
@@ -136,10 +133,10 @@ class OnlineGameStatusBar extends ConsumerWidget {
                             10.horizontalSpace,
                             Flexible(
                               child: LinearProgressIndicator(
-                                value: aiProgress,
+                                value: friendProgress,
                                 backgroundColor: Colors.white,
-                                valueColor:
-                                    AlwaysStoppedAnimation(AppColors.green),
+                                valueColor: AlwaysStoppedAnimation(
+                                    AppColors.primaryColor),
                               ),
                             ),
                           ],
@@ -158,10 +155,10 @@ class OnlineGameStatusBar extends ConsumerWidget {
               vertical: timeRemaining > 0 ? 7.h : 15.h,
             ),
             decoration: BoxDecoration(
-                color: AppColors.greenBorder,
+                color: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(36.r),
                 border: Border.all(
-                  color: AppColors.greenText,
+                  color: AppColors.secondaryColor,
                   width: 2,
                 )),
             child: Column(

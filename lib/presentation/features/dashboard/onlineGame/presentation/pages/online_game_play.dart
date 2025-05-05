@@ -3,7 +3,6 @@ import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_keyboard.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/onine_game_state.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
@@ -98,7 +97,6 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
 
   @override
   Widget build(BuildContext context) {
-    final gameState = ref.watch(gameNotifierProvider);
     final state = ref.watch(onlineGameNotifierProvider);
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -140,9 +138,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                         ),
                       ),
                     20.verticalSpace,
-                    if (showKeyboard &&
-                        !gameState.isGameOver &&
-                        gameState.isPlayerTurn)
+                    if (showKeyboard && !state.isGameOver)
                       GameKeyboard(
                         onNumberPressed: _onNumberPressed,
                         onDeletePressed: _onDeletePressed,

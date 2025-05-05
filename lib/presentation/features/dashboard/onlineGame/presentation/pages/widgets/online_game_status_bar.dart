@@ -3,7 +3,6 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/game_paused.dart';
@@ -32,7 +31,7 @@ class OnlineGameStatusBar extends ConsumerWidget {
         : friendGuesses.map((g) => g.deadCount).reduce((a, b) => a > b ? a : b);
 
     final friendProgress = bestDeadCount / 4;
-    final state = ref.watch(gameNotifierProvider);
+    final state = ref.watch(onlineGameNotifierProvider);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(

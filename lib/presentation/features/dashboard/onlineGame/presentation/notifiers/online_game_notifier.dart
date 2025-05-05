@@ -213,7 +213,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   }
 
   void _handleTimerExpired() {
-    _timer?.cancel();
+    // _timer?.cancel();
     state = state.copyWith(
       timerActive: false,
       isGameOver: true,

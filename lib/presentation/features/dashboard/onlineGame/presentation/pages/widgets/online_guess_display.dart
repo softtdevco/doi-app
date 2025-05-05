@@ -11,14 +11,14 @@ class OnlineGuessDisplay extends StatelessWidget {
   final List<Guess> playerGuesses;
 
   final bool isGameOver;
-  final String? winner;
+
 
   const OnlineGuessDisplay({
     Key? key,
     required this.currentInput,
     required this.playerGuesses,
     required this.isGameOver,
-    required this.winner,
+ 
   }) : super(key: key);
 
   @override

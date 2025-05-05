@@ -62,7 +62,11 @@ class AppRouter {
         ),
     home: (context) => Home(),
     waitingScreen: (context) => WaitingScreen(
-          arg: ModalRoute.of(context)!.settings.arguments as (int, String),
+          arg: ModalRoute.of(context)!.settings.arguments as (
+            int,
+            String,
+            bool,
+          ),
         ),
     addingFriend: (context) => AddingFriend(),
     playOnline: (context) => PlayOnline(),

@@ -14,7 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WaitingScreen extends ConsumerStatefulWidget {
   const WaitingScreen({super.key, required this.arg});
-  final (int, String) arg;
+  final (int, String, bool) arg;
   @override
   ConsumerState<WaitingScreen> createState() => _WaitingScreenState();
 }
@@ -24,16 +24,24 @@ class _WaitingScreenState extends ConsumerState<WaitingScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final notifier = ref.read(onlineGameNotifierProvider.notifier);
+      final notifier = ref.read(
+        onlineGameNotifierProvider.notifier,
+      );
       notifier.startPolling(
           joinCode: widget.arg.$2,
           expectedPlayerCount: widget.arg.$1,
           onAllPlayersJoined: () {
-            notifier.startGame(
-                gameCode: widget.arg.$2,
-                onGameStart: () {
-                  context.pushNamed(AppRouter.onlineGame);
-                });
+            if (widget.arg.$3) {
+              notifier.resumeTimer();
+              context.pushNamed(AppRouter.onlineGame);
+            } else {
+              notifier.startGame(
+                  gameCode: widget.arg.$2,
+                  onGameStart: () {
+                    notifier.resumeTimer();
+                    context.pushNamed(AppRouter.onlineGame);
+                  });
+            }
           });
     });
   }

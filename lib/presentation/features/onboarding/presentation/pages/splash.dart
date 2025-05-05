@@ -140,7 +140,7 @@ class _SplashState extends ConsumerState<Splash>
   _navigate() {
     final data = ref.read(userRepositoryProvider).getCurrentState();
     return switch (data) {
-      CurrentState.loggedIn => context.replaceNamed(AppRouter.home),
+      CurrentState.loggedIn => context.replaceNamed(AppRouter.welcome),
       _ => context.replaceNamed(AppRouter.welcome),
     };
   }

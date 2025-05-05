@@ -1,4 +1,6 @@
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
@@ -7,6 +9,7 @@ import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentati
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/widgets/online_game_status_bar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/widgets/online_guess_display.dart';
+import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +27,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
     with SingleTickerProviderStateMixin {
   final List<String> currentInput = [];
   bool showKeyboard = true;
-  // bool _hasNavigatedAfterWin = false;
+  bool _hasNavigatedAfterWin = false;
   late AnimationController _confettiController;
   bool _showConfetti = false;
 
@@ -36,19 +39,52 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
       vsync: this,
       duration: Duration(seconds: 3),
     );
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentUser = ref.watch(currentUserProvider);
       ref.listenManual<OnlineGameState>(onlineGameNotifierProvider,
           (previous, current) {
-        if (current.yourTurn == true) {
+        if (current.yourTurn == true &&
+            (previous == null || !previous.yourTurn)) {
           context.showSuccess(message: 'YOUR TURN!');
           setState(() {
             showKeyboard = true;
           });
-        } else {
+        } else if (current.yourTurn == false &&
+            (previous == null || previous.yourTurn)) {
           setState(() {
             showKeyboard = false;
           });
+        }
+
+        if (current.isGameOver && (previous == null || !previous.isGameOver)) {
+          if (current.winnerId != null) {
+            if (current.winnerId == currentUser.id) {
+              context.showSuccess(message: 'YOU WIN!');
+              setState(() {
+                _showConfetti = true;
+              });
+              _confettiController.forward();
+            } else {
+              context.showError(message: 'YOU LOST');
+            }
+          } else {
+            if (current.isTimeExpired) {
+              context.showError(message: 'TIME EXPIRED - YOU LOST');
+            } else {}
+          }
+
+          if (!_hasNavigatedAfterWin) {
+            _hasNavigatedAfterWin = true;
+
+            Future.delayed(Duration(seconds: 3), () {
+              bool isWinner = current.winnerId != null &&
+                  current.winnerId == currentUser.id;
+              context.replaceNamed(
+                AppRouter.result,
+                arguments: isWinner,
+              );
+            });
+          }
         }
       });
     });
@@ -63,6 +99,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
   @override
   Widget build(BuildContext context) {
     final gameState = ref.watch(gameNotifierProvider);
+    final state = ref.watch(onlineGameNotifierProvider);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -75,17 +112,16 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                 child: Column(
                   children: [
                     OnlineGameStatusBar(
-                      friendGuesses: [],
-                      timerActive: gameState.timerActive,
-                      timeRemaining: gameState.timeRemaining,
+                      friendGuesses: state.friendGuesses,
+                      timerActive: state.timerActive,
+                      timeRemaining: state.timeRemaining,
                     ),
                     60.verticalSpace,
                     Expanded(
                       child: OnlineGuessDisplay(
                         currentInput: currentInput,
-                        playerGuesses: gameState.playerGuesses,
-                        isGameOver: gameState.isGameOver,
-                        winner: gameState.winner,
+                        playerGuesses: state.playerGuesses,
+                        isGameOver: state.isGameOver,
                       ),
                     ),
                     if (showKeyboard == true)
@@ -171,7 +207,10 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
   void _onSubmitPressed() {
     if (currentInput.length == 4) {
       final guess = currentInput.join();
-      ref.read(onlineGameNotifierProvider.notifier).makeGuess(guess);
+      ref.read(onlineGameNotifierProvider.notifier).makeGuess(guess,
+          onError: (p0) {
+        context.showError(message: p0);
+      });
       setState(() {
         currentInput.clear();
       });

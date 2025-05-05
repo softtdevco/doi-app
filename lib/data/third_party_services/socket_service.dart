@@ -16,6 +16,7 @@ final socketEventsProvider = Provider<SocketEventStreamer>((ref) {
 
 class SocketEventStreamer {
   final _yourTurnController = StreamController<dynamic>.broadcast();
+  final _mobileEmitController = StreamController<dynamic>.broadcast();
   final _matchupCompleteController = StreamController<dynamic>.broadcast();
   final _guessResultController = StreamController<dynamic>.broadcast();
   final _gameEndedController = StreamController<dynamic>.broadcast();
@@ -23,6 +24,7 @@ class SocketEventStreamer {
   final _gameStateUpdatedController = StreamController<dynamic>.broadcast();
 
   Stream<dynamic> get yourTurn => _yourTurnController.stream;
+  Stream<dynamic> get mobileEmit => _mobileEmitController.stream;
   Stream<dynamic> get matchupComplete => _matchupCompleteController.stream;
   Stream<dynamic> get guessResult => _guessResultController.stream;
   Stream<dynamic> get gameEnded => _gameEndedController.stream;
@@ -30,6 +32,7 @@ class SocketEventStreamer {
   Stream<dynamic> get gameStateUpdated => _gameStateUpdatedController.stream;
 
   void emitYourTurn(dynamic data) => _yourTurnController.add(data);
+  void emitMobileEmit(dynamic data) => _mobileEmitController.add(data);
   void emitMatchupComplete(dynamic data) =>
       _matchupCompleteController.add(data);
   void emitGuessResult(dynamic data) => _guessResultController.add(data);
@@ -40,6 +43,7 @@ class SocketEventStreamer {
 
   void dispose() {
     _yourTurnController.close();
+    _mobileEmitController.close();
     _matchupCompleteController.close();
     _guessResultController.close();
     _gameEndedController.close();
@@ -76,6 +80,18 @@ class SocketClient {
     gamePlaySocketManager._socket.emitWithAck(
       'guessNumber',
       {"gameID": gameId, "guess": guess},
+      ack: onResponse,
+    );
+  }
+
+  mobileEmit({
+    required String gameId,
+    required String message,
+    required Function(dynamic) onResponse,
+  }) {
+    gamePlaySocketManager._socket.emitWithAck(
+      'mobileEmit',
+      {"gameID": gameId, "message": message},
       ack: onResponse,
     );
   }
@@ -150,6 +166,11 @@ class SocketManager {
     _socket.on('gameStateUpdated', (data) {
       debugLog('gameStateUpdated event received: $data');
       eventStreamer.emitGameStateUpdated(data);
+    });
+
+    _socket.on('mobileEmit', (data) {
+      debugLog('mobileEmit event received: $data');
+      eventStreamer.emitMobileEmit(data);
     });
   }
 }

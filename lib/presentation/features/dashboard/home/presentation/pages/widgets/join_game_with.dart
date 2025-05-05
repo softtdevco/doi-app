@@ -7,8 +7,8 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/validators.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,7 +52,14 @@ class _JoinGameWithState extends ConsumerState<JoinGameWith> {
         },
         onCompleted: () {
           context.hideOverLay();
-          context.popAndPushNamed(AppRouter.waitingScreen);
+          context.popAndPushNamed(
+            AppRouter.waitingScreen,
+            arguments: (
+              widget.playerCount,
+              widget.inviteCode,
+              true
+            ),
+          );
         });
   }
 

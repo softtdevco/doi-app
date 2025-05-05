@@ -4,6 +4,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/game_paused.dart';
 import 'package:flutter/material.dart';
@@ -167,8 +168,12 @@ class OnlineGameStatusBar extends ConsumerWidget {
                 GestureDetector(
                   onTap: state.timeRemaining > 0 && !state.isGameOver
                       ? () {
-                          ref.read(gameNotifierProvider.notifier).toggleTimer();
-                          context.showPopUp(GamePaused());
+                          ref
+                              .read(onlineGameNotifierProvider.notifier)
+                              .toggleTimer();
+                          context.showPopUp(GamePaused(
+                            isOnline: true,
+                          ));
                         }
                       : null,
                   child: Icon(

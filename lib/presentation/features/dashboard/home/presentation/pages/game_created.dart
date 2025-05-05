@@ -257,10 +257,14 @@ class _GameCreatedState extends ConsumerState<GameCreated> {
         child: DoiButton(
           text: 'Start game',
           onPressed: () {
-            context.popAndPushNamed(AppRouter.waitingScreen, arguments: (
-              widget.arg.$2,
-              widget.arg.$3,
-            ));
+            context.popAndPushNamed(
+              AppRouter.waitingScreen,
+              arguments: (
+                widget.arg.$2,
+                widget.arg.$3,
+                false,
+              ),
+            );
           },
         ),
       ),

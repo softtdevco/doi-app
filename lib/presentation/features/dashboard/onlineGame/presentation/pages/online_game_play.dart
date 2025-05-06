@@ -2,6 +2,7 @@ import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_keyboard.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/onine_game_state.dart';
@@ -29,7 +30,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
   bool _hasNavigatedAfterWin = false;
   late AnimationController _confettiController;
   bool _showConfetti = false;
-
+  String? _lastProcessedTurnEventId;
   @override
   void initState() {
     super.initState();
@@ -42,14 +43,27 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
       final currentUser = ref.watch(currentUserProvider);
       ref.listenManual<OnlineGameState>(onlineGameNotifierProvider,
           (previous, current) {
-        if (current.yourTurn == true &&
-            (previous == null || !previous.yourTurn)) {
-          context.showSuccess(message: 'YOUR TURN!');
+        if (current.yourTurn &&
+            current.lastTurnEventId != null &&
+            current.lastTurnEventId != _lastProcessedTurnEventId) {
+          debugLog("New turn event detected - showing banner and keyboard");
+
+          _lastProcessedTurnEventId = current.lastTurnEventId;
+
+          if (mounted) {
+            Future.microtask(() {
+              if (mounted) {
+                context.showSuccess(message: 'YOUR TURN!');
+              }
+            });
+          }
+
           setState(() {
             showKeyboard = true;
           });
         } else if (current.yourTurn == false &&
-            (previous == null || previous.yourTurn)) {
+            (previous == null || previous.yourTurn == true)) {
+          debugLog("NOT your turn detected - hiding keyboard");
           setState(() {
             showKeyboard = false;
           });

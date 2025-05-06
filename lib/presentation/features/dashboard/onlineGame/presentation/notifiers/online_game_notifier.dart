@@ -158,7 +158,10 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   }
 
   void handleYourTurn(dynamic data) {
-    debugLog("Your turn: $data");
+    debugLog("Your turn handler called with data: $data");
+
+    final turnEventId = DateTime.now().millisecondsSinceEpoch.toString();
+
     if (data['guess'] != null) {
       final newGuess = Guess(
         code: data['guess'] ?? '',
@@ -169,10 +172,12 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       state = state.copyWith(
         friendGuesses: [...state.friendGuesses, newGuess],
         yourTurn: true,
+        lastTurnEventId: turnEventId,
       );
     } else {
       state = state.copyWith(
         yourTurn: true,
+        lastTurnEventId: turnEventId,
       );
     }
   }

@@ -25,6 +25,7 @@ class OnlineGameState {
   final int? pointsEarned;
   final int? coinsEarned;
   final bool isTimeExpired;
+  final String? lastTurnEventId;
   OnlineGameState({
     required this.loadState,
     required this.type,
@@ -47,24 +48,26 @@ class OnlineGameState {
     this.winnerId,
     this.winnerName,
     required this.isTimeExpired,
+    this.lastTurnEventId,
   });
 
   factory OnlineGameState.initial() {
     return OnlineGameState(
-        type: 'Ranked',
-        loadState: LoadState.idle,
-        playerGuesses: [],
-        friendGuesses: [],
-        pairing: 'Rapid',
-        createGameLoadState: LoadState.idle,
-        joinGameLoadState: LoadState.idle,
-        gameSessionLoadState: LoadState.idle,
-        expectedPlayerCount: 0,
-        yourTurn: false,
-        timeRemaining: 0,
-        timerActive: false,
-        isGameOver: false,
-        isTimeExpired: false);
+      type: 'Ranked',
+      loadState: LoadState.idle,
+      playerGuesses: [],
+      friendGuesses: [],
+      pairing: 'Rapid',
+      createGameLoadState: LoadState.idle,
+      joinGameLoadState: LoadState.idle,
+      gameSessionLoadState: LoadState.idle,
+      expectedPlayerCount: 0,
+      yourTurn: false,
+      timeRemaining: 0,
+      timerActive: false,
+      isGameOver: false,
+      isTimeExpired: false,
+    );
   }
 
   OnlineGameState copyWith({
@@ -89,6 +92,7 @@ class OnlineGameState {
     int? coinsEarned,
     int? pointsEarned,
     bool? isTimeExpired,
+    String? lastTurnEventId,
   }) {
     return OnlineGameState(
       loadState: loadState ?? this.loadState,
@@ -112,6 +116,7 @@ class OnlineGameState {
       coinsEarned: coinsEarned ?? this.coinsEarned,
       pointsEarned: pointsEarned ?? this.pointsEarned,
       isTimeExpired: isTimeExpired ?? this.isTimeExpired,
+      lastTurnEventId: lastTurnEventId ?? this.lastTurnEventId,
     );
   }
 }

@@ -296,7 +296,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     }
   }
 
-  void makeGuess(String guess, {Function(String)? onError}) {
+  void makeGuess(String guess,
+      {Function(String)? onError, Function()? onSuccess}) {
     if (state.gameSessionData?.gameId == null ||
         state.gameSessionData?.gameId == '') {
       debugLog("Cannot make guess: Game ID is null");
@@ -319,6 +320,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
           state = state.copyWith(
             playerGuesses: [...state.playerGuesses, newGuess],
           );
+          if (onSuccess != null) onSuccess();
         } else {
           if (onError != null) onError(response['error']);
         }

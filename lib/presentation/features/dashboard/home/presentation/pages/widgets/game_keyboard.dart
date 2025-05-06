@@ -16,16 +16,17 @@ class GameKeyboard extends ConsumerStatefulWidget {
   final bool canSubmit;
   final bool aiPlaybackEnabled;
   final bool isOnline;
-
-  const GameKeyboard({
-    Key? key,
-    required this.onNumberPressed,
-    required this.onDeletePressed,
-    required this.onSubmitPressed,
-    required this.canSubmit,
-    required this.aiPlaybackEnabled,
-    this.isOnline = false,
-  }) : super(key: key);
+  final bool disableKeyboard;
+  const GameKeyboard(
+      {Key? key,
+      required this.onNumberPressed,
+      required this.onDeletePressed,
+      required this.onSubmitPressed,
+      required this.canSubmit,
+      required this.aiPlaybackEnabled,
+      this.isOnline = false,
+      this.disableKeyboard = false})
+      : super(key: key);
 
   @override
   ConsumerState<GameKeyboard> createState() => _GameKeyboardState();
@@ -92,60 +93,63 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
             ),
             20.verticalSpace,
           ],
-          Column(
-            children: [
-              Row(
-                spacing: 6.w,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(
-                  5,
-                  (index) =>
-                      Flexible(child: _buildNumberButton('${index + 1}')),
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                spacing: 6.w,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ...List.generate(
-                    4,
+          Opacity(
+            opacity: widget.disableKeyboard ? 0.2 : 1.0,
+            child: Column(
+              children: [
+                Row(
+                  spacing: 6.w,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    5,
                     (index) =>
-                        Flexible(child: _buildNumberButton('${index + 6}')),
+                        Flexible(child: _buildNumberButton('${index + 1}')),
                   ),
-                  Flexible(child: _buildNumberButton('0')),
-                ],
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                spacing: 6.w,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: _buildControlButton(
-                      Assets.svgs.left,
-                      widget.onDeletePressed,
-                      false,
+                ),
+                SizedBox(height: 8.h),
+                Row(
+                  spacing: 6.w,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ...List.generate(
+                      4,
+                      (index) =>
+                          Flexible(child: _buildNumberButton('${index + 6}')),
                     ),
-                  ),
-                  Flexible(
-                    child: _buildControlButton(
-                      Assets.svgs.left,
-                      () {},
-                      true,
+                    Flexible(child: _buildNumberButton('0')),
+                  ],
+                ),
+                SizedBox(height: 8.h),
+                Row(
+                  spacing: 6.w,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: _buildControlButton(
+                        Assets.svgs.left,
+                        widget.onDeletePressed,
+                        false,
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    child: _buildControlButton(
-                      Assets.svgs.delete,
-                      widget.onDeletePressed,
-                      false,
+                    Flexible(
+                      child: _buildControlButton(
+                        Assets.svgs.left,
+                        () {},
+                        true,
+                      ),
                     ),
-                  ),
-                  Flexible(child: _buildSubmitButton(context)),
-                ],
-              ),
-            ],
+                    Flexible(
+                      child: _buildControlButton(
+                        Assets.svgs.delete,
+                        widget.onDeletePressed,
+                        false,
+                      ),
+                    ),
+                    Flexible(child: _buildSubmitButton(context)),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -196,7 +200,8 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
 
   Widget _buildNumberButton(String number) {
     return GestureDetector(
-      onTap: () => widget.onNumberPressed(number),
+      onTap:
+          widget.disableKeyboard ? null : () => widget.onNumberPressed(number),
       child: Container(
         height: 48.r,
         decoration: BoxDecoration(
@@ -231,7 +236,7 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
 
   Widget _buildControlButton(String icon, VoidCallback onTap, bool isRight) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.disableKeyboard ? null : onTap,
       child: Container(
           height: 48.r,
           decoration: BoxDecoration(

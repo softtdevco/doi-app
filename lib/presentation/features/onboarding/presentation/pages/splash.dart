@@ -28,7 +28,7 @@ class _SplashState extends ConsumerState<Splash>
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 8000),
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
 

@@ -27,6 +27,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
     with SingleTickerProviderStateMixin {
   final List<String> currentInput = [];
   bool showKeyboard = true;
+  bool disableButton = true;
   bool _hasNavigatedAfterWin = false;
   late AnimationController _confettiController;
   bool _showConfetti = false;
@@ -54,18 +55,17 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
             Future.microtask(() {
               if (mounted) {
                 context.showSuccess(message: 'YOUR TURN!');
+                setState(() {
+                  disableButton = false;
+                });
               }
             });
           }
-
-          setState(() {
-            showKeyboard = true;
-          });
         } else if (current.yourTurn == false &&
             (previous == null || previous.yourTurn == true)) {
           debugLog("NOT your turn detected - hiding keyboard");
           setState(() {
-            showKeyboard = false;
+            disableButton = true;
           });
         }
 
@@ -160,6 +160,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                         canSubmit: currentInput.length == 4,
                         aiPlaybackEnabled: true,
                         isOnline: true,
+                        disableKeyboard: disableButton,
                       ),
                     if (showKeyboard == false)
                       AppSvgIcon(
@@ -218,7 +219,11 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
     if (currentInput.length == 4) {
       final guess = currentInput.join();
       ref.read(onlineGameNotifierProvider.notifier).makeGuess(guess,
-          onError: (p0) {
+          onSuccess: () {
+        setState(() {
+          disableButton = true;
+        });
+      }, onError: (p0) {
         context.showError(message: p0);
       });
       setState(() {

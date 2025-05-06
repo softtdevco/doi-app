@@ -31,7 +31,7 @@ class _WaitingScreenState extends ConsumerState<WaitingScreen> {
           joinCode: widget.arg.$2,
           expectedPlayerCount: widget.arg.$1,
           onAllPlayersJoined: () {
-            if (widget.arg.$3) {
+            if (widget.arg.$3 == true) {
               notifier.resumeTimer();
               context.pushNamed(AppRouter.onlineGame);
             } else {

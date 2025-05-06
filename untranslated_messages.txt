@@ -58,6 +58,7 @@
     "remove",
     "userProfile",
     "dailyStreak",
-    "matchesPlayed"
+    "matchesPlayed",
+    "welcomeToCrack"
   ]
 }

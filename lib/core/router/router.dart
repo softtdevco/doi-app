@@ -10,6 +10,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_game.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_online.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/waiting_screen.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/online_game_play.dart';
 import 'package:doi_mobile/presentation/features/dashboard/store/presenation/pages/store.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/setup_profile_loggedin.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/welcome.dart';
@@ -42,6 +43,7 @@ class AppRouter {
   static const String myAchievements = '/myAchievements';
   static const String leaderBoard = '/leaderBoard';
   static const String store = '/store';
+  static const String onlineGame = '/onlineGame';
 
   static final Map<String, Widget Function(BuildContext)> _routes = {
     welcome: (context) => Welcome(),
@@ -54,11 +56,18 @@ class AppRouter {
     gameCreated: (context) => GameCreated(
           arg: ModalRoute.of(context)!.settings.arguments as (
             String,
-            String,
+            int,
+            String
           ),
         ),
     home: (context) => Home(),
-    waitingScreen: (context) => WaitingScreen(),
+    waitingScreen: (context) => WaitingScreen(
+          arg: ModalRoute.of(context)!.settings.arguments as (
+            int,
+            String,
+            bool,
+          ),
+        ),
     addingFriend: (context) => AddingFriend(),
     playOnline: (context) => PlayOnline(),
     findingOpponents: (context) => FindingOpponents(),
@@ -69,6 +78,7 @@ class AppRouter {
     myAchievements: (context) => MyAchievements(),
     leaderBoard: (context) => LeaderBoard(),
     store: (context) => Store(),
+    onlineGame: (context) => OnlineGamePlay(),
   };
 
   static Map<String, Widget Function(BuildContext)> get routes => _routes;

@@ -15,15 +15,18 @@ class GameKeyboard extends ConsumerStatefulWidget {
   final VoidCallback onSubmitPressed;
   final bool canSubmit;
   final bool aiPlaybackEnabled;
-
-  const GameKeyboard({
-    Key? key,
-    required this.onNumberPressed,
-    required this.onDeletePressed,
-    required this.onSubmitPressed,
-    required this.canSubmit,
-    required this.aiPlaybackEnabled,
-  }) : super(key: key);
+  final bool isOnline;
+  final bool disableKeyboard;
+  const GameKeyboard(
+      {Key? key,
+      required this.onNumberPressed,
+      required this.onDeletePressed,
+      required this.onSubmitPressed,
+      required this.canSubmit,
+      required this.aiPlaybackEnabled,
+      this.isOnline = false,
+      this.disableKeyboard = false})
+      : super(key: key);
 
   @override
   ConsumerState<GameKeyboard> createState() => _GameKeyboardState();
@@ -56,12 +59,20 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
                           AppColors.green, () {}, Assets.svgs.alarm, 0),
                     ],
                   ),
-                _buildColorButton(AppColors.primaryColor, () {
-                  ref.read(gameNotifierProvider.notifier).swapPlayerCode(
-                      onCodeChange: () {
-                    context.showSuccess(message: 'CODE SWAPPED SUCCESFULLY');
-                  });
-                }, Assets.svgs.dices, swapsRemaining),
+                _buildColorButton(
+                    AppColors.primaryColor,
+                    widget.isOnline
+                        ? () {}
+                        : () {
+                            ref
+                                .read(gameNotifierProvider.notifier)
+                                .swapPlayerCode(onCodeChange: () {
+                              context.showSuccess(
+                                  message: 'CODE SWAPPED SUCCESFULLY');
+                            });
+                          },
+                    Assets.svgs.dices,
+                    swapsRemaining),
                 GestureDetector(
                   onTap: () {
                     // setState(() {
@@ -72,7 +83,9 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
                     quarterTurns: showPowerUps ? 0 : 2,
                     child: AppSvgIcon(
                       path: Assets.svgs.left,
-                      color: AppColors.dropColor,
+                      color: widget.isOnline
+                          ? AppColors.disableLock
+                          : AppColors.dropColor,
                     ),
                   ),
                 ),
@@ -80,60 +93,63 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
             ),
             20.verticalSpace,
           ],
-          Column(
-            children: [
-              Row(
-                spacing: 6.w,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(
-                  5,
-                  (index) =>
-                      Flexible(child: _buildNumberButton('${index + 1}')),
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                spacing: 6.w,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ...List.generate(
-                    4,
+          Opacity(
+            opacity: widget.disableKeyboard ? 0.2 : 1.0,
+            child: Column(
+              children: [
+                Row(
+                  spacing: 6.w,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    5,
                     (index) =>
-                        Flexible(child: _buildNumberButton('${index + 6}')),
+                        Flexible(child: _buildNumberButton('${index + 1}')),
                   ),
-                  Flexible(child: _buildNumberButton('0')),
-                ],
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                spacing: 6.w,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: _buildControlButton(
-                      Assets.svgs.left,
-                      widget.onDeletePressed,
-                      false,
+                ),
+                SizedBox(height: 8.h),
+                Row(
+                  spacing: 6.w,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ...List.generate(
+                      4,
+                      (index) =>
+                          Flexible(child: _buildNumberButton('${index + 6}')),
                     ),
-                  ),
-                  Flexible(
-                    child: _buildControlButton(
-                      Assets.svgs.left,
-                      () {},
-                      true,
+                    Flexible(child: _buildNumberButton('0')),
+                  ],
+                ),
+                SizedBox(height: 8.h),
+                Row(
+                  spacing: 6.w,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: _buildControlButton(
+                        Assets.svgs.left,
+                        widget.onDeletePressed,
+                        false,
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    child: _buildControlButton(
-                      Assets.svgs.delete,
-                      widget.onDeletePressed,
-                      false,
+                    Flexible(
+                      child: _buildControlButton(
+                        Assets.svgs.left,
+                        () {},
+                        true,
+                      ),
                     ),
-                  ),
-                  Flexible(child: _buildSubmitButton(context)),
-                ],
-              ),
-            ],
+                    Flexible(
+                      child: _buildControlButton(
+                        Assets.svgs.delete,
+                        widget.onDeletePressed,
+                        false,
+                      ),
+                    ),
+                    Flexible(child: _buildSubmitButton(context)),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -184,15 +200,18 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
 
   Widget _buildNumberButton(String number) {
     return GestureDetector(
-      onTap: () => widget.onNumberPressed(number),
+      onTap:
+          widget.disableKeyboard ? null : () => widget.onNumberPressed(number),
       child: Container(
         height: 48.r,
         decoration: BoxDecoration(
-          color: AppColors.lightGreen,
+          color: widget.isOnline ? AppColors.indicator : AppColors.lightGreen,
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.lightGreenBorder,
+              color: widget.isOnline
+                  ? Color(0xFFFFDBC4)
+                  : AppColors.lightGreenBorder,
               offset: const Offset(0, 5),
               blurRadius: 0,
               spreadRadius: 0,
@@ -205,7 +224,9 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
-            color: AppColors.greenText,
+            color: widget.isOnline
+                ? AppColors.secondaryColor
+                : AppColors.greenText,
           ),
           textScaler: const TextScaler.linear(1.0),
         ),
@@ -215,15 +236,17 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
 
   Widget _buildControlButton(String icon, VoidCallback onTap, bool isRight) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.disableKeyboard ? null : onTap,
       child: Container(
           height: 48.r,
           decoration: BoxDecoration(
-            color: AppColors.lightGreen,
+            color: widget.isOnline ? AppColors.indicator : AppColors.lightGreen,
             borderRadius: BorderRadius.circular(12.r),
             boxShadow: [
               BoxShadow(
-                color: AppColors.lightGreenBorder,
+                color: widget.isOnline
+                    ? Color(0xFFFFDBC4)
+                    : AppColors.lightGreenBorder,
                 offset: const Offset(0, 5),
                 blurRadius: 0,
                 spreadRadius: 0,
@@ -236,7 +259,9 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
             child: AppSvgIcon(
               path: icon,
               fit: BoxFit.scaleDown,
-              color: AppColors.greenText,
+              color: widget.isOnline
+                  ? AppColors.secondaryColor
+                  : AppColors.greenText,
             ),
           )),
     );
@@ -249,11 +274,13 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
         padding: EdgeInsets.all(4),
         height: 48.r,
         decoration: BoxDecoration(
-          color: AppColors.green,
+          color: widget.isOnline ? AppColors.primaryColor : AppColors.green,
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.greenBorder,
+              color: widget.isOnline
+                  ? AppColors.secondaryColor
+                  : AppColors.greenBorder,
               offset: const Offset(0, 5),
               blurRadius: 0,
               spreadRadius: 0,

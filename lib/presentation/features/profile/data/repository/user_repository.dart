@@ -10,4 +10,6 @@ abstract interface class UserRepository {
   String getRefreshToken();
   Future<void> saveToken(String token);
   void saveRefreshToken(String token);
+  Future<void> saveCurrentState(CurrentState val);
+  CurrentState getCurrentState();
 }

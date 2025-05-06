@@ -220,7 +220,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                 final bool aiPlaybackEnabled = playChecked;
                 final String gameMode = selectedMode == 0 ? 'hint' : 'mystery';
                 final String timerValue = setTimer
-                    ? r.read(homeNotifierProvider.select((v) => v.timer))
+                    ? r.watch(homeNotifierProvider.select((v) => v.timer))
                     : '0';
                 final int aiDifficulty = selectedPlay;
                 return DoiButton(

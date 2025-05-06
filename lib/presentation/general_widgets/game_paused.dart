@@ -12,6 +12,7 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GamePaused extends ConsumerStatefulWidget {
-  const GamePaused({super.key});
-
+  const GamePaused({super.key, required this.isOnline});
+  final bool isOnline;
   @override
   ConsumerState<GamePaused> createState() => _GamePausedState();
 }
@@ -54,7 +55,11 @@ class _GamePausedState extends ConsumerState<GamePaused> {
 
   void popAndReset() {
     context.pop();
-    ref.read(gameNotifierProvider.notifier).toggleTimer();
+    if (widget.isOnline) {
+      ref.read(onlineGameNotifierProvider.notifier).toggleTimer();
+    } else {
+      ref.read(gameNotifierProvider.notifier).toggleTimer();
+    }
   }
 
   int timeRemaining = 10;

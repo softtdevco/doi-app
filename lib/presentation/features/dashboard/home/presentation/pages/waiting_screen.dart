@@ -1,22 +1,62 @@
+import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
+import 'package:doi_mobile/core/router/router.dart';
+import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/data/model/friend_model.dart';
+import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/waiting_friend_tile.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class WaitingScreen extends StatefulWidget {
-  const WaitingScreen({super.key});
-
+class WaitingScreen extends ConsumerStatefulWidget {
+  const WaitingScreen({super.key, required this.arg});
+  final (int, String, bool) arg;
   @override
-  State<WaitingScreen> createState() => _WaitingScreenState();
+  ConsumerState<WaitingScreen> createState() => _WaitingScreenState();
 }
 
-class _WaitingScreenState extends State<WaitingScreen> {
+class _WaitingScreenState extends ConsumerState<WaitingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final notifier = ref.read(
+        onlineGameNotifierProvider.notifier,
+      );
+      notifier.startPolling(
+          joinCode: widget.arg.$2,
+          expectedPlayerCount: widget.arg.$1,
+          onAllPlayersJoined: () {
+            if (widget.arg.$3) {
+              notifier.resumeTimer();
+              context.pushNamed(AppRouter.onlineGame);
+            } else {
+              notifier.startGame(
+                  gameCode: widget.arg.$2,
+                  onGameStart: () {
+                    notifier.resumeTimer();
+                    context.pushNamed(AppRouter.onlineGame);
+                  });
+            }
+          });
+    });
+  }
+
+  @override
+  void dispose() {
+    ref.read(onlineGameNotifierProvider.notifier).stopPolling();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final joinedPlayers = ref.watch(onlineGameNotifierProvider
+        .select((v) => v.gameSessionData?.players ?? []));
+
     return DoiScaffold(
       bodyPadding: EdgeInsets.all(24),
       showBackImage: false,
@@ -38,16 +78,30 @@ class _WaitingScreenState extends State<WaitingScreen> {
             ),
             borderRadius: BorderRadius.circular(32.r),
           ),
-          63.verticalSpace,
-          Column(
-            spacing: 16,
-            children: List.generate(
-              waitingFriends.length,
-              (i) => WaitingFriendTile(
-                friend: waitingFriends[i],
-              ),
+          8.verticalSpace,
+          Text(
+            'YOU',
+            style: context.textTheme.bodyMedium?.copyWith(
+              fontFamily: FontFamily.jungleAdventurer,
+              fontSize: 17.28.sp,
+              color: AppColors.secondaryColor,
             ),
-          )
+          ),
+          40.verticalSpace,
+          Expanded(
+              child: ListView.separated(
+                  separatorBuilder: (context, i) => 16.verticalSpace,
+                  itemCount: widget.arg.$1,
+                  itemBuilder: (context, i) {
+                    if (i < joinedPlayers.length) {
+                      final player = joinedPlayers[i];
+                      return JoinedFriendTile(
+                        player: player,
+                      );
+                    } else {
+                      return WaitingFriendTile();
+                    }
+                  }))
         ],
       ),
       footerButton: Assets.images.mobileLeaderboard.image(),

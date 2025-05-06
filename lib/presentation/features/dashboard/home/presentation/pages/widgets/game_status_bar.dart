@@ -218,7 +218,9 @@ class GameStatusBar extends ConsumerWidget {
                   onTap: state.timeRemaining > 0 && !state.isGameOver
                       ? () {
                           ref.read(gameNotifierProvider.notifier).toggleTimer();
-                          context.showPopUp(GamePaused());
+                          context.showPopUp(GamePaused(
+                            isOnline: false,
+                          ));
                         }
                       : null,
                   child: Icon(

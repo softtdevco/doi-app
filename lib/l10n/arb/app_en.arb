@@ -4,7 +4,7 @@
     "@counterAppBarTitle": {
         "description": "Text shown in the AppBar of the Counter Page"
     },
-    "deadOrInjured": "Dead or Injured",
+    "deadOrInjured": "Crackein",
     "@deadOrInjured": {
         "description": "dead or injured text"
     },
@@ -249,5 +249,6 @@
 "remove":"Remove",
 "userProfile":"User profile",
 "dailyStreak":"Daily streak",   
-"matchesPlayed":"Matches Played" 
+"matchesPlayed":"Matches Played",
+"welcomeToCrack": "Welcome to Crackein"
 }

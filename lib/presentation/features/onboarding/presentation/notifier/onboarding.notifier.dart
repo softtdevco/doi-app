@@ -5,15 +5,19 @@ import 'package:doi_mobile/presentation/features/onboarding/data/models/register
 import 'package:doi_mobile/presentation/features/onboarding/data/models/signup_sync_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/repository/onboarding_repository.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/notifier/onboarding.state.dart';
+import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository.dart';
+import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OnboardingNotifier extends AutoDisposeNotifier<OnboardingState> {
   OnboardingNotifier();
   late OnboardingRepository _onboardingRepository;
+  late UserRepository _userRepository;
 
   @override
   OnboardingState build() {
     _onboardingRepository = ref.read(onboardingRepositoryProvider);
+    _userRepository = ref.read(userRepositoryProvider);
     return OnboardingState.initial();
   }
 
@@ -56,6 +60,7 @@ class OnboardingNotifier extends AutoDisposeNotifier<OnboardingState> {
       final response =
           await _onboardingRepository.loginDevice(deviceId: deviceId);
       if (!response.status) throw response.message;
+      _userRepository.saveCurrentState(CurrentState.loggedIn);
       state = state.copyWith(loadState: LoadState.success);
       if (onCompleted != null) onCompleted();
     } catch (e) {

@@ -16,6 +16,9 @@ build_stag_android:
 build_stag_apk:
 	flutter build apk --split-per-abi --flavor staging -t lib/main_staging.dart
 
+build_prod_apk:
+	flutter build apk --split-per-abi --flavor production -t lib/main_production.dart	
+
 auto_generate:
 	dart run build_runner build --delete-conflicting-outputs
 

@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "app.doi.game" "\0"
+            VALUE "CompanyName", "app.crackein.game" "\0"
             VALUE "FileDescription", "doi_mobile" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "doi_mobile" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 app.doi.game. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 app.crackein.game. All rights reserved." "\0"
             VALUE "OriginalFilename", "doi_mobile.exe" "\0"
-            VALUE "ProductName", "DOI" "\0"
+            VALUE "ProductName", "Crackein" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

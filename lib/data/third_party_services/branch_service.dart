@@ -16,9 +16,9 @@ class BranchLinkService {
   }) async {
     BranchUniversalObject buo = BranchUniversalObject(
       canonicalIdentifier: 'game/$gameCode',
-      title: 'Join my DOI game!',
+      title: 'Join my Crackein game!',
       contentDescription: 'Click to join my game',
-      keywords: ['game', 'doi', 'multiplayer'],
+      keywords: ['game', 'crackein', 'multiplayer'],
       publiclyIndex: true,
       locallyIndex: true,
     );

@@ -9,6 +9,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/data/inapp_purchase/inapp_purchase_service.dart';
+import 'package:doi_mobile/data/third_party_services/ads_service.dart';
 import 'package:doi_mobile/data/third_party_services/branch_service.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
@@ -39,7 +40,8 @@ class _HomeState extends ConsumerState<Home> {
   @override
   void initState() {
     super.initState();
-
+    final adManager = AdManager();
+    adManager.loadRewardedAd();
     dragScrollController = DraggableScrollableController()..addListener(() {});
     _initDeepLinkListener();
   }
@@ -140,9 +142,13 @@ class _HomeState extends ConsumerState<Home> {
                 Stack(
                   children: [
                     DoiButton(
-                      text: context.l10n.arcade,
-                      onPressed: () => context.pushNamed(AppRouter.arcade),
-                    ),
+                        text: context.l10n.arcade,
+                        onPressed: () {
+                          _showAdThenEarn();
+                        }
+
+                        // => context.pushNamed(AppRouter.arcade),
+                        ),
                     Positioned(
                       right: 0,
                       child: Assets.images.cloudGaming.image(),
@@ -199,6 +205,37 @@ class _HomeState extends ConsumerState<Home> {
         ],
       ),
     );
+  }
+
+  void _showAdThenEarn() {
+    final adManager = AdManager();
+
+    if (adManager.isRewardedAdLoaded) {
+      adManager.showRewardedAd(
+        onUserEarnedReward: () {
+          // User earned reward
+          context.showSuccess(message: 'You earned a reward!');
+        },
+      ).then((wasAdShown) {
+        if (!wasAdShown) {
+          // Ad couldn't be shown
+          context.showError(
+              message: 'Ad not available. Please try again later.');
+        }
+      });
+    } else {
+      // Check again after status check (might have promoted a next ad)
+      if (adManager.isRewardedAdLoaded) {
+        // Try again - ad might be available now after status check
+        _showAdThenEarn();
+      } else {
+        // Still not available
+        context.showError(message: 'Ad not available. Please try again later.');
+
+        // Force a reload to ensure ads are available next time
+        adManager.forceReloadAds();
+      }
+    }
   }
 
   @override

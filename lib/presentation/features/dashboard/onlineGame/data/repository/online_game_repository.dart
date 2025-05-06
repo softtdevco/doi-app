@@ -5,7 +5,7 @@ import 'package:doi_mobile/core/utils/type_defs.dart';
 import 'package:doi_mobile/data/client/rest_client.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/data/model/join_game_response.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 base class OnlineGameRepository {

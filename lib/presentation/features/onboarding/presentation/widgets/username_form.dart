@@ -38,6 +38,10 @@ class _UserNameFormState extends ConsumerState<UserNameForm> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: MinFormField(
+                textStyle: context.textTheme.bodySmall?.copyWith(
+                  fontSize: 20.sp,
+                  color: AppColors.secondaryColor,
+                ),
                 width: double.infinity,
                 hintText: context.l10n.enterYourName,
                 keyboardType: TextInputType.name,

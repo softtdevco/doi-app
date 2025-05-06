@@ -6,7 +6,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_counter.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';

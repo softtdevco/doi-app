@@ -166,7 +166,7 @@ class _CreateGameState extends ConsumerState<CreateGame> {
                       }
                     },
                     add: () {
-                      if (guessCount < 7) {
+                      if (guessCount < 4) {
                         setState(() {
                           guessCount++;
                         });

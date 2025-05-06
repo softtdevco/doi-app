@@ -52,6 +52,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-2395790181285255~8160620066</string>
 	<key>SKAdNetworkItems</key>
     <array>
         <dict>

@@ -62,7 +62,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 ),
                 37.verticalSpace,
                 Text(
-                  context.l10n.deadOrInjured,
+                  context.l10n.welcomeToCrack,
                   style: context.textTheme.bodySmall?.copyWith(
                     fontSize: 22.sp,
                   ),

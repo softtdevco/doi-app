@@ -8,11 +8,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class GuessResult extends StatelessWidget {
   final int deadCount;
   final int injuredCount;
+  final Color countColor;
 
   const GuessResult({
     Key? key,
     required this.deadCount,
     required this.injuredCount,
+    this.countColor = AppColors.greenText,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,7 @@ class GuessResult extends StatelessWidget {
             Text(
               '$deadCount',
               style: context.textTheme.bodyMedium?.copyWith(
-                color: AppColors.greenText,
+                color: countColor,
                 fontSize: 14.sp,
               ),
             ),
@@ -42,7 +44,7 @@ class GuessResult extends StatelessWidget {
             Text(
               '$injuredCount',
               style: context.textTheme.bodyMedium?.copyWith(
-                color: AppColors.greenText,
+                color: countColor,
                 fontSize: 14.sp,
               ),
             ),

@@ -29,8 +29,8 @@ class _WelcomeState extends ConsumerState<Welcome> {
   _loginDevice() async {
     context.showLoading();
 
-    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
-
+    final deviceId =
+        await DeviceInfoService.instance.getFirebaseInstallationsId();
     ref.read(onboardingNotifierProvider.notifier).loginDevice(
         deviceId: deviceId,
         onError: (p0) {

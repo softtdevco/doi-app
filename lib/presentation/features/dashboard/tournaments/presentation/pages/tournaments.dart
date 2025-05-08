@@ -6,6 +6,7 @@ import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/home_appbar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/tournaments/presentation/notifiers/tournaments_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/tournaments/presentation/pages/widgets/tournament_status_switch.dart';
+import 'package:doi_mobile/presentation/general_widgets/banner_ads_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -179,7 +180,7 @@ class _TournamentsState extends ConsumerState<Tournaments> {
           24.verticalSpace,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Assets.images.mobileLeaderboard.image(),
+            child: Center(child: BannerAdWidget()),
           ),
         ],
       ),

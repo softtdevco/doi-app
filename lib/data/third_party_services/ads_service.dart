@@ -9,35 +9,32 @@ import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdManager {
-  // Singleton pattern
   static final AdManager _instance = AdManager._internal();
   factory AdManager() => _instance;
   AdManager._internal();
 
-  // Ad instances
   RewardedAd? _rewardedAd;
   bool _isRewardedAdLoaded = false;
   Timer? _adLoadTimer;
 
-  // Getters
-  bool get isRewardedAdLoaded => _isRewardedAdLoaded;
+  BannerAd? _bannerAd;
+  bool _isBannerAdLoaded = false;
 
-  // Initialize AdMob
+  bool get isRewardedAdLoaded => _isRewardedAdLoaded;
+  bool get isBannerAdLoaded => _isBannerAdLoaded;
+  BannerAd? get bannerAd => _bannerAd;
+
   Future<void> initialize() async {
-    // Initialize the Mobile Ads SDK
     await MobileAds.instance.initialize();
 
-    // Get and log test device ID
     final testDeviceId = await _getTestDeviceId();
 
-    // Log the ID to the console
     debugLog('');
     debugLog('==========================================================');
     debugLog('📱 ADMOB TEST DEVICE ID: $testDeviceId');
     debugLog('==========================================================');
     debugLog('');
 
-    // Set this device as a test device automatically
     if (testDeviceId != null) {
       MobileAds.instance.updateRequestConfiguration(
         RequestConfiguration(testDeviceIds: [testDeviceId]),
@@ -46,11 +43,9 @@ class AdManager {
       debugLog('✅ Test device ID has been automatically configured.');
     }
 
-    // Load initial rewarded ad
     loadRewardedAd();
   }
 
-  // Get the test device ID for AdMob
   Future<String?> _getTestDeviceId() async {
     try {
       final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -59,7 +54,6 @@ class AdManager {
         final androidInfo = await deviceInfo.androidInfo;
         final androidId = androidInfo.id;
 
-        // Create MD5 hash of the Android ID
         final bytes = utf8.encode(androidId);
         final digest = md5.convert(bytes);
         return digest.toString().toUpperCase();
@@ -81,15 +75,12 @@ class AdManager {
     }
   }
 
-  // Cancel any pending timers
   void _cancelLoadTimer() {
     _adLoadTimer?.cancel();
     _adLoadTimer = null;
   }
 
-  // Load a rewarded ad
   void loadRewardedAd() {
-    // Cancel any pending timers
     _cancelLoadTimer();
 
     RewardedAd.load(
@@ -132,7 +123,6 @@ class AdManager {
           debugLog('Rewarded ad failed to load: $error');
           _isRewardedAdLoaded = false;
 
-          // Retry after a delay
           _adLoadTimer = Timer(const Duration(seconds: 30), () {
             loadRewardedAd();
           });
@@ -141,7 +131,51 @@ class AdManager {
     );
   }
 
-  // Show rewarded ad with callback
+  void loadBannerAd({
+    AdSize size = AdSize.banner,
+    Function(BannerAd ad)? onAdLoaded,
+  }) {
+    _bannerAd?.dispose();
+    _isBannerAdLoaded = false;
+
+    debugLog('Loading banner ad...');
+
+    _bannerAd = BannerAd(
+      adUnitId: ApiKeys.getBannerAdUnitId(),
+      size: size,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          debugLog('Banner ad loaded successfully');
+          _isBannerAdLoaded = true;
+          if (onAdLoaded != null) {
+            onAdLoaded(ad as BannerAd);
+          }
+        },
+        onAdFailedToLoad: (ad, error) {
+          debugLog('Banner ad failed to load: $error');
+          _isBannerAdLoaded = false;
+          ad.dispose();
+
+          _adLoadTimer = Timer(const Duration(seconds: 30), () {
+            loadBannerAd(size: size, onAdLoaded: onAdLoaded);
+          });
+        },
+        onAdOpened: (ad) {
+          debugLog('Banner ad opened');
+        },
+        onAdClosed: (ad) {
+          debugLog('Banner ad closed');
+        },
+        onAdImpression: (ad) {
+          debugLog('Banner ad impression recorded');
+        },
+      ),
+    );
+
+    _bannerAd!.load();
+  }
+
   Future<bool> showRewardedAd({required Function onUserEarnedReward}) async {
     if (_rewardedAd == null || !_isRewardedAdLoaded) {
       debugLog('Rewarded ad not ready yet');
@@ -160,7 +194,6 @@ class AdManager {
       debugLog('Error showing rewarded ad: $e');
       _isRewardedAdLoaded = false;
 
-      // Try to load a new ad after error - FIXED: using one-time Timer instead of Timer.periodic
       _adLoadTimer = Timer(const Duration(seconds: 1), () {
         loadRewardedAd();
       });
@@ -168,7 +201,6 @@ class AdManager {
     }
   }
 
-  // Check if ad is available
   String getAdAvailabilityStatus() {
     if (_isRewardedAdLoaded) {
       return "ready";
@@ -177,27 +209,27 @@ class AdManager {
     }
   }
 
-  // Force a reload of ads
   void forceReloadAds() {
-    // Dispose current ads
     _rewardedAd?.dispose();
+    _bannerAd?.dispose();
 
-    // Reset states
     _rewardedAd = null;
     _isRewardedAdLoaded = false;
+    _bannerAd = null;
+    _isBannerAdLoaded = false;
 
-    // Cancel any pending timers
     _cancelLoadTimer();
 
-    // Start fresh
     loadRewardedAd();
   }
 
-  // Dispose ad resources
   void dispose() {
     _rewardedAd?.dispose();
     _rewardedAd = null;
     _isRewardedAdLoaded = false;
+    _bannerAd?.dispose();
+    _bannerAd = null;
+    _isBannerAdLoaded = false;
     _cancelLoadTimer();
   }
 }

@@ -32,7 +32,8 @@ class _CountryFormState extends ConsumerState<CountryForm> {
     context.showLoading();
     final userName =
         ref.watch(onboardingNotifierProvider.select((v) => v.userName));
-    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+    final deviceId =
+        await DeviceInfoService.instance.getFirebaseInstallationsId();
 
     final data = RegisterDeviceRequest(
       username: userName ?? '',
@@ -56,7 +57,8 @@ class _CountryFormState extends ConsumerState<CountryForm> {
   _loginDevice() async {
     context.showLoading();
 
-    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+    final deviceId =
+        await DeviceInfoService.instance.getFirebaseInstallationsId();
 
     ref.read(onboardingNotifierProvider.notifier).loginDevice(
         deviceId: deviceId,

@@ -6,6 +6,7 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/start_match.dart';
+import 'package:doi_mobile/presentation/general_widgets/banner_ads_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
@@ -480,7 +481,7 @@ class PlayOnline extends StatelessWidget {
           ],
         ),
       ),
-      footerButton: Assets.images.mobileLeaderboard.image(),
+      footerButton: Center(child: BannerAdWidget()),
     );
   }
 }

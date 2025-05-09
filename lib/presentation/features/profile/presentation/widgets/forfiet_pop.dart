@@ -90,7 +90,7 @@ class _ForfietPopState extends ConsumerState<ForfietPop> {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    'Return to game',
+                    'Return',
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontFamily: FontFamily.jungleAdventurer,
                       fontSize: 16.sp,

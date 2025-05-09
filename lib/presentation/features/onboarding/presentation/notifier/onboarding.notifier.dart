@@ -29,6 +29,10 @@ class OnboardingNotifier extends AutoDisposeNotifier<OnboardingState> {
     state = state.copyWith(userName: userName);
   }
 
+  void selectAvatar(String avatar) {
+    state = state.copyWith(avatar: avatar);
+  }
+
   void selectCountry(String country) {
     state = state.copyWith(country: country);
   }
@@ -104,6 +108,22 @@ class OnboardingNotifier extends AutoDisposeNotifier<OnboardingState> {
     }
   }
 
+  Future<void> deleteAccount({
+    required void Function(String) onError,
+    required void Function() onCompleted,
+  }) async {
+    state = state.copyWith(deleteLoadState: LoadState.loading);
+
+    try {
+      final response = await _onboardingRepository.deleteAccount();
+      if (!response.status) throw response.message;
+      state = state.copyWith(deleteLoadState: LoadState.success);
+      onCompleted();
+    } catch (e) {
+      state = state.copyWith(deleteLoadState: LoadState.error);
+      onError(e.toString());
+    }
+  }
   // Future<void> logout() async {
   //   _userRepository.saveCurrentState(CurrentState.onboarded);
   //   state = state.copyWith(homeSessionState: HomeSessionState.logout);

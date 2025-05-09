@@ -6,6 +6,7 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/user_stat_tile.dart';
+import 'package:doi_mobile/presentation/general_widgets/banner_ads_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class FriendProfile extends StatelessWidget {
             14.verticalSpace,
             if (fromLeaderBoard) ...[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal:24),
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: GestureDetector(
                   onTap: () {},
                   child: Container(
@@ -122,7 +123,7 @@ class FriendProfile extends StatelessWidget {
                 ),
               ),
               24.verticalSpace,
-              Assets.images.mobileLeaderboard.image()
+              Center(child: BannerAdWidget())
             ] else
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -286,7 +287,7 @@ class FriendProfile extends StatelessWidget {
             ),
             if (!fromLeaderBoard) ...[
               22.verticalSpace,
-              Assets.images.mobileLeaderboard.image()
+              Center(child: BannerAdWidget())
             ]
           ],
         ),

@@ -6,6 +6,7 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/waiting_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/general_widgets/banner_ads_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,7 @@ class _WaitingScreenState extends ConsumerState<WaitingScreen> {
                   }))
         ],
       ),
-      footerButton: Assets.images.mobileLeaderboard.image(),
+      footerButton: Center(child: BannerAdWidget()),
     );
   }
 }

@@ -33,7 +33,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   bool isEnabled = false;
 
   _login() async {
-    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+    final deviceId =
+        await DeviceInfoService.instance.getFirebaseInstallationsId();
     final data = LoginSyncRequest(
       email: _emailController.text.trim().toLowerCase(),
       password: _passwordController.text.trim(),

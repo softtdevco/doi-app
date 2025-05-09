@@ -65,7 +65,7 @@ class MinFormField extends StatefulWidget {
   final FocusNode? focusNode;
   final FocusNode? nextFocusNode;
   final VoidCallback? submitAction;
-  final bool? enableErrorMessage;
+  final bool enableErrorMessage;
   final void Function(String)? onFieldSubmitted;
   final void Function()? onTap;
   final Widget? suffixIcon;
@@ -184,18 +184,20 @@ class _MinFormFieldState extends State<MinFormField> {
                 ),
           ),
         ),
-        if (error != null)
-          SizedBox(
-            height: 5.h,
-          ),
-        if (error != null)
-          Text(
-            error!,
-            style: context.textTheme.bodySmall?.copyWith(
-              fontSize: 14.sp,
-              color: AppColors.errorText,
+        if (widget.enableErrorMessage) ...[
+          if (error != null)
+            SizedBox(
+              height: 5.h,
             ),
-          ),
+          if (error != null)
+            Text(
+              error!,
+              style: context.textTheme.bodySmall?.copyWith(
+                fontSize: 14.sp,
+                color: AppColors.errorText,
+              ),
+            ),
+        ]
       ],
     );
   }

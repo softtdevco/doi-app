@@ -86,6 +86,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/opponet.png
   AssetGenImage get opponet => const AssetGenImage('assets/images/opponet.png');
 
+  /// File path: assets/images/product_locked.png
+  AssetGenImage get productLocked =>
+      const AssetGenImage('assets/images/product_locked.png');
+
   /// File path: assets/images/speed_crackdown.png
   AssetGenImage get speedCrackdown =>
       const AssetGenImage('assets/images/speed_crackdown.png');
@@ -109,6 +113,26 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/user1.png
   AssetGenImage get user1 => const AssetGenImage('assets/images/user1.png');
+
+  /// File path: assets/images/userpic1.png
+  AssetGenImage get userpic1 =>
+      const AssetGenImage('assets/images/userpic1.png');
+
+  /// File path: assets/images/userpic2.png
+  AssetGenImage get userpic2 =>
+      const AssetGenImage('assets/images/userpic2.png');
+
+  /// File path: assets/images/userpic3.png
+  AssetGenImage get userpic3 =>
+      const AssetGenImage('assets/images/userpic3.png');
+
+  /// File path: assets/images/userpic4.png
+  AssetGenImage get userpic4 =>
+      const AssetGenImage('assets/images/userpic4.png');
+
+  /// File path: assets/images/userpic5.png
+  AssetGenImage get userpic5 =>
+      const AssetGenImage('assets/images/userpic5.png');
 
   /// File path: assets/images/win.png
   AssetGenImage get win => const AssetGenImage('assets/images/win.png');
@@ -140,6 +164,7 @@ class $AssetsImagesGen {
         loss,
         multiple,
         opponet,
+        productLocked,
         speedCrackdown,
         targetPoint,
         tournament,
@@ -147,6 +172,11 @@ class $AssetsImagesGen {
         trophy2,
         trophy3,
         user1,
+        userpic1,
+        userpic2,
+        userpic3,
+        userpic4,
+        userpic5,
         win,
         winner
       ];
@@ -203,6 +233,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/arrow-up.svg
   String get arrowUp => 'assets/svgs/arrow-up.svg';
+
+  /// File path: assets/svgs/avatar_check.svg
+  String get avatarCheck => 'assets/svgs/avatar_check.svg';
 
   /// File path: assets/svgs/back.svg
   String get back => 'assets/svgs/back.svg';
@@ -426,6 +459,7 @@ class $AssetsSvgsGen {
         arrowDown,
         arrowForwardIos,
         arrowUp,
+        avatarCheck,
         back,
         bin,
         calendarStar,

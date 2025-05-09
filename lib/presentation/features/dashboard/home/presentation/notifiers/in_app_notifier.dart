@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/data/inapp_purchase/inapp_purchase_service.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/product_model.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/in_app_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';

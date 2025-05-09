@@ -2,16 +2,17 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
-
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 
 class DeviceInfoService {
   static DeviceInfoService get instance => _getInstance();
   static DeviceInfoService? _instance;
   late DeviceInfoPlugin _deviceInfo;
-
+  late FirebaseInstallations _firebaseAppInstallation;
 
   DeviceInfoService._internal() {
     _deviceInfo = DeviceInfoPlugin();
+    _firebaseAppInstallation = FirebaseInstallations.instance;
   }
 
   static DeviceInfoService _getInstance() {
@@ -19,6 +20,7 @@ class DeviceInfoService {
     return _instance!;
   }
 
+  ///<====== Device Id would tie a user to a device, to avoid that we are using firebase installation ID =====>\\\
   Future<String> getDeviceInfo() async {
     try {
       if (Platform.isAndroid) {
@@ -37,5 +39,13 @@ class DeviceInfoService {
     }
   }
 
-
+  Future<String> getFirebaseInstallationsId() async {
+    try {
+      final installationId = await _firebaseAppInstallation.getId();
+      return installationId;
+    } catch (e) {
+      debugLog("Error retrieving Installations ID");
+      return '';
+    }
+  }
 }

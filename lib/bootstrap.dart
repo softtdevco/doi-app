@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:doi_mobile/data/local_storage/storage_keys.dart';
 import 'package:doi_mobile/data/third_party_services/ads_service.dart';
+import 'package:doi_mobile/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
@@ -17,6 +19,9 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await FlutterBranchSdk.init();
   // FlutterBranchSdk.validateSDKIntegration();
   await AdManager().initialize();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Hive.initFlutter();
   await Hive.openBox(HiveKeys.appBox);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);

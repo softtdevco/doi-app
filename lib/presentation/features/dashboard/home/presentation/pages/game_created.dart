@@ -11,6 +11,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/invite_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/scan_to_join.dart';
+import 'package:doi_mobile/presentation/general_widgets/banner_ads_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
@@ -184,7 +185,7 @@ class _GameCreatedState extends ConsumerState<GameCreated> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 13.0, vertical: 16),
-              child: Assets.images.mobileLeaderboard.image(),
+              child: Center(child: BannerAdWidget()),
             ),
             Text(
               'Or search friends to add',

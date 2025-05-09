@@ -3,6 +3,7 @@ import 'package:doi_mobile/core/config/exceptions/exceptions_handler.dart';
 import 'package:doi_mobile/core/extensions/object_extensions.dart';
 import 'package:doi_mobile/core/utils/type_defs.dart';
 import 'package:doi_mobile/data/client/rest_client.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/empty_data.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_sync_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
@@ -76,6 +77,19 @@ base class OnboardingRepository {
       await _userRepository.updateUser(r.data!);
       return r.toBaseResponse(
         message: 'User account synced',
+        status: true,
+      );
+    } on DioException catch (e) {
+      return AppException.handleError(e);
+    }
+  }
+
+  Future<BaseResponse<Emptydata>> deleteAccount() async {
+    try {
+      final r = await _restClient.deleteUser();
+
+      return r.toBaseResponse(
+        message: 'User account deleted',
         status: true,
       );
     } on DioException catch (e) {

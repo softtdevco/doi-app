@@ -86,7 +86,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   void deleteUser() async {
-    await _storage.delete(HiveKeys.user);
+    await _storage.clear();
   }
 }
 

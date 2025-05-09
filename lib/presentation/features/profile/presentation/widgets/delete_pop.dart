@@ -97,7 +97,7 @@ class _DeletePopState extends ConsumerState<DeletePop> {
             Flexible(
               child: GestureDetector(
                 onTap: () {
-                  widget.onDelete;
+                  widget.onDelete();
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 4, horizontal: 20),

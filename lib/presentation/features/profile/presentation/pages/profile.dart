@@ -11,6 +11,7 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/user_stat_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/widgets/nav_bar.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/notifier/onboarding.notifier.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/delete_pop.dart';
@@ -40,11 +41,12 @@ class _ProfileState extends ConsumerState<Profile> {
             message: p0,
           );
       }, onCompleted: () {
+        ref.read(userRepositoryProvider).updateUser(DoiUser());
         ref.read(currentIndexProvider.notifier).state = 0;
         ref
             .read(userRepositoryProvider)
             .saveCurrentState(CurrentState.onboarded);
-        ref.read(userRepositoryProvider).deleteUser();
+
         context
           ..hideOverLay()
           ..showSuccess(

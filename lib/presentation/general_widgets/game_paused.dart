@@ -134,8 +134,14 @@ class _GamePausedState extends ConsumerState<GamePaused> {
                 onPressed: () {
                   context.pop();
                   context.showPopUp(
-                      size: context.height * 0.8,
-                      SingleChildScrollView(child: HowToPlayPop()));
+                    size: context.height * 0.8,
+                    SingleChildScrollView(
+                      child: HowToPlayPop(
+                        isOnline: widget.isOnline,
+                        fromGame: true,
+                      ),
+                    ),
+                  );
                 }),
             16.verticalSpace,
             DoiButton(

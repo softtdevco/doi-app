@@ -22,6 +22,7 @@ class LeaderBoard extends ConsumerStatefulWidget {
 }
 
 class _LeaderBoardState extends ConsumerState<LeaderBoard> {
+  bool lock = true;
   @override
   Widget build(BuildContext context) {
     final selectedIndex =
@@ -52,85 +53,118 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
           ),
         ),
         bodyPadding: EdgeInsets.all(24),
-        body: Column(
-          children: [
-            switch (selectedIndex) {
-              1 => Assets.images.winnerGreen.image(
-                  fit: BoxFit.cover,
-                ),
-              _ => Assets.images.winner.image(
-                  fit: BoxFit.cover,
-                ),
-            },
-            20.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.w),
-              child: Text(
-                'Stay at the top of the leaderboard and win cool prices',
-                style: context.textTheme.bodySmall?.copyWith(
-                  fontSize: 12.sp,
-                  color: selectedIndex == 1
-                      ? AppColors.greenText.withValues(alpha: 0.7)
-                      : AppColors.secondaryColor.withValues(alpha: 0.7),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            16.verticalSpace,
-            LeaderboardSwitch(
-              index: selectedIndex,
-              onChanged: (v) {
-                ref
-                    .read(homeNotifierProvider.notifier)
-                    .selectLeaderboardIndex(v);
+        body: SizedBox(
+          height: context.height,
+          child: Column(
+            children: [
+              switch (selectedIndex) {
+                1 => Assets.images.winnerGreen.image(
+                    fit: BoxFit.cover,
+                  ),
+                _ => Assets.images.winner.image(
+                    fit: BoxFit.cover,
+                  ),
               },
-            ),
-            24.verticalSpace,
-            Assets.images.mobileLeaderboard.image(
-              fit: BoxFit.cover,
-            ),
-            24.verticalSpace,
-            Expanded(
-              child: ListView(
-                children: [
-                  Text(
-                    switch (selectedIndex) {
-                      0 => 'Lagos  🌆',
-                      1 => 'Nigeria  🇳🇬',
-                      _ => 'Global  🌍',
-                    },
-                    style: context.textTheme.bodySmall?.copyWith(
-                      fontSize: 14.sp,
-                      color: selectedIndex == 1
-                          ? AppColors.greenText
-                          : AppColors.secondaryColor,
-                    ),
-                  ).withContainer(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(6),
-                      color: selectedIndex == 1
-                          ? Color(0xFFCCE0A3)
-                          : Color(0xFFFFC098),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12.r),
-                        topRight: Radius.circular(12.r),
-                      )),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              20.verticalSpace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.w),
+                child: Text(
+                  'Stay at the top of the leaderboard and win cool prices',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    fontSize: 12.sp,
+                    color: selectedIndex == 1
+                        ? AppColors.greenText.withValues(alpha: 0.7)
+                        : AppColors.secondaryColor.withValues(alpha: 0.7),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              16.verticalSpace,
+              LeaderboardSwitch(
+                index: selectedIndex,
+                onChanged: (v) {
+                  ref
+                      .read(homeNotifierProvider.notifier)
+                      .selectLeaderboardIndex(v);
+                },
+              ),
+              if (lock) ...[
+                Expanded(
+                  child: ListView(
                     children: [
+                      79.verticalSpace,
+                      Assets.images.productLocked.image(
+                        height: 206.h,
+                        width: 206.w,
+                      ),
+                      33.verticalSpace,
+                      Text(
+                        'Reach 1,000 XP playing to unlock Leaderboards',
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize: 16.sp,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ] else ...[
+                24.verticalSpace,
+                Assets.images.mobileLeaderboard.image(
+                  fit: BoxFit.cover,
+                ),
+                24.verticalSpace,
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Text(
+                        switch (selectedIndex) {
+                          0 => 'Lagos  🌆',
+                          1 => 'Nigeria  🇳🇬',
+                          _ => 'Global  🌍',
+                        },
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize: 14.sp,
+                          color: selectedIndex == 1
+                              ? AppColors.greenText
+                              : AppColors.secondaryColor,
+                        ),
+                      ).withContainer(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(6),
+                          color: selectedIndex == 1
+                              ? Color(0xFFCCE0A3)
+                              : Color(0xFFFFC098),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12.r),
+                            topRight: Radius.circular(12.r),
+                          )),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Rank',
-                            style: context.textTheme.bodySmall?.copyWith(
-                                fontSize: 12.sp,
-                                color: selectedIndex == 1
-                                    ? AppColors.greenBorder
-                                    : AppColors.orange0A),
+                          Row(
+                            children: [
+                              Text(
+                                'Rank',
+                                style: context.textTheme.bodySmall?.copyWith(
+                                    fontSize: 12.sp,
+                                    color: selectedIndex == 1
+                                        ? AppColors.greenBorder
+                                        : AppColors.orange0A),
+                              ),
+                              16.horizontalSpace,
+                              Text(
+                                'Players',
+                                style: context.textTheme.bodySmall?.copyWith(
+                                    fontSize: 12.sp,
+                                    color: selectedIndex == 1
+                                        ? AppColors.greenBorder
+                                        : AppColors.orange0A),
+                              )
+                            ],
                           ),
-                          16.horizontalSpace,
                           Text(
-                            'Players',
+                            'XP',
                             style: context.textTheme.bodySmall?.copyWith(
                                 fontSize: 12.sp,
                                 color: selectedIndex == 1
@@ -138,47 +172,43 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
                                     : AppColors.orange0A),
                           )
                         ],
-                      ),
-                      Text(
-                        'XP',
-                        style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 12.sp,
+                      ).withContainer(
+                        color: selectedIndex == 1
+                            ? Color(0xFFEFFED2)
+                            : AppColors.indicator,
+                        border: Border(
+                          bottom: BorderSide(
                             color: selectedIndex == 1
-                                ? AppColors.greenBorder
-                                : AppColors.orange0A),
+                                ? Color(0xFFBFE17A)
+                                : Color(0xFFF6C19F),
+                            width: 1,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8.h,
+                          horizontal: 32.w,
+                        ),
+                      ),
+                      Column(
+                        children: List.generate(
+                            10,
+                            (i) => GestureDetector(
+                                onTap: () =>
+                                    context.showPopUp(LeaderProfilePop()),
+                                child:
+                                    PlayerRankTile(index: i, isYou: i == 5))),
                       )
                     ],
                   ).withContainer(
                     color: selectedIndex == 1
-                        ? Color(0xFFEFFED2)
-                        : AppColors.indicator,
-                    border: Border(
-                      bottom: BorderSide(
-                        color: selectedIndex == 1
-                            ? Color(0xFFBFE17A)
-                            : Color(0xFFF6C19F),
-                        width: 1,
-                      ),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      vertical: 8.h,
-                      horizontal: 32.w,
-                    ),
+                        ? Color(0xFFFBFFF2)
+                        : AppColors.white,
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  Column(
-                    children: List.generate(
-                        10,
-                        (i) => GestureDetector(
-                            onTap: () => context.showPopUp(LeaderProfilePop()),
-                            child: PlayerRankTile(index: i, isYou: i == 5))),
-                  )
-                ],
-              ).withContainer(
-                color: selectedIndex == 1 ? Color(0xFFFBFFF2) : AppColors.white,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-            )
-          ],
+                )
+              ]
+            ],
+          ),
         ));
   }
 }

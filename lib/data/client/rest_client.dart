@@ -9,6 +9,7 @@ import 'package:doi_mobile/data/local_storage/storage_keys.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/empty_data.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_sync_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
@@ -41,6 +42,9 @@ abstract class RestClient {
 
   @POST('/user/sync/login')
   Future<RegisterDeviceResponse> syncLogin(@Body() LoginSyncRequest request);
+
+  @DELETE('/users')
+  Future<Emptydata> deleteUser();
 
   //<====================> Game Play <====================>
   @POST('/game/create-session')

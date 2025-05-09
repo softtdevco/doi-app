@@ -32,24 +32,31 @@ class PlayOnline extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             26.verticalSpace,
-            Stack(
-              children: [
-                DoiButton(
-                  text: 'New Match',
-                  onPressed: () => context.showBottomSheet(
-                    isDismissible: true,
-                    color: AppColors.background,
-                    child: StartMatch(),
+            GestureDetector(
+              onTap: () => context.showBottomSheet(
+                isDismissible: true,
+                color: AppColors.background,
+                child: StartMatch(),
+              ),
+              child: Stack(
+                children: [
+                  DoiButton(
+                    text: 'New Match',
+                    onPressed: () => context.showBottomSheet(
+                      isDismissible: true,
+                      color: AppColors.background,
+                      child: StartMatch(),
+                    ),
+                    trailing: Assets.svgs.add,
                   ),
-                  trailing: Assets.svgs.add,
-                ),
-                Positioned(
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.r),
-                        child: Assets.images.a1.image())),
-                Positioned(child: Assets.images.a2.image()),
-                Positioned(right: 0, child: Assets.images.a3.image()),
-              ],
+                  Positioned(
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15.r),
+                          child: Assets.images.a1.image())),
+                  Positioned(child: Assets.images.a2.image()),
+                  Positioned(right: 0, child: Assets.images.a3.image()),
+                ],
+              ),
             ),
             50.verticalSpace,
             Text(

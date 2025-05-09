@@ -1,3 +1,4 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
@@ -5,7 +6,9 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/home_appbar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/tournaments/presentation/notifiers/tournaments_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/tournaments/presentation/pages/widgets/lock_tournament_pop.dart';
 import 'package:doi_mobile/presentation/features/dashboard/tournaments/presentation/pages/widgets/tournament_status_switch.dart';
+import 'package:doi_mobile/presentation/features/dashboard/widgets/nav_bar.dart';
 import 'package:doi_mobile/presentation/general_widgets/banner_ads_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -21,10 +24,43 @@ class Tournaments extends ConsumerStatefulWidget {
 }
 
 class _TournamentsState extends ConsumerState<Tournaments> {
+  bool _hasShownPopup = false;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _checkAndShowPopup();
+  }
+
+  void _checkAndShowPopup() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_hasShownPopup) {
+        final currentIndex = ref.read(currentIndexProvider);
+
+        if (currentIndex == 2) {
+          _hasShownPopup = true;
+          context.showPopUp(LockTournamentPop());
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedIndex =
         ref.watch(tournamentsNotifierProvider.select((s) => s.switchIndex));
+    ref.listen(currentIndexProvider, (previous, current) {
+      if (current == 2 && previous != 2) {
+        _hasShownPopup = false;
+        _checkAndShowPopup();
+      }
+    });
+
     return DoiScaffold(
       showBackImage: false,
       appbar: DoiHomeAppbar(),
@@ -55,7 +91,9 @@ class _TournamentsState extends ConsumerState<Tournaments> {
               ),
               16.horizontalSpace,
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  context.showPopUp(LockTournamentPop());
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 4, horizontal: 14),
                   decoration: BoxDecoration(

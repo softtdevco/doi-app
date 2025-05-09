@@ -4,11 +4,10 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
-import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication_page.dart';
+import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/how_to_play_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -30,6 +29,7 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
   ];
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(currentUserProvider);
     return Column(
       children: [
         Row(
@@ -59,13 +59,29 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
         Column(
           children: [
             GestureDetector(
-              onTap: () => context.pushNamed(AppRouter.profile),
+              onTap: () => context.popAndPushNamed(AppRouter.profile),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      Assets.images.brazil.image(),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50.r),
+                        child: Image.asset(
+                          'assets/images/${(user.avatar ?? 'userPic4.png').toLowerCase()}',
+                          height: 50.h,
+                          width: 50.w,
+                          errorBuilder: (context, error, stackTrace) =>
+                              ClipRRect(
+                            borderRadius: BorderRadius.circular(25.r),
+                            child: Image.asset(
+                              Assets.images.userpic3.path,
+                              height: 50.h,
+                              width: 50.w,
+                            ),
+                          ),
+                        ),
+                      ),
                       8.horizontalSpace,
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,65 +132,65 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
                     SingleChildScrollView(child: HowToPlayPop()));
               },
             ),
-            16.verticalSpace,
-            Stack(
-              children: [
-                DoiButton(
-                  text: 'Go Ad free',
-                  buttonStyle: DoiButtonStyle(
-                    background: AppColors.green,
-                    borderColor: AppColors.greenBorder,
-                  ),
-                  onPressed: () {},
-                ),
-                Positioned(
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.r),
-                        child:
-                            Assets.images.a1.image(color: Color(0xFFCCF084)))),
-                Positioned(
-                    child: Assets.images.a2.image(color: Color(0xFFCCF084))),
-                Positioned(
-                    right: 0,
-                    child: Assets.images.a3.image(color: Color(0xFFCCF084))),
-              ],
-            ),
-            16.verticalSpace,
-            DoiButton(
-              width: context.width,
-              text: 'HELP & SUPPORT',
-              onPressed: () {},
-            ),
-            24.verticalSpace,
-            DoiButton(
-              width: 239,
-              height: 48,
-              leading: Assets.svgs.union,
-              buttonStyle: DoiButtonStyle.secondary(),
-              text: context.l10n.syncProgress,
-              onPressed: () {
-                context.pop();
-                context.showPopUp(
-                    horizontalPadding: 12,
-                    Authentication(),
-                    color: AppColors.white);
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(actions.length, (index) {
-                return AppSvgIcon(path: actions[index]).withContainer(
-                    width: 48.w,
-                    height: 48.h,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 33, horizontal: 12),
-                    border: Border.all(
-                      width: 2.w,
-                      color: AppColors.primaryColor,
-                    ),
-                    borderRadius: BorderRadius.circular(12.r));
-              }),
-            )
+            // 16.verticalSpace,
+            // Stack(
+            //   children: [
+            //     DoiButton(
+            //       text: 'Go Ad free',
+            //       buttonStyle: DoiButtonStyle(
+            //         background: AppColors.green,
+            //         borderColor: AppColors.greenBorder,
+            //       ),
+            //       onPressed: () {},
+            //     ),
+            //     Positioned(
+            //         child: ClipRRect(
+            //             borderRadius: BorderRadius.circular(15.r),
+            //             child:
+            //                 Assets.images.a1.image(color: Color(0xFFCCF084)))),
+            //     Positioned(
+            //         child: Assets.images.a2.image(color: Color(0xFFCCF084))),
+            //     Positioned(
+            //         right: 0,
+            //         child: Assets.images.a3.image(color: Color(0xFFCCF084))),
+            //   ],
+            // ),
+            // 16.verticalSpace,
+            // DoiButton(
+            //   width: context.width,
+            //   text: 'HELP & SUPPORT',
+            //   onPressed: () {},
+            // ),
+            // 24.verticalSpace,
+            // DoiButton(
+            //   width: 239,
+            //   height: 48,
+            //   leading: Assets.svgs.union,
+            //   buttonStyle: DoiButtonStyle.secondary(),
+            //   text: context.l10n.syncProgress,
+            //   onPressed: () {
+            //     context.pop();
+            //     context.showPopUp(
+            //         horizontalPadding: 12,
+            //         Authentication(),
+            //         color: AppColors.white);
+            //   },
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: List.generate(actions.length, (index) {
+            //     return AppSvgIcon(path: actions[index]).withContainer(
+            //         width: 48.w,
+            //         height: 48.h,
+            //         alignment: Alignment.center,
+            //         margin: EdgeInsets.symmetric(vertical: 33, horizontal: 12),
+            //         border: Border.all(
+            //           width: 2.w,
+            //           color: AppColors.primaryColor,
+            //         ),
+            //         borderRadius: BorderRadius.circular(12.r));
+            //   }),
+            // )
           ],
         )
       ],

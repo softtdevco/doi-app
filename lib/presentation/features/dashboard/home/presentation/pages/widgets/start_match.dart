@@ -6,9 +6,9 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_counter.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_checkbox.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -25,6 +25,7 @@ class StartMatch extends ConsumerStatefulWidget {
 
 class _StartMatchState extends ConsumerState<StartMatch> {
   bool customChecked = false;
+  bool realTime = false;
   bool setTimer = false;
   final List<String> mins = ['3', '5', '10'];
   int timerCount = 0;
@@ -78,7 +79,7 @@ class _StartMatchState extends ConsumerState<StartMatch> {
                     time: '5 minutes total',
                   ),
                 ),
-                12.horizontalSpace,
+                10.horizontalSpace,
                 Flexible(
                   child: PairingTile(
                     title: 'Classic Duel',
@@ -100,7 +101,7 @@ class _StartMatchState extends ConsumerState<StartMatch> {
                     time: '3 minutes total',
                   ),
                 ),
-                12.horizontalSpace,
+                10.horizontalSpace,
                 Flexible(
                   child: PairingTile(
                     title: 'Mind Bender',
@@ -149,8 +150,12 @@ class _StartMatchState extends ConsumerState<StartMatch> {
                     ),
                   ),
                   CupertinoSwitch(
-                    value: false,
-                    onChanged: (p0) {},
+                    value: realTime,
+                    onChanged: (p0) {
+                      setState(() {
+                        realTime = p0;
+                      });
+                    },
                     activeTrackColor: AppColors.primaryColor,
                   )
                 ],

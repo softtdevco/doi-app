@@ -14,7 +14,6 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/product_model.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/in_app_notifier.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/daily_rewards_sheet.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_invite_sheet.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/home_appbar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/start_game.dart';
@@ -98,11 +97,11 @@ class _HomeState extends ConsumerState<Home> {
             child: AppSvgIcon(path: Assets.svgs.calendarStar),
           ),
           GestureDetector(
-            onTap: () => context.showBottomSheet(
-              isDismissible: true,
-              color: AppColors.background,
-              child: DailyRewardsSheet(),
-            ),
+            // onTap: () => context.showBottomSheet(
+            //   isDismissible: true,
+            //   color: AppColors.background,
+            //   child: DailyRewardsSheet(),
+            // ),
             child: Assets.images.doi.image(
               fit: BoxFit.cover,
               width: 86.w,
@@ -142,13 +141,15 @@ class _HomeState extends ConsumerState<Home> {
                 Stack(
                   children: [
                     DoiButton(
-                        text: context.l10n.arcade,
-                        onPressed: () {
-                          _showAdThenEarn();
-                        }
+                      text: context.l10n.arcade,
+                      onPressed:
 
-                        // => context.pushNamed(AppRouter.arcade),
-                        ),
+                          // () {
+                          //   _showAdThenEarn();
+                          // }
+
+                          () => context.pushNamed(AppRouter.arcade),
+                    ),
                     Positioned(
                       right: 0,
                       child: Assets.images.cloudGaming.image(),
@@ -169,7 +170,7 @@ class _HomeState extends ConsumerState<Home> {
                 ),
               ),
               GestureDetector(
-                onTap: () => context.pushNamed(AppRouter.store),
+                // onTap: () => context.pushNamed(AppRouter.store),
                 child: Row(
                   children: [
                     Text(

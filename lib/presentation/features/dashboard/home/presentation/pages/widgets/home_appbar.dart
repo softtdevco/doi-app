@@ -6,7 +6,6 @@ import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/challenge_pop.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/settings_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -68,7 +67,7 @@ class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
               ),
               57.horizontalSpace,
               GestureDetector(
-                onTap: () => context.showPopUp(ChallengePop()),
+                //  onTap: () => context.showPopUp(ChallengePop()),
                 child: CoinCount(),
               ),
             ],

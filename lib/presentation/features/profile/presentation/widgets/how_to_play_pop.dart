@@ -205,7 +205,9 @@ class _HowToPlayPopState extends ConsumerState<HowToPlayPop> {
               DoiButton(
                 width: context.width,
                 text: 'Continue playing',
-                onPressed: () {},
+                onPressed: () {
+                  context.pop();
+                },
               ),
             ],
           )

@@ -82,7 +82,7 @@ class _FindingOpponentsState extends ConsumerState<FindingOpponents> {
             textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: 200.h,
+            height: 210.h,
             child: PageView.builder(
               controller: _pageController,
               onPageChanged: (index) {

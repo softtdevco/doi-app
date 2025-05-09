@@ -83,6 +83,11 @@ class UserRepositoryImpl implements UserRepository {
   Future<void> saveCurrentState(CurrentState val) async {
     await _storage.put(HiveKeys.currentState, val.name);
   }
+
+  @override
+  void deleteUser() async {
+    await _storage.delete(HiveKeys.user);
+  }
 }
 
 final userRepositoryProvider = Provider<UserRepository>(

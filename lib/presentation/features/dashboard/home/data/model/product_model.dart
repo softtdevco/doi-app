@@ -22,12 +22,12 @@ class ProductInfo {
 
 class ProductIds {
   // Power-ups
-  static const String freezeTime = 'app.crackein.game.pwp_freezetime';
-  static const String revealDigit = 'app.crackein.game.pwp_reveal1digit';
-  static const String swapCode = 'app.crackein.game.swap_pwp';
+  static const String freezeTime = 'pwp_freezetime';
+  static const String revealDigit = 'pwp_reveal1digit';
+  static const String swapCode = 'swap_pwp';
 
   // Other product types
-  static const String coins = 'app.crackein.game.coins';
+  static const String coins = 'coins';
 
   // All product IDs that should be loaded from the store
   static List<String> get all => [freezeTime, revealDigit, swapCode, coins];

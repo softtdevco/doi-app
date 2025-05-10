@@ -17,7 +17,7 @@ class IAPNotifier extends Notifier<IAPState> {
   IAPState build() {
     _iapService = ref.read(iapServiceProvider);
 
-    _initialize();
+    //initialize();
 
     ref.onDispose(() {
       _subscription?.cancel();
@@ -26,7 +26,7 @@ class IAPNotifier extends Notifier<IAPState> {
     return IAPState.initial();
   }
 
-  Future<void> _initialize() async {
+  Future<void> initialize() async {
     await _iapService.initialize();
 
     state = state.copyWith(
@@ -81,6 +81,11 @@ class IAPNotifier extends Notifier<IAPState> {
           } else if (purchase.productID == ProductIds.revealDigit) {
             updatedInventory[ProductIds.revealDigit] =
                 (updatedInventory[ProductIds.revealDigit] ?? 0) + 1;
+            debugLog(
+                'Added Reveal Digit to inventory. New count: ${updatedInventory[ProductIds.revealDigit]}');
+          } else if (purchase.productID == ProductIds.coins) {
+            updatedInventory[ProductIds.coins] =
+                (updatedInventory[ProductIds.coins] ?? 0) + 1;
             debugLog(
                 'Added Reveal Digit to inventory. New count: ${updatedInventory[ProductIds.revealDigit]}');
           } else {

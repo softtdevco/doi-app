@@ -39,6 +39,7 @@ class _HomeState extends ConsumerState<Home> {
   @override
   void initState() {
     super.initState();
+    ref.read(inAppNotifierProvider.notifier).initialize();
     final adManager = AdManager();
     adManager.loadRewardedAd();
     dragScrollController = DraggableScrollableController()..addListener(() {});

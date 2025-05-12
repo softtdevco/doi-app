@@ -29,20 +29,20 @@ class _WaitingScreenState extends ConsumerState<WaitingScreen> {
         onlineGameNotifierProvider.notifier,
       );
       notifier.startPolling(
+          isOpponent: widget.arg.$3,
           joinCode: widget.arg.$2,
           expectedPlayerCount: widget.arg.$1,
           onAllPlayersJoined: () {
-            if (widget.arg.$3) {
-              notifier.resumeTimer();
-              context.pushNamed(AppRouter.onlineGame);
-            } else {
-              notifier.startGame(
-                  gameCode: widget.arg.$2,
-                  onGameStart: () {
-                    notifier.resumeTimer();
-                    context.pushNamed(AppRouter.onlineGame);
-                  });
-            }
+            notifier.startGame(
+                gameCode: widget.arg.$2,
+                onGameStart: () {
+                  notifier.resumeTimer();
+                  context.pushNamed(AppRouter.onlineGame);
+                });
+          },
+          onOpJoined: () {
+            notifier.resumeTimer();
+            context.pushNamed(AppRouter.onlineGame);
           });
     });
   }

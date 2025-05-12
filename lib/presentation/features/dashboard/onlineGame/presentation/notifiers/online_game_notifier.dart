@@ -50,7 +50,9 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   void startPolling({
     required String joinCode,
     required int expectedPlayerCount,
-    final Function()? onAllPlayersJoined,
+    Function()? onAllPlayersJoined,
+    Function()? onOpJoined,
+    required bool isOpponent,
   }) {
     state = state.copyWith(
       expectedPlayerCount: expectedPlayerCount,
@@ -60,12 +62,16 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     getGameSession(
       joinCode: joinCode,
       onAllPlayersJoined: onAllPlayersJoined,
+      isOpponent: isOpponent,
+      onOpJoined: onOpJoined,
     );
 
     _pollingTimer = Timer.periodic(Duration(seconds: 3), (_) {
       getGameSession(
         joinCode: joinCode,
         onAllPlayersJoined: onAllPlayersJoined,
+        isOpponent: isOpponent,
+        onOpJoined: onOpJoined,
       );
     });
   }
@@ -131,6 +137,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   Future<void> getGameSession({
     required String joinCode,
     final Function()? onAllPlayersJoined,
+    final Function()? onOpJoined,
+    required bool isOpponent,
   }) async {
     state = state.copyWith(gameSessionLoadState: LoadState.loading);
     try {
@@ -143,12 +151,22 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
         gameSessionData: response.data?.data,
         timeRemaining: response.data?.data?.timelimit ?? 0,
       );
-
-      if (response.data?.data?.players != null &&
-          response.data!.data!.players!.length >= state.expectedPlayerCount) {
-        stopPolling();
-        if (onAllPlayersJoined != null) {
-          onAllPlayersJoined();
+      if (isOpponent) {
+        if (response.data?.data?.players != null &&
+            response.data!.data!.players!.length >= state.expectedPlayerCount &&
+            (response.data?.data?.hasStart ?? false) == true) {
+          stopPolling();
+          if (onOpJoined != null) {
+            onOpJoined();
+          }
+        }
+      } else {
+        if (response.data?.data?.players != null &&
+            response.data!.data!.players!.length >= state.expectedPlayerCount) {
+          stopPolling();
+          if (onAllPlayersJoined != null) {
+            onAllPlayersJoined();
+          }
         }
       }
     } catch (e) {
@@ -248,7 +266,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   }
 
   void resumeTimer() {
-    if (state.timeRemaining > 0 && !state.isGameOver) {
+    if (state.timeRemaining > 0) {
       startTimer();
     }
   }
@@ -281,7 +299,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   }
 
   void toggleTimer() {
-    if (state.timeRemaining > 0 && !state.isGameOver) {
+    if (state.timeRemaining > 0) {
+      //&& !state.isGameOver
       if (state.timerActive) {
         timeTick(
           gameId: state.gameSessionData?.gameId ?? '',

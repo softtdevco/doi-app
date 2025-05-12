@@ -212,7 +212,9 @@ class _ResultState extends ConsumerState<Result> {
                 color: AppColors.green,
                 borderColor: AppColors.greenBorder,
                 text: context.l10n.startNew,
-                onPressed: () => context.pop(),
+                onPressed: () => context.popUntil(
+                  ModalRoute.withName(AppRouter.dashboard),
+                ),
               ),
             ],
           ),

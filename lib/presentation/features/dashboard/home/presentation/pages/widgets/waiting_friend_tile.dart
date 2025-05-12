@@ -1,6 +1,7 @@
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
@@ -108,6 +109,9 @@ class JoinedFriendTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final gameSession =
         ref.watch(onlineGameNotifierProvider.select((v) => v.gameSessionData));
+    debugLog('hostId == >>>>${gameSession?.hostId ?? ''}');
+    debugLog('player id ${player.playerId}');
+    debugLog('player id ${gameSession?.players ?? ''}');
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -146,7 +150,7 @@ class JoinedFriendTile extends ConsumerWidget {
                     ),
                     4.verticalSpace,
                     Text(
-                      switch (player.id == (gameSession?.hostId ?? '')) {
+                      switch (player.playerId == (gameSession?.hostId ?? '')) {
                         true => 'Host',
                         _ => 'Joined',
                       },

@@ -346,6 +346,34 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       },
     );
   }
+
+  void resetState() {
+    state = OnlineGameState(
+      loadState: state.loadState,
+      playerGuesses: [],
+      friendGuesses: [],
+      type: state.type,
+      pairing: state.type,
+      joinGameData: state.joinGameData,
+      createGameLoadState: state.createGameLoadState,
+      gameSessionData: state.gameSessionData,
+      joinGameLoadState: state.joinGameLoadState,
+      gameSessionLoadState: state.gameSessionLoadState,
+      expectedPlayerCount: state.expectedPlayerCount,
+      joinCode: null,
+      yourTurn: false,
+      timeRemaining: state.timeRemaining,
+      timerActive: false,
+      isGameOver: false,
+      winnerId: null,
+      winnerName: null,
+      coinsEarned: state.coinsEarned,
+      pointsEarned: state.pointsEarned,
+      isTimeExpired: false,
+      lastTurnEventId: null,
+    );
+    debugLog('<====State reset====>');
+  }
 }
 
 final onlineGameNotifierProvider =

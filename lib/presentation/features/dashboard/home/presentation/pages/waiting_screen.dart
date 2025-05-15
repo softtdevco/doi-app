@@ -6,6 +6,7 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/waiting_friend_tile.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/general_widgets/banner_ads_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_appbar.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -28,20 +29,20 @@ class _WaitingScreenState extends ConsumerState<WaitingScreen> {
         onlineGameNotifierProvider.notifier,
       );
       notifier.startPolling(
+          isOpponent: widget.arg.$3,
           joinCode: widget.arg.$2,
           expectedPlayerCount: widget.arg.$1,
           onAllPlayersJoined: () {
-            if (widget.arg.$3) {
-              notifier.resumeTimer();
-              context.pushNamed(AppRouter.onlineGame);
-            } else {
-              notifier.startGame(
-                  gameCode: widget.arg.$2,
-                  onGameStart: () {
-                    notifier.resumeTimer();
-                    context.pushNamed(AppRouter.onlineGame);
-                  });
-            }
+            notifier.startGame(
+                gameCode: widget.arg.$2,
+                onGameStart: () {
+                  notifier.resumeTimer();
+                  context.pushNamed(AppRouter.onlineGame);
+                });
+          },
+          onOpJoined: () {
+            notifier.resumeTimer();
+            context.pushNamed(AppRouter.onlineGame);
           });
     });
   }
@@ -104,7 +105,7 @@ class _WaitingScreenState extends ConsumerState<WaitingScreen> {
                   }))
         ],
       ),
-      footerButton: Assets.images.mobileLeaderboard.image(),
+      footerButton: Center(child: BannerAdWidget()),
     );
   }
 }

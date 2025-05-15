@@ -38,6 +38,7 @@ class _UserNameFormState extends ConsumerState<UserNameForm> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: MinFormField(
+                enableErrorMessage: false,
                 textStyle: context.textTheme.bodySmall?.copyWith(
                   fontSize: 20.sp,
                   color: AppColors.secondaryColor,
@@ -61,6 +62,7 @@ class _UserNameFormState extends ConsumerState<UserNameForm> {
                 width: 197,
                 height: 48,
                 text: context.l10n.continues,
+                isEnabled: isEnabled,
                 onPressed: () {
                   if (!isEnabled) {
                     _formKey.currentState?.save();

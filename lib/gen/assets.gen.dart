@@ -15,11 +15,24 @@ class $AssetsImagesGen {
   /// File path: assets/images/1.png
   AssetGenImage get a1 => const AssetGenImage('assets/images/1.png');
 
+  /// File path: assets/images/10k_coin.png
+  AssetGenImage get a10kCoin =>
+      const AssetGenImage('assets/images/10k_coin.png');
+
   /// File path: assets/images/2.png
   AssetGenImage get a2 => const AssetGenImage('assets/images/2.png');
 
+  /// File path: assets/images/2k_coin.png
+  AssetGenImage get a2kCoin => const AssetGenImage('assets/images/2k_coin.png');
+
   /// File path: assets/images/3.png
   AssetGenImage get a3 => const AssetGenImage('assets/images/3.png');
+
+  /// File path: assets/images/50_coin.png
+  AssetGenImage get a50Coin => const AssetGenImage('assets/images/50_coin.png');
+
+  /// File path: assets/images/5k_coin.png
+  AssetGenImage get a5kCoin => const AssetGenImage('assets/images/5k_coin.png');
 
   /// File path: assets/images/BADGE-BG.png
   AssetGenImage get badgeBg =>
@@ -76,6 +89,9 @@ class $AssetsImagesGen {
   AssetGenImage get listofavatar =>
       const AssetGenImage('assets/images/listofavatar.png');
 
+  /// File path: assets/images/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+
   /// File path: assets/images/loss.png
   AssetGenImage get loss => const AssetGenImage('assets/images/loss.png');
 
@@ -85,6 +101,10 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/opponet.png
   AssetGenImage get opponet => const AssetGenImage('assets/images/opponet.png');
+
+  /// File path: assets/images/product_locked.png
+  AssetGenImage get productLocked =>
+      const AssetGenImage('assets/images/product_locked.png');
 
   /// File path: assets/images/speed_crackdown.png
   AssetGenImage get speedCrackdown =>
@@ -110,6 +130,26 @@ class $AssetsImagesGen {
   /// File path: assets/images/user1.png
   AssetGenImage get user1 => const AssetGenImage('assets/images/user1.png');
 
+  /// File path: assets/images/userpic1.png
+  AssetGenImage get userpic1 =>
+      const AssetGenImage('assets/images/userpic1.png');
+
+  /// File path: assets/images/userpic2.png
+  AssetGenImage get userpic2 =>
+      const AssetGenImage('assets/images/userpic2.png');
+
+  /// File path: assets/images/userpic3.png
+  AssetGenImage get userpic3 =>
+      const AssetGenImage('assets/images/userpic3.png');
+
+  /// File path: assets/images/userpic4.png
+  AssetGenImage get userpic4 =>
+      const AssetGenImage('assets/images/userpic4.png');
+
+  /// File path: assets/images/userpic5.png
+  AssetGenImage get userpic5 =>
+      const AssetGenImage('assets/images/userpic5.png');
+
   /// File path: assets/images/win.png
   AssetGenImage get win => const AssetGenImage('assets/images/win.png');
 
@@ -119,8 +159,12 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         a1,
+        a10kCoin,
         a2,
+        a2kCoin,
         a3,
+        a50Coin,
+        a5kCoin,
         badgeBg,
         mobileLeaderboard,
         pattern,
@@ -137,9 +181,11 @@ class $AssetsImagesGen {
         dailyReward,
         doi,
         listofavatar,
+        logo,
         loss,
         multiple,
         opponet,
+        productLocked,
         speedCrackdown,
         targetPoint,
         tournament,
@@ -147,6 +193,11 @@ class $AssetsImagesGen {
         trophy2,
         trophy3,
         user1,
+        userpic1,
+        userpic2,
+        userpic3,
+        userpic4,
+        userpic5,
         win,
         winner
       ];
@@ -203,6 +254,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/arrow-up.svg
   String get arrowUp => 'assets/svgs/arrow-up.svg';
+
+  /// File path: assets/svgs/avatar_check.svg
+  String get avatarCheck => 'assets/svgs/avatar_check.svg';
 
   /// File path: assets/svgs/back.svg
   String get back => 'assets/svgs/back.svg';
@@ -426,6 +480,7 @@ class $AssetsSvgsGen {
         arrowDown,
         arrowForwardIos,
         arrowUp,
+        avatarCheck,
         back,
         bin,
         calendarStar,

@@ -25,6 +25,7 @@ class Friends extends StatefulWidget {
 
 class _FriendsState extends State<Friends> {
   int index = 0;
+  bool isLock = true;
   @override
   Widget build(BuildContext context) {
     return DoiScaffold(
@@ -46,66 +47,88 @@ class _FriendsState extends State<Friends> {
             },
           ),
           24.verticalSpace,
-          switch (index) {
-            0 => Column(
-                children: [
-                  MinFormField(
-                    width: double.infinity,
-                    textAlign: TextAlign.left,
-                    cursorColor: AppColors.primaryColor,
-                    decoration: InputDecoration(
-                      prefixIcon: AppSvgIcon(
-                        path: Assets.svgs.search,
-                        fit: BoxFit.scaleDown,
+          isLock
+              ? Center(
+                  child: Column(
+                    children: [
+                      79.verticalSpace,
+                      Assets.images.productLocked.image(
+                        height: 206.h,
+                        width: 206.w,
                       ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                      fillColor: AppColors.indicator,
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(12.r),
+                      33.verticalSpace,
+                      Text(
+                        'Reach 1,000 XP playing to unlock Friends',
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize: 16.sp,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      hintText: context.l10n.searchFriends,
-                      hintStyle: context.textTheme.bodySmall?.copyWith(
-                        fontSize: 14.sp,
-                        color: Color(0xFFD7A07D),
-                      ),
-                    ),
+                    ],
                   ),
-                  18.verticalSpace,
-                  Column(
-                    spacing: 16,
-                    children: List.generate(
-                      3,
-                      (i) => PlayFriendTile(
-                        index: i + 1,
-                        onTap: () {
-                          context.showBottomSheet(
-                            isDismissible: true,
-                            color: AppColors.background,
-                            child: InviteFriendSheet(),
-                          );
-                        },
-                      ),
+                )
+              : switch (index) {
+                  0 => Column(
+                      children: [
+                        MinFormField(
+                          width: double.infinity,
+                          textAlign: TextAlign.left,
+                          cursorColor: AppColors.primaryColor,
+                          decoration: InputDecoration(
+                            prefixIcon: AppSvgIcon(
+                              path: Assets.svgs.search,
+                              fit: BoxFit.scaleDown,
+                            ),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 16),
+                            fillColor: AppColors.indicator,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            hintText: context.l10n.searchFriends,
+                            hintStyle: context.textTheme.bodySmall?.copyWith(
+                              fontSize: 14.sp,
+                              color: Color(0xFFD7A07D),
+                            ),
+                          ),
+                        ),
+                        18.verticalSpace,
+                        Column(
+                          spacing: 16,
+                          children: List.generate(
+                            3,
+                            (i) => PlayFriendTile(
+                              index: i + 1,
+                              onTap: () {
+                                context.showBottomSheet(
+                                  isDismissible: true,
+                                  color: AppColors.background,
+                                  child: InviteFriendSheet(),
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-            _ => Column(
-                spacing: 16,
-                children: List.generate(
-                  1,
-                  (i) => PendingFriendTile(
-                    index: i + 1,
-                    onTap: ()=> context.pushNamed(AppRouter.friendProfile),
-                  ),
-                ),
-              )
-          }
+                  _ => Column(
+                      spacing: 16,
+                      children: List.generate(
+                        1,
+                        (i) => PendingFriendTile(
+                          index: i + 1,
+                          onTap: () =>
+                              context.pushNamed(AppRouter.friendProfile),
+                        ),
+                      ),
+                    )
+                }
         ],
       ),
     );

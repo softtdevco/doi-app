@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "993761329040",
+    "project_id": "crackein-number",
+    "storage_bucket": "crackein-number.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993761329040:android:d3f5c1db488c8dc075bd15",
+        "android_client_info": {
+          "package_name": "app.crackein.game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOZo841r1c_aBFqw7-puHefIL9YahCSkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993761329040:android:6dd564279bea131675bd15",
+        "android_client_info": {
+          "package_name": "app.crackein.game.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOZo841r1c_aBFqw7-puHefIL9YahCSkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993761329040:android:da4c25c405bf9c4f75bd15",
+        "android_client_info": {
+          "package_name": "app.crackein.game.stg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOZo841r1c_aBFqw7-puHefIL9YahCSkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -19,7 +19,7 @@ class HomeState {
       gameModeIndex: 0,
       playBackIndex: 0,
       timer: '5',
-      leaderboardIndex: 0,
+      leaderboardIndex: 1,
     );
   }
   HomeState copyWith({

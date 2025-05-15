@@ -44,6 +44,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
       final currentUser = ref.watch(currentUserProvider);
       ref.listenManual<OnlineGameState>(onlineGameNotifierProvider,
           (previous, current) {
+        // Turn handling logic (unchanged)
         if (current.yourTurn &&
             current.lastTurnEventId != null &&
             current.lastTurnEventId != _lastProcessedTurnEventId) {
@@ -70,6 +71,8 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
         }
 
         if (current.isGameOver && (previous == null || !previous.isGameOver)) {
+          debugLog("Game over detected, winnerId: ${current.winnerId}");
+
           if (current.winnerId != null) {
             if (current.winnerId == currentUser.id) {
               context.showSuccess(message: 'YOU WIN!');
@@ -80,23 +83,31 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
             } else {
               context.showError(message: 'YOU LOST');
             }
+
+            if (!_hasNavigatedAfterWin) {
+              _hasNavigatedAfterWin = true;
+              Future.delayed(Duration(seconds: 3), () {
+                bool isWinner = current.winnerId == currentUser.id;
+                context.replaceNamed(
+                  AppRouter.result,
+                  arguments: isWinner,
+                );
+              });
+            }
+          } else if (current.isTimeExpired) {
+            context.showError(message: 'TIME EXPIRED - YOU LOST');
+
+            if (!_hasNavigatedAfterWin) {
+              _hasNavigatedAfterWin = true;
+              Future.delayed(Duration(seconds: 3), () {
+                context.replaceNamed(
+                  AppRouter.result,
+                  arguments: false,
+                );
+              });
+            }
           } else {
-            if (current.isTimeExpired) {
-              context.showError(message: 'TIME EXPIRED - YOU LOST');
-            } else {}
-          }
-
-          if (!_hasNavigatedAfterWin) {
-            _hasNavigatedAfterWin = true;
-
-            Future.delayed(Duration(seconds: 3), () {
-              bool isWinner = current.winnerId != null &&
-                  current.winnerId == currentUser.id;
-              context.replaceNamed(
-                AppRouter.result,
-                arguments: isWinner,
-              );
-            });
+            debugLog("Game over but winner not yet determined");
           }
         }
       });
@@ -133,7 +144,6 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                       child: OnlineGuessDisplay(
                         currentInput: currentInput,
                         playerGuesses: state.playerGuesses,
-                        isGameOver: state.isGameOver,
                       ),
                     ),
                     if (showKeyboard == true)
@@ -152,7 +162,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                         ),
                       ),
                     20.verticalSpace,
-                    if (showKeyboard && !state.isGameOver)
+                    if (showKeyboard)
                       GameKeyboard(
                         onNumberPressed: _onNumberPressed,
                         onDeletePressed: _onDeletePressed,

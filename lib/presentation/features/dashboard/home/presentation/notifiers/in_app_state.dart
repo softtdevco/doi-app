@@ -1,30 +1,40 @@
-import 'package:doi_mobile/core/utils/enums.dart';
+import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+@immutable
 class IAPState {
   final bool isAvailable;
   final bool isPending;
-  final LoadState loadState;
   final List<ProductDetails> products;
-  final String? error;
-  final Map<String, int> inventory;
 
-  IAPState({
+  final Map<String, int> inventory;
+  final Map<String, int> coin;
+  final Set<String> ownedProducts;
+  final Map<String, DateTime> subscriptions;
+  
+  final String? error;
+
+  const IAPState({
     required this.isAvailable,
     required this.isPending,
     required this.products,
-    this.error,
     required this.inventory,
-    required this.loadState,
+    required this.coin,
+    required this.ownedProducts,
+    required this.subscriptions,
+    this.error,
   });
 
   factory IAPState.initial() {
-    return IAPState(
+    return const IAPState(
       isAvailable: false,
       isPending: false,
       products: [],
       inventory: {},
-      loadState: LoadState.idle,
+      coin: {},
+      ownedProducts: {},
+      subscriptions: {},
+      error: null,
     );
   }
 
@@ -32,17 +42,51 @@ class IAPState {
     bool? isAvailable,
     bool? isPending,
     List<ProductDetails>? products,
-    String? error,
     Map<String, int>? inventory,
-    LoadState? loadState,  
+    Map<String, int>? coin,
+    Set<String>? ownedProducts,
+    Map<String, DateTime>? subscriptions,
+    String? error,
   }) {
     return IAPState(
       isAvailable: isAvailable ?? this.isAvailable,
       isPending: isPending ?? this.isPending,
       products: products ?? this.products,
-      error: error,
       inventory: inventory ?? this.inventory,
-      loadState: loadState ?? this.loadState,
+      coin: coin ?? this.coin,
+      ownedProducts: ownedProducts ?? this.ownedProducts,
+      subscriptions: subscriptions ?? this.subscriptions,
+      error: error,  
     );
+  }
+
+  bool hasProduct(String productId) {
+
+    if (inventory.containsKey(productId) && (inventory[productId] ?? 0) > 0) {
+      return true;
+    }
+    
+
+    if (ownedProducts.contains(productId)) {
+      return true;
+    }
+    
+   
+    if (subscriptions.containsKey(productId)) {
+      final expiryDate = subscriptions[productId];
+      if (expiryDate != null && expiryDate.isAfter(DateTime.now())) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+
+  @override
+  String toString() {
+    return 'IAPState(isAvailable: $isAvailable, isPending: $isPending, '
+        'products: ${products.length}, inventory: $inventory, '
+        'ownedProducts: $ownedProducts, subscriptions: $subscriptions, coins: $coin, '
+        'error: $error)';
   }
 }

@@ -12,6 +12,7 @@ RegisterDeviceRequest _$RegisterDeviceRequestFromJson(
       deviceId: json['deviceID'] as String,
       username: json['username'] as String,
       country: json['country'] as String,
+      countryCode: json['countryCode'] as String,
       avatar: json['avatar'] as String,
     );
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$RegisterDeviceRequestToJson(
       'deviceID': instance.deviceId,
       'username': instance.username,
       'country': instance.country,
+      'countryCode': instance.countryCode,
       'avatar': instance.avatar,
     };

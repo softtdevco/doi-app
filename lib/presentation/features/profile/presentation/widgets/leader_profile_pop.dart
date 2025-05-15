@@ -1,4 +1,7 @@
+import 'package:doi_mobile/core/extensions/data_type_extension.dart';
+import 'package:doi_mobile/core/extensions/date_extension.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
+import 'package:doi_mobile/core/extensions/string_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
@@ -6,13 +9,17 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/friends/presentation/pages/widgets/user_stat_tile.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/leader_board_response.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LeaderProfilePop extends ConsumerStatefulWidget {
-  const LeaderProfilePop({super.key});
+  const LeaderProfilePop(
+      {super.key, required this.model, required this.position});
+  final GlobalLeaderboard model;
+  final int position;
 
   @override
   ConsumerState<LeaderProfilePop> createState() => _LeaderProfilePopState();
@@ -54,7 +61,7 @@ class _LeaderProfilePopState extends ConsumerState<LeaderProfilePop> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Billiethhegoat 🇺🇸',
+                        '${(widget.model.user?.username ?? 'Player')} ${getFlagEmoji(widget.model.user?.countryCode ?? 'US')}',
                         style: context.textTheme.bodySmall?.copyWith(
                           color: AppColors.secondaryColor,
                           fontSize: 16.sp,
@@ -66,7 +73,7 @@ class _LeaderProfilePopState extends ConsumerState<LeaderProfilePop> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '33,590 XP',
+                            '${(widget.model.totalPoints ?? 0).formatAmount} XP',
                             style: context.textTheme.bodySmall?.copyWith(
                               fontSize: 14.sp,
                               color: AppColors.orange0A,
@@ -85,7 +92,7 @@ class _LeaderProfilePopState extends ConsumerState<LeaderProfilePop> {
                           ),
                           8.horizontalSpace,
                           Text(
-                            'Joined 2 years ago',
+                            'Joined ${(widget.model.user?.createdAt)?.timeAgo ?? ''}',
                             style: context.textTheme.bodySmall?.copyWith(
                                 fontSize: 12.sp,
                                 fontFamily: FontFamily.rimouski,
@@ -104,7 +111,7 @@ class _LeaderProfilePopState extends ConsumerState<LeaderProfilePop> {
                   Flexible(
                       child: UserStatTile(
                     title: 'Daily streak',
-                    value: '56',
+                    value: (widget.model.activeStreak ?? 0).toString(),
                     path: Assets.svgs.streak,
                     titleSize: 8.8,
                     valueSize: 12.8,
@@ -113,7 +120,7 @@ class _LeaderProfilePopState extends ConsumerState<LeaderProfilePop> {
                   Flexible(
                       child: UserStatTile(
                     title: '🌍 Leaderboard',
-                    value: '#2',
+                    value: '#${widget.position}',
                     path: Assets.svgs.leader,
                     titleSize: 8.8,
                     valueSize: 12.8,
@@ -126,7 +133,7 @@ class _LeaderProfilePopState extends ConsumerState<LeaderProfilePop> {
                   Flexible(
                       child: UserStatTile(
                     title: 'Matches Played',
-                    value: '405',
+                    value: (widget.model.matchesPlayed ?? 0).formatAmount,
                     path: Assets.svgs.cloudGaming,
                     titleSize: 8.8,
                     valueSize: 12.8,
@@ -145,40 +152,41 @@ class _LeaderProfilePopState extends ConsumerState<LeaderProfilePop> {
               14.verticalSpace,
               Row(
                 children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(12.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.secondaryColor,
-                            offset: const Offset(0, 5),
-                            blurRadius: 0,
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Add Friend',
-                        style: context.textTheme.bodyMedium?.copyWith(
-                          fontFamily: FontFamily.jungleAdventurer,
-                          fontSize: 16.sp,
-                          color: AppColors.white,
-                        ),
-                        textScaler: const TextScaler.linear(0.8),
-                      ),
-                    ),
-                  ),
-                  16.horizontalSpace,
+                  // GestureDetector(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     padding:
+                  //         EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                  //     decoration: BoxDecoration(
+                  //       color: AppColors.primaryColor,
+                  //       borderRadius: BorderRadius.circular(12.r),
+                  //       boxShadow: [
+                  //         BoxShadow(
+                  //           color: AppColors.secondaryColor,
+                  //           offset: const Offset(0, 5),
+                  //           blurRadius: 0,
+                  //           spreadRadius: 0,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     alignment: Alignment.center,
+                  //     child: Text(
+                  //       'Add Friend',
+                  //       style: context.textTheme.bodyMedium?.copyWith(
+                  //         fontFamily: FontFamily.jungleAdventurer,
+                  //         fontSize: 16.sp,
+                  //         color: AppColors.white,
+                  //       ),
+                  //       textScaler: const TextScaler.linear(0.8),
+                  //     ),
+                  //   ),
+                  // ),
+                  // 16.horizontalSpace,
                   GestureDetector(
                     onTap: () => context.popAndPushNamed(
-                        AppRouter.friendProfile,
-                        arguments: true),
+                      AppRouter.friendProfile,
+                      arguments: (true, widget.model, widget.position),
+                    ),
                     child: Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 4, horizontal: 10),

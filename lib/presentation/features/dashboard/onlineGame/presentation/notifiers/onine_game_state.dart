@@ -1,6 +1,7 @@
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/leader_board_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
 
 class OnlineGameState {
@@ -26,6 +27,8 @@ class OnlineGameState {
   final int? coinsEarned;
   final bool isTimeExpired;
   final String? lastTurnEventId;
+  final LoadState leaderLoadState;
+  final List<GlobalLeaderboard>? globalLeaderboard;
   OnlineGameState({
     required this.loadState,
     required this.type,
@@ -49,6 +52,8 @@ class OnlineGameState {
     this.winnerName,
     required this.isTimeExpired,
     this.lastTurnEventId,
+    required this.leaderLoadState,
+    required this.globalLeaderboard,
   });
 
   factory OnlineGameState.initial() {
@@ -67,6 +72,8 @@ class OnlineGameState {
       timerActive: false,
       isGameOver: false,
       isTimeExpired: false,
+      leaderLoadState: LoadState.loading,
+      globalLeaderboard: [],
     );
   }
 
@@ -93,6 +100,8 @@ class OnlineGameState {
     int? pointsEarned,
     bool? isTimeExpired,
     String? lastTurnEventId,
+    LoadState? leaderLoadSate,
+    List<GlobalLeaderboard>? globalLeaderboard,
   }) {
     return OnlineGameState(
       loadState: loadState ?? this.loadState,
@@ -117,6 +126,8 @@ class OnlineGameState {
       pointsEarned: pointsEarned ?? this.pointsEarned,
       isTimeExpired: isTimeExpired ?? this.isTimeExpired,
       lastTurnEventId: lastTurnEventId ?? this.lastTurnEventId,
+      leaderLoadState: leaderLoadSate ?? this.leaderLoadState,
+      globalLeaderboard: globalLeaderboard ?? this.globalLeaderboard,
     );
   }
 }

@@ -5,6 +5,8 @@ import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +14,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HowToPlayPop extends ConsumerStatefulWidget {
-  const HowToPlayPop({super.key});
-
+  const HowToPlayPop({
+    super.key,
+    this.isOnline = false,
+    this.fromGame = false,
+  });
+  final bool isOnline;
+  final bool fromGame;
   @override
   ConsumerState<HowToPlayPop> createState() => _HowToPlayPopState();
 }
 
 class _HowToPlayPopState extends ConsumerState<HowToPlayPop> {
+  void popAndReset() {
+    context.pop();
+    if (widget.isOnline) {
+      ref.read(onlineGameNotifierProvider.notifier).toggleTimer();
+    } else {
+      ref.read(gameNotifierProvider.notifier).toggleTimer();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -41,7 +57,7 @@ class _HowToPlayPopState extends ConsumerState<HowToPlayPop> {
               AppSvgIcon(
                 path: Assets.svgs.close,
                 onTap: () {
-                  context.pop();
+                  widget.fromGame ? popAndReset() : context.pop();
                 },
                 fit: BoxFit.scaleDown,
               ),
@@ -205,7 +221,9 @@ class _HowToPlayPopState extends ConsumerState<HowToPlayPop> {
               DoiButton(
                 width: context.width,
                 text: 'Continue playing',
-                onPressed: () {},
+                onPressed: () {
+                  widget.fromGame ? popAndReset() : context.pop();
+                },
               ),
             ],
           )

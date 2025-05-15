@@ -43,11 +43,16 @@ DoiUser _$DoiUserFromJson(Map<String, dynamic> json) => DoiUser(
       deviceId: json['deviceID'] as String? ?? '',
       username: json['username'] as String? ?? '',
       country: json['country'] as String? ?? '',
+      countryCode: json['countryCode'] as String? ?? '',
       avatar: json['avatar'] as String? ?? '',
       notification: json['notification'] as List<dynamic>? ?? [],
       id: json['_id'] as String? ?? '',
-      createdAt: json['createdAt'] as String? ?? '',
-      updatedAt: json['updatedAt'] as String? ?? '',
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       v: (json['__v'] as num?)?.toInt() ?? 0,
     );
 
@@ -55,10 +60,11 @@ Map<String, dynamic> _$DoiUserToJson(DoiUser instance) => <String, dynamic>{
       'deviceID': instance.deviceId,
       'username': instance.username,
       'country': instance.country,
+      'countryCode': instance.countryCode,
       'avatar': instance.avatar,
       'notification': instance.notification,
       '_id': instance.id,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       '__v': instance.v,
     };

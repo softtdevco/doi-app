@@ -19,6 +19,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   late SocketClient _gamePlaySocketManager;
   late StreamSubscription _yourTurnSubscription;
   late StreamSubscription _winnerSubscription;
+  late StreamSubscription _winnerEarningSubscription;
   late StreamSubscription _mobileEmitSubscription;
   Timer? _timer;
 
@@ -31,6 +32,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     final eventStreamer = ref.read(socketEventsProvider);
     _yourTurnSubscription = eventStreamer.yourTurn.listen(handleYourTurn);
     _winnerSubscription = eventStreamer.gameEnded.listen(handleWinner);
+    _winnerEarningSubscription =
+        eventStreamer.matchupComplete.listen(handleWinnerEarnings);
     _mobileEmitSubscription =
         eventStreamer.mobileEmit.listen(handleGameControl);
 
@@ -38,6 +41,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       stopPolling();
       _yourTurnSubscription.cancel();
       _winnerSubscription.cancel();
+      _winnerEarningSubscription.cancel();
       _mobileEmitSubscription.cancel();
       _timer?.cancel();
     });
@@ -50,7 +54,9 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   void startPolling({
     required String joinCode,
     required int expectedPlayerCount,
-    final Function()? onAllPlayersJoined,
+    Function()? onAllPlayersJoined,
+    Function()? onOpJoined,
+    required bool isOpponent,
   }) {
     state = state.copyWith(
       expectedPlayerCount: expectedPlayerCount,
@@ -60,12 +66,16 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     getGameSession(
       joinCode: joinCode,
       onAllPlayersJoined: onAllPlayersJoined,
+      isOpponent: isOpponent,
+      onOpJoined: onOpJoined,
     );
 
     _pollingTimer = Timer.periodic(Duration(seconds: 3), (_) {
       getGameSession(
         joinCode: joinCode,
         onAllPlayersJoined: onAllPlayersJoined,
+        isOpponent: isOpponent,
+        onOpJoined: onOpJoined,
       );
     });
   }
@@ -131,6 +141,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   Future<void> getGameSession({
     required String joinCode,
     final Function()? onAllPlayersJoined,
+    final Function()? onOpJoined,
+    required bool isOpponent,
   }) async {
     state = state.copyWith(gameSessionLoadState: LoadState.loading);
     try {
@@ -143,12 +155,22 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
         gameSessionData: response.data?.data,
         timeRemaining: response.data?.data?.timelimit ?? 0,
       );
-
-      if (response.data?.data?.players != null &&
-          response.data!.data!.players!.length >= state.expectedPlayerCount) {
-        stopPolling();
-        if (onAllPlayersJoined != null) {
-          onAllPlayersJoined();
+      if (isOpponent) {
+        if (response.data?.data?.players != null &&
+            response.data!.data!.players!.length >= state.expectedPlayerCount &&
+            (response.data?.data?.hasStart ?? false) == true) {
+          stopPolling();
+          if (onOpJoined != null) {
+            onOpJoined();
+          }
+        }
+      } else {
+        if (response.data?.data?.players != null &&
+            response.data!.data!.players!.length >= state.expectedPlayerCount) {
+          stopPolling();
+          if (onAllPlayersJoined != null) {
+            onAllPlayersJoined();
+          }
         }
       }
     } catch (e) {
@@ -191,8 +213,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       final coins = data['totalCoins'] ?? 0;
 
       _timer?.cancel();
-      final currentUserId = ref.read(currentUserProvider);
-      final bool isCurrentUserWinner = winnerId == currentUserId.id;
+
       state = state.copyWith(
         isGameOver: true,
         timerActive: false,
@@ -201,9 +222,28 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
         pointsEarned: points,
         coinsEarned: coins,
       );
+    }
+  }
+
+  void handleWinnerEarnings(dynamic data) {
+    debugLog("Your score: $data");
+    if (data != null && data['score'] != null) {
+      final points = data['score']['totalPoints'] ?? 0;
+      final coins = data['score']['coinEarned'] ?? 0;
+      final winnerId = data['score']['userId'];
+
+      final currentUserId = ref.read(currentUserProvider);
+      final bool isCurrentUserWinner = winnerId == currentUserId.id;
+      state = state.copyWith(
+        isGameOver: true,
+        timerActive: false,
+        winnerId: winnerId,
+        pointsEarned: points,
+        coinsEarned: coins,
+      );
       if (isCurrentUserWinner) {
         _gameRepository.updatePoints(points);
-        _gameRepository.updateCoins(points);
+        _gameRepository.updateCoins(coins);
       }
     }
   }
@@ -248,7 +288,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   }
 
   void resumeTimer() {
-    if (state.timeRemaining > 0 && !state.isGameOver) {
+    if (state.timeRemaining > 0) {
       startTimer();
     }
   }
@@ -281,7 +321,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   }
 
   void toggleTimer() {
-    if (state.timeRemaining > 0 && !state.isGameOver) {
+    if (state.timeRemaining > 0) {
+      //&& !state.isGameOver
       if (state.timerActive) {
         timeTick(
           gameId: state.gameSessionData?.gameId ?? '',
@@ -326,6 +367,64 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
         }
       },
     );
+  }
+
+  void resetState() {
+    state = OnlineGameState(
+      loadState: state.loadState,
+      playerGuesses: [],
+      friendGuesses: [],
+      type: state.type,
+      pairing: state.type,
+      joinGameData: state.joinGameData,
+      createGameLoadState: state.createGameLoadState,
+      gameSessionData: state.gameSessionData,
+      joinGameLoadState: state.joinGameLoadState,
+      gameSessionLoadState: state.gameSessionLoadState,
+      expectedPlayerCount: state.expectedPlayerCount,
+      joinCode: null,
+      yourTurn: false,
+      timeRemaining: state.timeRemaining,
+      timerActive: false,
+      isGameOver: false,
+      winnerId: null,
+      winnerName: null,
+      coinsEarned: state.coinsEarned,
+      pointsEarned: state.pointsEarned,
+      isTimeExpired: false,
+      lastTurnEventId: null,
+      leaderLoadState: state.leaderLoadState,
+      globalLeaderboard: state.globalLeaderboard,
+    );
+    debugLog('<====State reset====>');
+  }
+
+  void buyPowerUps({
+    required int coinCost,
+    required Function() onSuccess,
+    required Function() onInsufficientFunds,
+  }) async {
+    int totalCoins = await _gameRepository.getTotalCoins();
+    if (totalCoins >= coinCost) {
+      _gameRepository.updateCoins(-coinCost);
+      onSuccess();
+    } else {
+      onInsufficientFunds();
+    }
+  }
+
+  Future<void> getLeaderboard() async {
+    try {
+      final response = await _onlineGameRepository.getLeaderBoard();
+      if (!response.status) throw response.message;
+      state = state.copyWith(
+        leaderLoadSate: LoadState.success,
+        globalLeaderboard: response.data?.data?.globalLeaderboard ?? [],
+      );
+    } catch (e) {
+      state = state.copyWith(leaderLoadSate: LoadState.error);
+      debugLog(e.toString());
+    }
   }
 }
 

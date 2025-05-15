@@ -48,15 +48,15 @@ class DoiUser {
   @JsonKey(defaultValue: '')
   final String? country;
   @JsonKey(defaultValue: '')
+  final String? countryCode;
+  @JsonKey(defaultValue: '')
   final String? avatar;
   @JsonKey(defaultValue: [])
   final List<dynamic>? notification;
   @JsonKey(name: '_id', defaultValue: '')
   final String? id;
-  @JsonKey(defaultValue: '')
-  final String? createdAt;
-  @JsonKey(defaultValue: '')
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   @JsonKey(name: '__v', defaultValue: 0)
   final int? v;
 
@@ -64,6 +64,7 @@ class DoiUser {
     this.deviceId,
     this.username,
     this.country,
+    this.countryCode,
     this.avatar,
     this.notification,
     this.id,

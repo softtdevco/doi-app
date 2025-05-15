@@ -27,17 +27,21 @@ class CountryForm extends ConsumerStatefulWidget {
 class _CountryFormState extends ConsumerState<CountryForm> {
   String countryInput = '';
   String userCountry = '';
-
+  String countryCode = '';
   _registerDevice() async {
     context.showLoading();
     final userName =
         ref.watch(onboardingNotifierProvider.select((v) => v.userName));
-    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+    final avatar =
+        ref.watch(onboardingNotifierProvider.select((v) => v.avatar));
+    final deviceId =
+        await DeviceInfoService.instance.getFirebaseInstallationsId();
 
     final data = RegisterDeviceRequest(
       username: userName ?? '',
       country: userCountry,
-      avatar: 'blank.svg',
+      countryCode: countryCode,
+      avatar: avatar,
       deviceId: deviceId,
     );
     ref.read(onboardingNotifierProvider.notifier).registerDevice(
@@ -56,7 +60,8 @@ class _CountryFormState extends ConsumerState<CountryForm> {
   _loginDevice() async {
     context.showLoading();
 
-    final deviceId = await DeviceInfoService.instance.getDeviceInfo();
+    final deviceId =
+        await DeviceInfoService.instance.getFirebaseInstallationsId();
 
     ref.read(onboardingNotifierProvider.notifier).loginDevice(
         deviceId: deviceId,
@@ -104,6 +109,7 @@ class _CountryFormState extends ConsumerState<CountryForm> {
               onSelect: (Country country) {
                 setState(() {
                   userCountry = country.name;
+                  countryCode = country.countryCode;
                   countryInput =
                       "${country.flagEmoji} ${country.displayNameNoCountryCode}";
                 });

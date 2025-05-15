@@ -9,6 +9,7 @@ import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/authentication_page.dart';
+import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/how_to_play_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -30,6 +31,7 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
   ];
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(currentUserProvider);
     return Column(
       children: [
         Row(
@@ -59,13 +61,29 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
         Column(
           children: [
             GestureDetector(
-              onTap: () => context.pushNamed(AppRouter.profile),
+              onTap: () => context.popAndPushNamed(AppRouter.profile),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      Assets.images.brazil.image(),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50.r),
+                        child: Image.asset(
+                          'assets/images/${(user.avatar ?? 'userPic4.png').toLowerCase()}',
+                          height: 50.h,
+                          width: 50.w,
+                          errorBuilder: (context, error, stackTrace) =>
+                              ClipRRect(
+                            borderRadius: BorderRadius.circular(25.r),
+                            child: Image.asset(
+                              Assets.images.userpic3.path,
+                              height: 50.h,
+                              width: 50.w,
+                            ),
+                          ),
+                        ),
+                      ),
                       8.horizontalSpace,
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +128,6 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
               width: context.width,
               text: context.l10n.howToPlay,
               onPressed: () {
-                context.pop();
                 context.showPopUp(
                     size: context.height * 0.8,
                     SingleChildScrollView(child: HowToPlayPop()));

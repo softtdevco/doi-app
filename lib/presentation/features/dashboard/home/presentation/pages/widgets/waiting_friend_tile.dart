@@ -1,12 +1,14 @@
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
-
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WaitingFriendTile extends StatelessWidget {
@@ -96,7 +98,7 @@ class WaitingFriendTile extends StatelessWidget {
   }
 }
 
-class JoinedFriendTile extends StatelessWidget {
+class JoinedFriendTile extends ConsumerWidget {
   final Player player;
   const JoinedFriendTile({
     super.key,
@@ -104,7 +106,12 @@ class JoinedFriendTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final gameSession =
+        ref.watch(onlineGameNotifierProvider.select((v) => v.gameSessionData));
+    debugLog('hostId == >>>>${gameSession?.hostId ?? ''}');
+    debugLog('player id ${player.playerId}');
+    debugLog('player id ${gameSession?.players ?? ''}');
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -143,7 +150,10 @@ class JoinedFriendTile extends StatelessWidget {
                     ),
                     4.verticalSpace,
                     Text(
-                      'Joined',
+                      switch (player.playerId == (gameSession?.hostId ?? '')) {
+                        true => 'Host',
+                        _ => 'Joined',
+                      },
                       style: context.textTheme.bodySmall?.copyWith(
                         fontSize: 12.sp,
                         color: AppColors.secondaryColor.withValues(alpha: 0.7),

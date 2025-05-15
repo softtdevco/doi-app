@@ -6,11 +6,11 @@ import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/challenge_pop.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/settings_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -67,10 +67,16 @@ class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               57.horizontalSpace,
-              GestureDetector(
-                onTap: () => context.showPopUp(ChallengePop()),
-                child: CoinCount(),
-              ),
+              Consumer(builder: (context, r, c) {
+                return GestureDetector(
+                  // onTap: () {
+                  //   _buy(ProductIds.coins);
+                  // },
+                  onTap: () => context.pushNamed(AppRouter.store),
+                  //  onTap: () => context.showPopUp(ChallengePop()),
+                  child: CoinCount(),
+                );
+              }),
             ],
           ),
           AppSvgIcon(

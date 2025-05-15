@@ -12,4 +12,5 @@ abstract interface class UserRepository {
   void saveRefreshToken(String token);
   Future<void> saveCurrentState(CurrentState val);
   CurrentState getCurrentState();
+  void deleteUser();
 }

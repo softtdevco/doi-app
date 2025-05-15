@@ -1,15 +1,9 @@
 import 'dart:async';
 
 import 'package:doi_mobile/core/utils/logger.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/product_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-
-class ProductIds {
-  static const String freezeTime = 'freeze_time';
-  static const String revealDigit = 'reveal_digit';
-
-  static List<String> get all => [freezeTime, revealDigit];
-}
 
 class IAPService {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
@@ -83,7 +77,6 @@ class IAPService {
       return false;
     }
 
-  
     if (_products.isEmpty) {
       debugLog('Product list is empty, reloading...');
       await loadProducts();
@@ -95,7 +88,6 @@ class IAPService {
       }
     }
 
-  
     ProductDetails product;
     bool isTargetProduct = true;
 
@@ -103,7 +95,6 @@ class IAPService {
       product = _products.firstWhere((p) => p.id == productId);
       debugLog('Found product: ${product.id}, Price: ${product.price}');
     } catch (e) {
-     
       debugLog(
           'Product not found in cache: $productId, using fallback product');
 
@@ -128,9 +119,8 @@ class IAPService {
         applicationUserName: null,
       );
 
-      // Determine if the target product is consumable
-      bool isConsumable = productId == ProductIds.freezeTime ||
-          productId == ProductIds.revealDigit;
+      // Determine if the product is consumable based on our product info
+      bool isConsumable = ProductIds.isConsumable(productId);
 
       if (isConsumable) {
         debugLog('Buying as consumable: $productId');
@@ -171,15 +161,19 @@ class IAPService {
   Future<void> _deliverProduct(PurchaseDetails purchase) async {
     debugLog('Delivering product: ${purchase.productID}');
 
-    switch (purchase.productID) {
-      case ProductIds.freezeTime:
-        debugLog('Freeze Time power-up delivered!');
-        break;
-      case ProductIds.revealDigit:
-        debugLog('Reveal Digit power-up delivered!');
-        break;
-      default:
-        debugLog('Unknown product delivered: ${purchase.productID}');
+    final productInfo = ProductIds.productInfo[purchase.productID];
+    if (productInfo != null) {
+      switch (productInfo.type) {
+        case ProductType.powerUp:
+          debugLog('Power-up delivered: ${productInfo.displayName}');
+          break;
+
+        case ProductType.coin:
+          debugLog('Theme unlocked: ${productInfo.displayName}');
+          break;
+      }
+    } else {
+      debugLog('Unknown product delivered: ${purchase.productID}');
     }
   }
 

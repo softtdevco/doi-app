@@ -9,6 +9,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_counter.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/type_tile.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_checkbox.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -40,7 +41,6 @@ class _CreateGameState extends ConsumerState<CreateGame> {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(homeNotifierProvider.notifier);
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 36),
       child: SingleChildScrollView(
@@ -259,13 +259,17 @@ class _CreateGameState extends ConsumerState<CreateGame> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
               child: Consumer(builder: (context, r, c) {
+                final timerValue =
+                    r.watch(homeNotifierProvider.select((v) => v.timer));
                 return DoiButton(
                   text: 'Create game',
                   onPressed: () {
+                    ref.read(onlineGameNotifierProvider.notifier).resetState();
                     context.pop();
                     context.showBottomSheet(
                       color: AppColors.white,
                       child: NewGameWith(
+                        timerValue: timerValue,
                         isGroup: playersCount > 2,
                         playerCount: playersCount,
                         guessDigits: guessCount,

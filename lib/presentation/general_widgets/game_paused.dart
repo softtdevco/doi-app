@@ -5,7 +5,6 @@ import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/string_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
-import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
@@ -13,6 +12,8 @@ import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/profile/presentation/widgets/forfiet_pop.dart';
+import 'package:doi_mobile/presentation/features/profile/presentation/widgets/how_to_play_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +131,18 @@ class _GamePausedState extends ConsumerState<GamePaused> {
                   color: AppColors.white,
                 ),
                 text: context.l10n.howToPlay,
-                onPressed: () {}),
+                onPressed: () {
+                  context.pop();
+                  context.showPopUp(
+                    size: context.height * 0.8,
+                    SingleChildScrollView(
+                      child: HowToPlayPop(
+                        isOnline: widget.isOnline,
+                        fromGame: true,
+                      ),
+                    ),
+                  );
+                }),
             16.verticalSpace,
             DoiButton(
                 width: context.width,
@@ -144,8 +156,11 @@ class _GamePausedState extends ConsumerState<GamePaused> {
                   color: AppColors.darkShadeOrange,
                 ),
                 text: context.l10n.forfeitMatch,
-                onPressed: () =>
-                    context.popUntil(ModalRoute.withName(AppRouter.dashboard))),
+                onPressed: () {
+                  context.showPopUp(ForfietPop(
+                    isOnline: widget.isOnline,
+                  ));
+                }),
             15.verticalSpace,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

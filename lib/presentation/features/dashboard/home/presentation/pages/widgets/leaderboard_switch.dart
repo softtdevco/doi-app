@@ -27,8 +27,6 @@ class _LeaderboardSwitchState extends State<LeaderboardSwitch> {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-
-        
         children: [
           Expanded(
             child: Bar(
@@ -36,7 +34,7 @@ class _LeaderboardSwitchState extends State<LeaderboardSwitch> {
                   ? AppColors.greenText
                   : AppColors.secondaryColor,
               isSelected: widget.index == 0,
-              text: 'Lagos',
+              text: 'USA',
               onTap: () => widget.onChanged!(0),
             ),
           ),

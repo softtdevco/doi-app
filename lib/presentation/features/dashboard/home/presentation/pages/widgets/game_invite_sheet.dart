@@ -6,6 +6,7 @@ import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/join_game_with.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,6 +33,7 @@ class GameInviteSheet extends ConsumerStatefulWidget {
 class _GameInviteSheetState extends ConsumerState<GameInviteSheet> {
   @override
   Widget build(BuildContext context) {
+    final notifier = ref.read(onlineGameNotifierProvider.notifier);
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 16, 32, 36),
       child: SingleChildScrollView(
@@ -81,6 +83,7 @@ class _GameInviteSheetState extends ConsumerState<GameInviteSheet> {
               child: DoiButton(
                   text: 'Accept & Join',
                   onPressed: () {
+                    notifier.resetState();
                     context.pop();
                     context.showBottomSheet(
                       color: AppColors.white,

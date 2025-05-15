@@ -19,4 +19,22 @@ class ApiKeys {
       return Platform.isAndroid ? androidProdUnitId : iOSProdUnitId;
     }
   }
+
+  static String getBannerAdUnitId() {
+    if (useTestAds) {
+      if (Platform.isAndroid) {
+        return 'ca-app-pub-3940256099942544/6300978111';
+      } else if (Platform.isIOS) {
+        return 'ca-app-pub-3940256099942544/2934735716';
+      }
+    }
+
+    if (Platform.isAndroid) {
+      return 'YOUR_ANDROID_BANNER_AD_UNIT_ID';
+    } else if (Platform.isIOS) {
+      return 'YOUR_IOS_BANNER_AD_UNIT_ID';
+    }
+
+    return '';
+  }
 }

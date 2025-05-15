@@ -1,3 +1,4 @@
+import 'package:doi_mobile/core/extensions/coin_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
@@ -24,7 +25,7 @@ class CoinCount extends ConsumerWidget {
         ),
         2.horizontalSpace,
         Text(
-          totalCoins.toString(),
+          totalCoins.formattedCoins(style: CoinFormatStyle.compact),
           style: context.textTheme.bodyMedium?.copyWith(
             color: AppColors.dark,
             fontSize: 20.sp,

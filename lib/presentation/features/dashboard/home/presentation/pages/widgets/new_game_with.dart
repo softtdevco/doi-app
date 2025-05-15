@@ -10,9 +10,8 @@ import 'package:doi_mobile/data/third_party_services/branch_service.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/min_textfield.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +25,11 @@ class NewGameWith extends ConsumerStatefulWidget {
     this.isGroup = true,
     this.playerCount = 2,
     this.guessDigits = 4,
+    required this.timerValue,
   }) : super(key: key);
 
   final bool isGroup;
-
+  final String timerValue;
   final int playerCount;
   final int guessDigits;
 
@@ -47,8 +47,8 @@ class _NewGameWithState extends ConsumerState<NewGameWith> {
     context.showLoading();
     final user = ref.watch(currentUserProvider);
     final type = ref.watch(onlineGameNotifierProvider.select((v) => v.type));
-    final timerValue = ref.watch(homeNotifierProvider.select((v) => v.timer));
-    int totalSeconds = int.parse(timerValue) * 60;
+
+    int totalSeconds = int.parse(widget.timerValue) * 60;
     int minutes = totalSeconds ~/ 60;
     int seconds = totalSeconds % 60;
     final data = CreateGameRequest(

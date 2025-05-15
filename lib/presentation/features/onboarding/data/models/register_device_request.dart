@@ -8,12 +8,14 @@ class RegisterDeviceRequest {
   final String deviceId;
   final String username;
   final String country;
+  final String countryCode;
   final String avatar;
 
   const RegisterDeviceRequest({
     required this.deviceId,
     required this.username,
     required this.country,
+    required this.countryCode,
     required this.avatar,
   });
 

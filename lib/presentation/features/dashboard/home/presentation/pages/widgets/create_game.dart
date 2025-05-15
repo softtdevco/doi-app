@@ -259,6 +259,8 @@ class _CreateGameState extends ConsumerState<CreateGame> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
               child: Consumer(builder: (context, r, c) {
+                final timerValue =
+                    r.watch(homeNotifierProvider.select((v) => v.timer));
                 return DoiButton(
                   text: 'Create game',
                   onPressed: () {
@@ -267,6 +269,7 @@ class _CreateGameState extends ConsumerState<CreateGame> {
                     context.showBottomSheet(
                       color: AppColors.white,
                       child: NewGameWith(
+                        timerValue: timerValue,
                         isGroup: playersCount > 2,
                         playerCount: playersCount,
                         guessDigits: guessCount,

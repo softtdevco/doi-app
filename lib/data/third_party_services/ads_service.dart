@@ -176,7 +176,8 @@ class AdManager {
     _bannerAd!.load();
   }
 
-  Future<bool> showRewardedAd({required Function onUserEarnedReward}) async {
+  Future<bool> showRewardedAd(
+      {required Function(num) onUserEarnedReward}) async {
     if (_rewardedAd == null || !_isRewardedAdLoaded) {
       debugLog('Rewarded ad not ready yet');
       return false;
@@ -186,7 +187,7 @@ class AdManager {
       await _rewardedAd!.show(
         onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
           debugLog('User earned reward: ${reward.amount} ${reward.type}');
-          onUserEarnedReward();
+          onUserEarnedReward(reward.amount);
         },
       );
       return true;

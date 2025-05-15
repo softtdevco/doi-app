@@ -21,36 +21,39 @@ class ProductInfo {
 }
 
 class ProductIds {
-  // Power-ups
-  static const String freezeTime = 'pwp_freezetime';
-  static const String revealDigit = 'pwp_reveal1digit';
-  static const String swapCode = 'swap_pwp';
-
-  // Other product types
   static const String coins = 'coins';
+  static const String coinPack1 = 'coinpack_1';
+  static const String coinPack2 = 'coinpack_2';
+  static const String coinPack3 = 'coinpack_3';
 
-  // All product IDs that should be loaded from the store
-  static List<String> get all => [freezeTime, revealDigit, swapCode, coins];
+  static List<String> get all => [coinPack1, coins, coinPack2, coinPack3];
 
-  // Mapping of product IDs to their information
   static final Map<String, ProductInfo> productInfo = {
-    freezeTime: ProductInfo(
-      id: freezeTime,
-      displayName: 'Freeze Time',
-      type: ProductType.powerUp,
-      iconPath: Assets.svgs.freezeTime,
-      description: 'Freezes the timer for 30 seconds',
-      isConsumable: true,
-    ),
-    revealDigit: ProductInfo(
-      id: revealDigit,
-      displayName: 'Reveal 1 Digit',
-      type: ProductType.powerUp,
-      iconPath: Assets.svgs.reveal,
-      description: 'Reveals one digit on the board',
-      isConsumable: true,
-    ),
     coins: ProductInfo(
+      id: coins,
+      displayName: 'Coins',
+      type: ProductType.coin,
+      iconPath: Assets.svgs.coin,
+      description: 'Buy Coins',
+      isConsumable: true,
+    ),
+    coinPack1: ProductInfo(
+      id: coins,
+      displayName: 'Coins',
+      type: ProductType.coin,
+      iconPath: Assets.svgs.coin,
+      description: 'Buy Coins',
+      isConsumable: true,
+    ),
+    coinPack2: ProductInfo(
+      id: coins,
+      displayName: 'Coins',
+      type: ProductType.coin,
+      iconPath: Assets.svgs.coin,
+      description: 'Buy Coins',
+      isConsumable: true,
+    ),
+    coinPack3: ProductInfo(
       id: coins,
       displayName: 'Coins',
       type: ProductType.coin,

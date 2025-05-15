@@ -19,6 +19,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   late SocketClient _gamePlaySocketManager;
   late StreamSubscription _yourTurnSubscription;
   late StreamSubscription _winnerSubscription;
+  late StreamSubscription _winnerEarningSubscription;
   late StreamSubscription _mobileEmitSubscription;
   Timer? _timer;
 
@@ -31,6 +32,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     final eventStreamer = ref.read(socketEventsProvider);
     _yourTurnSubscription = eventStreamer.yourTurn.listen(handleYourTurn);
     _winnerSubscription = eventStreamer.gameEnded.listen(handleWinner);
+    _winnerEarningSubscription =
+        eventStreamer.matchupComplete.listen(handleWinnerEarnings);
     _mobileEmitSubscription =
         eventStreamer.mobileEmit.listen(handleGameControl);
 
@@ -38,6 +41,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       stopPolling();
       _yourTurnSubscription.cancel();
       _winnerSubscription.cancel();
+      _winnerEarningSubscription.cancel();
       _mobileEmitSubscription.cancel();
       _timer?.cancel();
     });
@@ -209,8 +213,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       final coins = data['totalCoins'] ?? 0;
 
       _timer?.cancel();
-      final currentUserId = ref.read(currentUserProvider);
-      final bool isCurrentUserWinner = winnerId == currentUserId.id;
+
       state = state.copyWith(
         isGameOver: true,
         timerActive: false,
@@ -219,9 +222,28 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
         pointsEarned: points,
         coinsEarned: coins,
       );
+    }
+  }
+
+  void handleWinnerEarnings(dynamic data) {
+    debugLog("Your score: $data");
+    if (data != null && data['score'] != null) {
+      final points = data['score']['totalPoints'] ?? 0;
+      final coins = data['score']['coinEarned'] ?? 0;
+      final winnerId = data['score']['userId'];
+
+      final currentUserId = ref.read(currentUserProvider);
+      final bool isCurrentUserWinner = winnerId == currentUserId.id;
+      state = state.copyWith(
+        isGameOver: true,
+        timerActive: false,
+        winnerId: winnerId,
+        pointsEarned: points,
+        coinsEarned: coins,
+      );
       if (isCurrentUserWinner) {
         _gameRepository.updatePoints(points);
-        _gameRepository.updateCoins(points);
+        _gameRepository.updateCoins(coins);
       }
     }
   }
@@ -373,6 +395,20 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       lastTurnEventId: null,
     );
     debugLog('<====State reset====>');
+  }
+
+  void buyPowerUps({
+    required int coinCost,
+    required Function() onSuccess,
+    required Function() onInsufficientFunds,
+  }) async {
+    int totalCoins = await _gameRepository.getTotalCoins();
+    if (totalCoins >= coinCost) {
+      _gameRepository.updateCoins(-coinCost);
+      onSuccess();
+    } else {
+      onInsufficientFunds();
+    }
   }
 }
 

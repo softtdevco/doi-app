@@ -104,6 +104,7 @@ class _FindingOpponentsState extends ConsumerState<FindingOpponents> {
                             color: AppColors.background,
                             child: NewGameWith(
                               isGroup: false,
+                              timerValue: "5",
                             ),
                           ),
                           child: AnimatedContainer(

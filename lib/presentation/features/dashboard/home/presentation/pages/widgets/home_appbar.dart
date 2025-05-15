@@ -1,14 +1,11 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
-import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/data/model/product_model.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/in_app_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/settings_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -71,25 +68,11 @@ class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
               ),
               57.horizontalSpace,
               Consumer(builder: (context, r, c) {
-                _buy(String id) {
-                  r.read(inAppNotifierProvider.notifier).buyProduct(
-                        productId: id,
-                        onCompleted: () {
-                          context.showSuccess(
-                              message: 'Succsesfully purchased');
-                        },
-                        onError: (p0) {
-                          context.showError(
-                            message: p0,
-                          );
-                        },
-                      );
-                }
-
                 return GestureDetector(
-                  onTap: () {
-                    _buy(ProductIds.coins);
-                  },
+                  // onTap: () {
+                  //   _buy(ProductIds.coins);
+                  // },
+                  onTap: () => context.pushNamed(AppRouter.store),
                   //  onTap: () => context.showPopUp(ChallengePop()),
                   child: CoinCount(),
                 );

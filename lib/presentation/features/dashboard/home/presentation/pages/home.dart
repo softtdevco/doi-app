@@ -12,11 +12,11 @@ import 'package:doi_mobile/data/third_party_services/ads_service.dart';
 import 'package:doi_mobile/data/third_party_services/branch_service.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/data/model/product_model.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/in_app_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_invite_sheet.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/home_appbar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/start_game.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/store/presenation/pages/widgets/power_up_tile.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
@@ -46,20 +46,6 @@ class _HomeState extends ConsumerState<Home> {
     _initDeepLinkListener();
   }
 
-  _buy(String id) {
-    ref.read(inAppNotifierProvider.notifier).buyProduct(
-          productId: id,
-          onCompleted: () {
-            context.showSuccess(message: 'Succsesfully purchased');
-          },
-          onError: (p0) {
-            context.showError(
-              message: p0,
-            );
-          },
-        );
-  }
-
   void _initDeepLinkListener() {
     _branchStreamSubscription =
         BranchLinkService().setupDeepLinkListener(onLinkOpened: (gameData) {
@@ -79,6 +65,18 @@ class _HomeState extends ConsumerState<Home> {
       ),
     );
     debugLog(gameData);
+  }
+
+  void _buyPowerUps(int coinCost) {
+    ref.read(onlineGameNotifierProvider.notifier).buyPowerUps(
+          coinCost: coinCost,
+          onSuccess: () {
+            context.showSuccess(message: 'PowerUps purchased successfully');
+          },
+          onInsufficientFunds: () {
+            context.showError(message: 'Insufficient Coins, Top up your coins');
+          },
+        );
   }
 
   @override
@@ -143,13 +141,7 @@ class _HomeState extends ConsumerState<Home> {
                   children: [
                     DoiButton(
                       text: context.l10n.arcade,
-                      onPressed:
-
-                          // () {
-                          //   _showAdThenEarn();
-                          // }
-
-                          () => context.pushNamed(AppRouter.arcade),
+                      onPressed: () => context.pushNamed(AppRouter.arcade),
                     ),
                     Positioned(
                       right: 0,
@@ -171,7 +163,7 @@ class _HomeState extends ConsumerState<Home> {
                 ),
               ),
               GestureDetector(
-                // onTap: () => context.pushNamed(AppRouter.store),
+                onTap: () => context.pushNamed(AppRouter.store),
                 child: Row(
                   children: [
                     Text(
@@ -194,12 +186,12 @@ class _HomeState extends ConsumerState<Home> {
                 PowerUpTile(
                   label: 'Freeze Time',
                   iconPath: Assets.svgs.freezeTime,
-                  onBuy: () => _buy(ProductIds.freezeTime),
+                  onBuy: () => _buyPowerUps(200),
                 ),
                 PowerUpTile(
                   label: 'Reveal 1 Digit',
                   iconPath: Assets.svgs.reveal,
-                  onBuy: () => _buy(ProductIds.revealDigit),
+                  onBuy: () => _buyPowerUps(200),
                 )
               ],
             ),
@@ -207,37 +199,6 @@ class _HomeState extends ConsumerState<Home> {
         ],
       ),
     );
-  }
-
-  void _showAdThenEarn() {
-    final adManager = AdManager();
-
-    if (adManager.isRewardedAdLoaded) {
-      adManager.showRewardedAd(
-        onUserEarnedReward: () {
-          // User earned reward
-          context.showSuccess(message: 'You earned a reward!');
-        },
-      ).then((wasAdShown) {
-        if (!wasAdShown) {
-          // Ad couldn't be shown
-          context.showError(
-              message: 'Ad not available. Please try again later.');
-        }
-      });
-    } else {
-      // Check again after status check (might have promoted a next ad)
-      if (adManager.isRewardedAdLoaded) {
-        // Try again - ad might be available now after status check
-        _showAdThenEarn();
-      } else {
-        // Still not available
-        context.showError(message: 'Ad not available. Please try again later.');
-
-        // Force a reload to ensure ads are available next time
-        adManager.forceReloadAds();
-      }
-    }
   }
 
   @override

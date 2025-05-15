@@ -3,20 +3,22 @@ import 'dart:async';
 import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/data/inapp_purchase/inapp_purchase_service.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/product_model.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/in_app_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class IAPNotifier extends Notifier<IAPState> {
   IAPNotifier();
-
+  late GameRepository _gameRepository;
   late IAPService _iapService;
   StreamSubscription<List<PurchaseDetails>>? _subscription;
-
+  final Set<String> _processedPurchaseTokens = {};
   @override
   IAPState build() {
     _iapService = ref.read(iapServiceProvider);
-
+    _gameRepository = ref.read(gameRepositoryProvider);
     //initialize();
 
     ref.onDispose(() {
@@ -57,6 +59,13 @@ class IAPNotifier extends Notifier<IAPState> {
       debugLog(
           'Purchase update received: ${purchase.productID} - Status: ${purchase.status}');
 
+      // Skip if we've already processed this purchase token
+      if (purchase.purchaseID != null &&
+          _processedPurchaseTokens.contains(purchase.purchaseID)) {
+        debugLog('Skipping already processed purchase: ${purchase.purchaseID}');
+        continue;
+      }
+
       if (purchase.status == PurchaseStatus.pending) {
         debugLog('Purchase pending: ${purchase.productID}');
         state = state.copyWith(isPending: true);
@@ -71,23 +80,42 @@ class IAPNotifier extends Notifier<IAPState> {
             purchase.status == PurchaseStatus.restored) {
           debugLog('Purchase successful: ${purchase.productID}');
 
+          // Mark this purchase as processed
+          if (purchase.purchaseID != null) {
+            _processedPurchaseTokens.add(purchase.purchaseID!);
+            debugLog('Marked purchase as processed: ${purchase.purchaseID}');
+          }
+
           final updatedInventory = Map<String, int>.from(state.inventory);
 
-          if (purchase.productID == ProductIds.freezeTime) {
-            updatedInventory[ProductIds.freezeTime] =
-                (updatedInventory[ProductIds.freezeTime] ?? 0) + 1;
+          if (purchase.productID == ProductIds.coinPack1) {
+            updatedInventory[ProductIds.coinPack1] =
+                (updatedInventory[ProductIds.coinPack1] ?? 0) + 1;
             debugLog(
-                'Added Freeze Time to inventory. New count: ${updatedInventory[ProductIds.freezeTime]}');
-          } else if (purchase.productID == ProductIds.revealDigit) {
-            updatedInventory[ProductIds.revealDigit] =
-                (updatedInventory[ProductIds.revealDigit] ?? 0) + 1;
+                'Coin pack 1. New count: ${updatedInventory[ProductIds.coinPack1]}');
+            _gameRepository.updateCoins(2000);
+            debugLog('Added 2000 coins for purchase');
+          } else if (purchase.productID == ProductIds.coinPack2) {
+            updatedInventory[ProductIds.coinPack2] =
+                (updatedInventory[ProductIds.coinPack2] ?? 0) + 1;
             debugLog(
-                'Added Reveal Digit to inventory. New count: ${updatedInventory[ProductIds.revealDigit]}');
+                'Coin pack 2. New count: ${updatedInventory[ProductIds.coinPack2]}');
+            _gameRepository.updateCoins(5000);
+            debugLog('Added 5000 coins for purchase');
+          } else if (purchase.productID == ProductIds.coinPack3) {
+            updatedInventory[ProductIds.coinPack3] =
+                (updatedInventory[ProductIds.coinPack3] ?? 0) + 1;
+            debugLog(
+                'Coin pack 3. New count: ${updatedInventory[ProductIds.coinPack3]}');
+            _gameRepository.updateCoins(10000);
+            debugLog('Added 10000 coins for purchase');
           } else if (purchase.productID == ProductIds.coins) {
             updatedInventory[ProductIds.coins] =
                 (updatedInventory[ProductIds.coins] ?? 0) + 1;
             debugLog(
-                'Added Reveal Digit to inventory. New count: ${updatedInventory[ProductIds.revealDigit]}');
+                'Coin pack 4. New count: ${updatedInventory[ProductIds.coins]}');
+            _gameRepository.updateCoins(20000);
+            debugLog('Added 20000 coins for purchase');
           } else {
             debugLog('Unknown product purchased: ${purchase.productID}');
           }
@@ -124,7 +152,9 @@ class IAPNotifier extends Notifier<IAPState> {
           isPending: false,
           error: _iapService.error ?? 'Purchase failed to initialize',
         );
+        initialize();
         onError(_iapService.error ?? 'Purchase failed to initialize');
+
         return;
       }
 
@@ -172,9 +202,9 @@ class IAPNotifier extends Notifier<IAPState> {
     return state.inventory[productId] ?? 0;
   }
 
-  String getPrice(String productId) {
+  (String, double) getPrice(String productId) {
     final product = _iapService.getProduct(productId);
-    return product?.price ?? 'N/A';
+    return (product?.currencySymbol ?? '', product?.rawPrice ?? 0.0);
   }
 }
 

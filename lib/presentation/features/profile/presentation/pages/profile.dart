@@ -1,4 +1,5 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
+import 'package:doi_mobile/core/extensions/date_extension.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/string_extensions.dart';
@@ -103,48 +104,48 @@ class _ProfileState extends ConsumerState<Profile> {
             ),
             11.verticalSpace,
             Text(
-              '${user.username?.capitalizeFirst}',
+              '${(user.username ?? 'Player')} ${getFlagEmoji(user.countryCode ?? 'US')}',
               style: context.textTheme.bodySmall?.copyWith(
                 fontSize: 16.sp,
               ),
             ),
-            // 4.verticalSpace,
-            // Text(
-            //   '33,590 XP',
-            //   style: context.textTheme.bodySmall?.copyWith(
-            //     fontSize: 14.sp,
-            //     color: AppColors.orange0A,
-            //   ),
-            // ),
-            // 16.verticalSpace,
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Text(
-            //       '32 Friends',
-            //       style: context.textTheme.bodySmall?.copyWith(
-            //         fontSize: 14.sp,
-            //         color: AppColors.orange0A,
-            //       ),
-            //     ),
-            //     8.horizontalSpace,
-            //     Container(
-            //       height: 5.h,
-            //       width: 5.w,
-            //       decoration: BoxDecoration(
-            //         shape: BoxShape.circle,
-            //         color: Color(0xFFD7A07D),
-            //       ),
-            //     ),
-            //     8.horizontalSpace,
-            //     Text(
-            //       'Joined 2 years ago',
-            //       style: context.textTheme.bodySmall?.copyWith(
-            //         fontSize: 12.sp,
-            //       ),
-            //     )
-            //   ],
-            // ),
+            4.verticalSpace,
+            Text(
+              '0 XP',
+              style: context.textTheme.bodySmall?.copyWith(
+                fontSize: 14.sp,
+                color: AppColors.orange0A,
+              ),
+            ),
+            16.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Text(
+                //   '32 Friends',
+                //   style: context.textTheme.bodySmall?.copyWith(
+                //     fontSize: 14.sp,
+                //     color: AppColors.orange0A,
+                //   ),
+                // ),
+                // 8.horizontalSpace,
+                // Container(
+                //   height: 5.h,
+                //   width: 5.w,
+                //   decoration: BoxDecoration(
+                //     shape: BoxShape.circle,
+                //     color: Color(0xFFD7A07D),
+                //   ),
+                // ),
+                // 8.horizontalSpace,
+                Text(
+                  'Joined ${(user.createdAt)?.timeAgo ?? ''}',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    fontSize: 12.sp,
+                  ),
+                )
+              ],
+            ),
             // 14.verticalSpace,
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -177,25 +178,24 @@ class _ProfileState extends ConsumerState<Profile> {
             //     ),
             //   ),
             // ),
-            // 50.verticalSpace,
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text(
-            //       'Profile visibility',
-            //       style: context.textTheme.bodySmall?.copyWith(
-            //         fontSize: 18.sp,
-            //       ),
-            //     ),
-            //     CupertinoSwitch(
-            //       value: true,
-            //       onChanged: (p0) {},
-            //       activeTrackColor: AppColors.primaryColor,
-            //     )
-            //   ],
-            // ),
-            // 24.verticalSpace,
-            60.verticalSpace,
+            50.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Profile visibility',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    fontSize: 18.sp,
+                  ),
+                ),
+                CupertinoSwitch(
+                  value: true,
+                  onChanged: (p0) {},
+                  activeTrackColor: AppColors.primaryColor,
+                )
+              ],
+            ),
+            24.verticalSpace,
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

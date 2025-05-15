@@ -393,6 +393,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       pointsEarned: state.pointsEarned,
       isTimeExpired: false,
       lastTurnEventId: null,
+      leaderLoadState: state.leaderLoadState,
+      globalLeaderboard: state.globalLeaderboard,
     );
     debugLog('<====State reset====>');
   }
@@ -408,6 +410,20 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       onSuccess();
     } else {
       onInsufficientFunds();
+    }
+  }
+
+  Future<void> getLeaderboard() async {
+    try {
+      final response = await _onlineGameRepository.getLeaderBoard();
+      if (!response.status) throw response.message;
+      state = state.copyWith(
+        leaderLoadSate: LoadState.success,
+        globalLeaderboard: response.data?.data?.globalLeaderboard ?? [],
+      );
+    } catch (e) {
+      state = state.copyWith(leaderLoadSate: LoadState.error);
+      debugLog(e.toString());
     }
   }
 }

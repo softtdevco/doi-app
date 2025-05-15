@@ -131,3 +131,15 @@ extension CharacterValidation on String {
     return startsWith('+') ? substring(1) : this;
   }
 }
+
+String getFlagEmoji(String countryCode) {
+  final String code = countryCode.toUpperCase();
+
+  final List<String> characters = code.split('');
+
+  final List<int> codePoints = characters.map((char) {
+    return char.codeUnitAt(0) + 127397;
+  }).toList();
+
+  return String.fromCharCodes(codePoints);
+}

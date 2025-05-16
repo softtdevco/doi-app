@@ -63,6 +63,7 @@ abstract class RestClient {
   });
   @GET('/game/leaderboard')
   Future<LeaderBoardResponse> getLeaderBoard();
+
 }
 
 ////////////////////////////////////////////////////////////////

@@ -145,7 +145,7 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
                         Text(
                           switch (selectedIndex) {
                             0 => 'USA  ${getFlagEmoji('US')}',
-                            1 => '${user.country ?? ''} ${getFlagEmoji('NG')}',
+                            1 => '${user.country ?? ''} ${getFlagEmoji(user.countryCode ?? '')}',
                             _ => 'Global  🌍',
                           },
                           style: context.textTheme.bodySmall?.copyWith(

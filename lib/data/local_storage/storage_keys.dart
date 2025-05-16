@@ -11,4 +11,7 @@ class HiveKeys {
   static const String user = 'user';
   static const String refreshToken = 'refresh_token';
   static const String currentState = 'current_state';
+  static const String lastPlayDate = 'lastPlayDate';
+  static const String currentStreak = 'currentStreak';
+  static const String streakLastRecorded = 'streakLastRecorded';
 }

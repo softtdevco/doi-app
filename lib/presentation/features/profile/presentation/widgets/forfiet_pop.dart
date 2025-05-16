@@ -72,7 +72,7 @@ class _ForfietPopState extends ConsumerState<ForfietPop> {
             Flexible(
               child: GestureDetector(
                 onTap: () {
-                  context.pop();
+                  popAndReset();
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 4, horizontal: 20),

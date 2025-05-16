@@ -1,3 +1,4 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
@@ -10,6 +11,7 @@ import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentati
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/widgets/online_game_status_bar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/widgets/online_guess_display.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
+import 'package:doi_mobile/presentation/features/profile/presentation/widgets/forfiet_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,6 +61,9 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                 setState(() {
                   disableButton = false;
                 });
+                ref
+                    .read(onlineGameNotifierProvider.notifier)
+                    .toggleTimerwhileTurn(true);
               }
             });
           }
@@ -68,6 +73,9 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
           setState(() {
             disableButton = true;
           });
+          ref
+              .read(onlineGameNotifierProvider.notifier)
+              .toggleTimerwhileTurn(false);
         }
 
         if (current.isGameOver && (previous == null || !previous.isGameOver)) {
@@ -123,87 +131,98 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(onlineGameNotifierProvider);
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Container(
-                color: AppColors.background,
-                child: Column(
-                  children: [
-                    OnlineGameStatusBar(
-                      friendGuesses: state.friendGuesses,
-                      timerActive: state.timerActive,
-                      timeRemaining: state.timeRemaining,
-                    ),
-                    60.verticalSpace,
-                    Expanded(
-                      child: OnlineGuessDisplay(
-                        currentInput: currentInput,
-                        playerGuesses: state.playerGuesses,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, dynamic result) {
+        if (!didPop) {
+          ref.read(onlineGameNotifierProvider.notifier).toggleTimer();
+          context.showPopUp(ForfietPop(
+            isOnline: true,
+          ));
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Container(
+                  color: AppColors.background,
+                  child: Column(
+                    children: [
+                      OnlineGameStatusBar(
+                        friendGuesses: state.friendGuesses,
+                        timerActive: state.timerActive,
+                        timeRemaining: state.timeRemaining,
                       ),
-                    ),
-                    if (showKeyboard == true)
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            showKeyboard = !showKeyboard;
-                          });
-                        },
-                        child: RotatedBox(
-                          quarterTurns: 3,
-                          child: AppSvgIcon(
-                            path: Assets.svgs.left,
-                            color: AppColors.disableLock,
-                          ),
+                      60.verticalSpace,
+                      Expanded(
+                        child: OnlineGuessDisplay(
+                          currentInput: currentInput,
+                          playerGuesses: state.playerGuesses,
                         ),
                       ),
-                    20.verticalSpace,
-                    if (showKeyboard)
-                      GameKeyboard(
-                        onNumberPressed: _onNumberPressed,
-                        onDeletePressed: _onDeletePressed,
-                        onSubmitPressed: _onSubmitPressed,
-                        canSubmit: currentInput.length == 4,
-                        aiPlaybackEnabled: true,
-                        isOnline: true,
-                        disableKeyboard: disableButton,
-                      ),
-                    if (showKeyboard == false)
-                      AppSvgIcon(
-                        path: Assets.svgs.keyboard,
-                        color: AppColors.disableLock,
-                        onTap: () {
-                          setState(() {
-                            showKeyboard = !showKeyboard;
-                          });
-                        },
-                      )
-                  ],
-                ),
-              ),
-            ),
-            if (_showConfetti)
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 339.h,
-                child: IgnorePointer(
-                  child: Lottie.asset(
-                    Assets.jsons.success,
-                    controller: _confettiController,
-                    fit: BoxFit.cover,
-                    onLoaded: (composition) {
-                      _confettiController.duration = composition.duration;
-                    },
+                      if (showKeyboard == true)
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              showKeyboard = !showKeyboard;
+                            });
+                          },
+                          child: RotatedBox(
+                            quarterTurns: 3,
+                            child: AppSvgIcon(
+                              path: Assets.svgs.left,
+                              color: AppColors.disableLock,
+                            ),
+                          ),
+                        ),
+                      20.verticalSpace,
+                      if (showKeyboard)
+                        GameKeyboard(
+                          onNumberPressed: _onNumberPressed,
+                          onDeletePressed: _onDeletePressed,
+                          onSubmitPressed: _onSubmitPressed,
+                          canSubmit: currentInput.length == 4,
+                          aiPlaybackEnabled: true,
+                          isOnline: true,
+                          disableKeyboard: disableButton,
+                        ),
+                      if (showKeyboard == false)
+                        AppSvgIcon(
+                          path: Assets.svgs.keyboard,
+                          color: AppColors.disableLock,
+                          onTap: () {
+                            setState(() {
+                              showKeyboard = !showKeyboard;
+                            });
+                          },
+                        )
+                    ],
                   ),
                 ),
               ),
-          ],
+              if (_showConfetti)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 339.h,
+                  child: IgnorePointer(
+                    child: Lottie.asset(
+                      Assets.jsons.success,
+                      controller: _confettiController,
+                      fit: BoxFit.cover,
+                      onLoaded: (composition) {
+                        _confettiController.duration = composition.duration;
+                      },
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -233,6 +252,9 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
         setState(() {
           disableButton = true;
         });
+        ref
+            .read(onlineGameNotifierProvider.notifier)
+            .toggleTimerwhileTurn(false);
       }, onError: (p0) {
         context.showError(message: p0);
       });

@@ -16,4 +16,8 @@ abstract interface class GameRepository {
   Future<void> setMaxCodeSwaps(int swaps);
   Future<int> getCodeSwapsRemaining();
   Future<void> setCodeSwapsRemaining(int swaps);
+  Future<bool> checkDailyStreak();
+  Future<bool> recordDailyStreak();
+  Future<int> getCurrentStreak();
+  Future<DateTime?> getLastPlayDate();
 }

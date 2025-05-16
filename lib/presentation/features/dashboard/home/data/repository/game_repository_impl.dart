@@ -133,11 +133,135 @@ class GameRepositoryImpl implements GameRepository {
   Future<int> getCodeSwapsRemaining() async {
     return _storage.get<int>(HiveKeys.codeSwapsRemaining) ?? 1;
   }
-    @override
+
+  @override
   Future<void> setCodeSwapsRemaining(int swaps) async {
     await _storage.put(HiveKeys.codeSwapsRemaining, swaps);
   }
+
+  @override
+  Future<bool> checkDailyStreak() async {
+    final today = _getTodayDateString();
+    final lastRecorded = _storage.get<String>(HiveKeys.streakLastRecorded);
+
+    if (lastRecorded == today) {
+      return false;
+    }
+
+    final isNewDay = await _isFirstPlayOfDay();
+    if (!isNewDay) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @override
+  Future<bool> recordDailyStreak() async {
+    try {
+      return true;
+
+      // if (response.statusCode == 200) {
+      //   final today = _getTodayDateString();
+
+      //   await _storage.put(HiveKeys.streakLastRecorded, today);
+
+      //   await _storage.put(HiveKeys.lastPlayDate, today);
+
+      //   final streakFromApi = response.data['streak'] as int?;
+      //   if (streakFromApi != null) {
+      //     await _storage.put(HiveKeys.currentStreak, streakFromApi);
+      //   } else {
+      //     await _updateLocalStreak();
+      //   }
+
+      //   final currentStreak = await getCurrentStreak();
+      //   _ref.read(currentStreakProvider.notifier).state = currentStreak;
+
+      //   return true;
+      // } else {
+      //   debugLog('Failed to record streak: ${response.statusCode}');
+      //   return false;
+      // }
+    } catch (e) {
+      debugLog('Error recording streak: $e');
+      return false;
+    }
+  }
+
+  @override
+  Future<int> getCurrentStreak() async {
+    return _storage.get<int>(HiveKeys.currentStreak) ?? 0;
+  }
+
+  @override
+  Future<DateTime?> getLastPlayDate() async {
+    final dateStr = _storage.get<String>(HiveKeys.lastPlayDate);
+    if (dateStr == null) return null;
+
+    try {
+      return DateTime.parse(dateStr);
+    } catch (e) {
+      debugLog('Error parsing lastPlayDate: $e');
+      return null;
+    }
+  }
+
+  // Helper methods
+
+  Future<bool> _isFirstPlayOfDay() async {
+    final lastPlayDateStr = _storage.get<String>(HiveKeys.lastPlayDate);
+    if (lastPlayDateStr == null) {
+      return true;
+    }
+
+    try {
+      final today = _getTodayDateString();
+      return lastPlayDateStr != today;
+    } catch (e) {
+      debugLog('Error checking if first play of day: $e');
+      return true;
+    }
+  }
+
+  String _getTodayDateString() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day).toIso8601String();
+  }
+
+  Future<void> _updateLocalStreak() async {
+    final lastPlayDateStr = _storage.get<String>(HiveKeys.lastPlayDate);
+    final currentStreak = _storage.get<int>(HiveKeys.currentStreak) ?? 0;
+
+    if (lastPlayDateStr == null) {
+      await _storage.put(HiveKeys.currentStreak, 1);
+      return;
+    }
+
+    try {
+      final lastPlayDate = DateTime.parse(lastPlayDateStr);
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final yesterday = today.subtract(const Duration(days: 1));
+
+      final lastPlayDay =
+          DateTime(lastPlayDate.year, lastPlayDate.month, lastPlayDate.day);
+
+      if (lastPlayDay == yesterday) {
+        await _storage.put(HiveKeys.currentStreak, currentStreak + 1);
+      } else if (lastPlayDay != today) {
+        await _storage.put(HiveKeys.currentStreak, 1);
+      }
+    } catch (e) {
+      debugLog('Error updating streak: $e');
+
+      await _storage.put(HiveKeys.currentStreak, 1);
+    }
+  }
 }
+
+final currentStreakProvider = StateProvider<int>((ref) => 0);
+final streakRecordedTodayProvider = StateProvider<bool>((ref) => false);
 
 final gameRepositoryProvider = Provider<GameRepository>(
   (ref) => GameRepositoryImpl(

@@ -135,9 +135,9 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
       canPop: false,
       onPopInvokedWithResult: (bool didPop, dynamic result) {
         if (!didPop) {
-          ref.read(onlineGameNotifierProvider.notifier).toggleTimer();
           context.showPopUp(ForfietPop(
             isOnline: true,
+            fromIsPaused: false,
           ));
         }
       },

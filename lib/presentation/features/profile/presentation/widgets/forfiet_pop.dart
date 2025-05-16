@@ -13,8 +13,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ForfietPop extends ConsumerStatefulWidget {
-  const ForfietPop({super.key, required this.isOnline});
+  const ForfietPop({
+    super.key,
+    required this.isOnline,
+    this.fromIsPaused = true,
+  });
   final bool isOnline;
+  final bool fromIsPaused;
   @override
   ConsumerState<ForfietPop> createState() => _ForfietPopState();
 }
@@ -50,7 +55,7 @@ class _ForfietPopState extends ConsumerState<ForfietPop> {
             AppSvgIcon(
               path: Assets.svgs.close,
               onTap: () {
-                popAndReset();
+                widget.fromIsPaused ? popAndReset() : context.pop();
               },
               fit: BoxFit.scaleDown,
             ),
@@ -72,7 +77,7 @@ class _ForfietPopState extends ConsumerState<ForfietPop> {
             Flexible(
               child: GestureDetector(
                 onTap: () {
-                  context.pop();
+                  widget.fromIsPaused ? popAndReset() : context.pop();
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 4, horizontal: 20),

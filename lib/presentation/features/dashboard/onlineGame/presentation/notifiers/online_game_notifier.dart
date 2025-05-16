@@ -320,9 +320,18 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     );
   }
 
+  toggleTimerwhileTurn(bool val) {
+    if (state.timeRemaining > 0 && !state.isGameOver) {
+      if (val) {
+        resumeTimer();
+      } else {
+        pauseTimer();
+      }
+    }
+  }
+
   void toggleTimer() {
-    if (state.timeRemaining > 0) {
-      //&& !state.isGameOver
+    if (state.timeRemaining > 0 && !state.isGameOver) {
       if (state.timerActive) {
         timeTick(
           gameId: state.gameSessionData?.gameId ?? '',

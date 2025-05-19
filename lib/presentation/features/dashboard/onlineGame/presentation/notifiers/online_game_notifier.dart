@@ -404,6 +404,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       lastTurnEventId: null,
       leaderLoadState: state.leaderLoadState,
       globalLeaderboard: state.globalLeaderboard,
+      streakLoadState: state.streakLoadState,
     );
     debugLog('<====State reset====>');
   }
@@ -432,6 +433,34 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       );
     } catch (e) {
       state = state.copyWith(leaderLoadSate: LoadState.error);
+      debugLog(e.toString());
+    }
+  }
+
+  Future<void> handleDailyStreakCheck({
+    Function(String)? onError,
+    Function()? onSuccess,
+  }) async {
+    state = state.copyWith(streakLoadState: LoadState.loading);
+
+    try {
+      final shouldRecordStreak = await _gameRepository.checkDailyStreak();
+
+      if (shouldRecordStreak) {
+        final success = await _gameRepository.recordDailyStreak();
+
+        if (success) {
+          state = state.copyWith(streakLoadState: LoadState.success);
+          if (onSuccess != null) onSuccess();
+        } else {
+          state = state.copyWith(streakLoadState: LoadState.error);
+          if (onError != null)
+            onError("Couldn't update your streak. Try again later!");
+          debugLog("Couldn't update your streak. Try again later!");
+        }
+      }
+    } catch (e) {
+      state = state.copyWith(streakLoadState: LoadState.error);
       debugLog(e.toString());
     }
   }

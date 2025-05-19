@@ -1,18 +1,29 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:doi_mobile/core/config/exceptions/exceptions_handler.dart';
+import 'package:doi_mobile/core/extensions/object_extensions.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
+import 'package:doi_mobile/core/utils/type_defs.dart';
+import 'package:doi_mobile/data/client/rest_client.dart';
 import 'package:doi_mobile/data/local_storage/storage.dart';
 import 'package:doi_mobile/data/local_storage/storage_impl.dart';
 import 'package:doi_mobile/data/local_storage/storage_keys.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/streak_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class GameRepositoryImpl implements GameRepository {
-  GameRepositoryImpl(this._storage, this._ref);
+  GameRepositoryImpl(
+    this._storage,
+    this._ref,
+    this._restClient,
+  );
 
   final LocalStorage _storage;
   final Ref _ref;
+  final RestClient _restClient;
 
   @override
   Map<String, dynamic>? getCurrentGame() {
@@ -159,30 +170,30 @@ class GameRepositoryImpl implements GameRepository {
   @override
   Future<bool> recordDailyStreak() async {
     try {
-      return true;
+      final response = await sendDailyStreak();
 
-      // if (response.statusCode == 200) {
-      //   final today = _getTodayDateString();
+      if (response.status) {
+        final today = _getTodayDateString();
+        await _storage.put(HiveKeys.streakLastRecorded, today);
+        await _storage.put(HiveKeys.lastPlayDate, today);
 
-      //   await _storage.put(HiveKeys.streakLastRecorded, today);
+        final streakFromApi = response.data?.data?.streakCount;
+        if (streakFromApi != null) {
+          await _storage.put(HiveKeys.currentStreak, streakFromApi);
 
-      //   await _storage.put(HiveKeys.lastPlayDate, today);
+          _ref.read(currentStreakProvider.notifier).state = streakFromApi;
+        } else {
+          await _updateLocalStreak();
 
-      //   final streakFromApi = response.data['streak'] as int?;
-      //   if (streakFromApi != null) {
-      //     await _storage.put(HiveKeys.currentStreak, streakFromApi);
-      //   } else {
-      //     await _updateLocalStreak();
-      //   }
+          final updatedStreak = getCurrentStreak();
+          _ref.read(currentStreakProvider.notifier).state = updatedStreak;
+        }
 
-      //   final currentStreak = await getCurrentStreak();
-      //   _ref.read(currentStreakProvider.notifier).state = currentStreak;
-
-      //   return true;
-      // } else {
-      //   debugLog('Failed to record streak: ${response.statusCode}');
-      //   return false;
-      // }
+        return true;
+      } else {
+        debugLog('Failed to record streak: ${response.message}');
+        return false;
+      }
     } catch (e) {
       debugLog('Error recording streak: $e');
       return false;
@@ -190,7 +201,7 @@ class GameRepositoryImpl implements GameRepository {
   }
 
   @override
-  Future<int> getCurrentStreak() async {
+  int getCurrentStreak() {
     return _storage.get<int>(HiveKeys.currentStreak) ?? 0;
   }
 
@@ -233,40 +244,61 @@ class GameRepositoryImpl implements GameRepository {
     final lastPlayDateStr = _storage.get<String>(HiveKeys.lastPlayDate);
     final currentStreak = _storage.get<int>(HiveKeys.currentStreak) ?? 0;
 
-    if (lastPlayDateStr == null) {
-      await _storage.put(HiveKeys.currentStreak, 1);
-      return;
+    int newStreak = 1;
+
+    if (lastPlayDateStr != null) {
+      try {
+        final lastPlayDate = DateTime.parse(lastPlayDateStr);
+        final now = DateTime.now();
+        final today = DateTime(now.year, now.month, now.day);
+        final yesterday = today.subtract(const Duration(days: 1));
+
+        final lastPlayDay =
+            DateTime(lastPlayDate.year, lastPlayDate.month, lastPlayDate.day);
+
+        if (lastPlayDay == yesterday) {
+          newStreak = currentStreak + 1;
+        } else if (lastPlayDay != today) {
+          newStreak = 1;
+        } else {
+          newStreak = currentStreak;
+        }
+      } catch (e) {
+        debugLog('Error updating streak: $e');
+        newStreak = 1;
+      }
     }
 
+    await _storage.put(HiveKeys.currentStreak, newStreak);
+    _ref.read(currentStreakProvider.notifier).state = newStreak;
+  }
+
+  @override
+  Future<BaseResponse<StreakResponse>> sendDailyStreak() async {
     try {
-      final lastPlayDate = DateTime.parse(lastPlayDateStr);
-      final now = DateTime.now();
-      final today = DateTime(now.year, now.month, now.day);
-      final yesterday = today.subtract(const Duration(days: 1));
-
-      final lastPlayDay =
-          DateTime(lastPlayDate.year, lastPlayDate.month, lastPlayDate.day);
-
-      if (lastPlayDay == yesterday) {
-        await _storage.put(HiveKeys.currentStreak, currentStreak + 1);
-      } else if (lastPlayDay != today) {
-        await _storage.put(HiveKeys.currentStreak, 1);
-      }
-    } catch (e) {
-      debugLog('Error updating streak: $e');
-
-      await _storage.put(HiveKeys.currentStreak, 1);
+      final r = await _restClient.sendDailyStreak();
+      debugLog('daily streak sent successfully');
+      return r.toBaseResponse(
+        message: 'daily streak sent successfully',
+        status: true,
+      );
+    } on DioException catch (e) {
+      return AppException.handleError(e);
     }
   }
 }
 
-final currentStreakProvider = StateProvider<int>((ref) => 0);
+final currentStreakProvider = StateProvider<int>((ref) {
+  final storage = ref.read(localDB);
+  return storage.get<int>(HiveKeys.currentStreak) ?? 0;
+});
 final streakRecordedTodayProvider = StateProvider<bool>((ref) => false);
 
 final gameRepositoryProvider = Provider<GameRepository>(
   (ref) => GameRepositoryImpl(
     ref.read(localDB),
     ref,
+    ref.read(restClient),
   ),
 );
 

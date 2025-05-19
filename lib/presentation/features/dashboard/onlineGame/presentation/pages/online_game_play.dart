@@ -255,6 +255,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
         ref
             .read(onlineGameNotifierProvider.notifier)
             .toggleTimerwhileTurn(false);
+        ref.read(onlineGameNotifierProvider.notifier).handleDailyStreakCheck();
       }, onError: (p0) {
         context.showError(message: p0);
       });

@@ -29,6 +29,7 @@ class OnlineGameState {
   final String? lastTurnEventId;
   final LoadState leaderLoadState;
   final List<GlobalLeaderboard>? globalLeaderboard;
+  final LoadState streakLoadState;
   OnlineGameState({
     required this.loadState,
     required this.type,
@@ -54,6 +55,7 @@ class OnlineGameState {
     this.lastTurnEventId,
     required this.leaderLoadState,
     required this.globalLeaderboard,
+    required this.streakLoadState,
   });
 
   factory OnlineGameState.initial() {
@@ -74,6 +76,7 @@ class OnlineGameState {
       isTimeExpired: false,
       leaderLoadState: LoadState.loading,
       globalLeaderboard: [],
+      streakLoadState: LoadState.idle,
     );
   }
 
@@ -102,6 +105,7 @@ class OnlineGameState {
     String? lastTurnEventId,
     LoadState? leaderLoadSate,
     List<GlobalLeaderboard>? globalLeaderboard,
+    LoadState? streakLoadState,
   }) {
     return OnlineGameState(
       loadState: loadState ?? this.loadState,
@@ -128,6 +132,7 @@ class OnlineGameState {
       lastTurnEventId: lastTurnEventId ?? this.lastTurnEventId,
       leaderLoadState: leaderLoadSate ?? this.leaderLoadState,
       globalLeaderboard: globalLeaderboard ?? this.globalLeaderboard,
+      streakLoadState: streakLoadState ?? this.streakLoadState,
     );
   }
 }

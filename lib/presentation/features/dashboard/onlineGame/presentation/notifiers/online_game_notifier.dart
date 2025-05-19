@@ -31,7 +31,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
 
     final eventStreamer = ref.read(socketEventsProvider);
     _yourTurnSubscription = eventStreamer.yourTurn.listen(handleYourTurn);
-    _winnerSubscription = eventStreamer.gameEnded.listen(handleWinner);
+    _winnerSubscription = eventStreamer.gameEnded.listen(handleGameEnded);
     _winnerEarningSubscription =
         eventStreamer.matchupComplete.listen(handleWinnerEarnings);
     _mobileEmitSubscription =
@@ -204,25 +204,10 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     }
   }
 
-  void handleWinner(dynamic data) {
+  void handleGameEnded(dynamic data) {
     debugLog("Your winner: $data");
-    if (data != null && data['winnerId'] != null) {
-      final winnerId = data['winnerId'];
-      final winnerName = data['winnerUsername'] ?? '';
-      final points = data['totalScore'] ?? 0;
-      final coins = data['totalCoins'] ?? 0;
-
-      _timer?.cancel();
-
-      state = state.copyWith(
-        isGameOver: true,
-        timerActive: false,
-        winnerId: winnerId,
-        winnerName: winnerName,
-        pointsEarned: points,
-        coinsEarned: coins,
-      );
-    }
+    if (data == null) return;
+    _handleTimerExpired();
   }
 
   void handleWinnerEarnings(dynamic data) {
@@ -249,6 +234,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   }
 
   void handleGameControl(dynamic data) {
+    if (data == null) return;
     debugLog("Game control event: $data");
     if (data['message'] == 'pause') {
       pauseTimer();
@@ -258,7 +244,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
   }
 
   void _handleTimerExpired() {
-    // _timer?.cancel();
+    _timer?.cancel();
     state = state.copyWith(
       timerActive: false,
       isGameOver: true,
@@ -270,8 +256,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     _timer?.cancel();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (state.timeRemaining <= 0) {
-        timer.cancel();
-        _handleTimerExpired();
+        endGame();
         return;
       }
 
@@ -378,6 +363,22 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     );
   }
 
+  void endGame() {
+    if (state.gameSessionData?.gameId == null ||
+        state.gameSessionData?.gameId == '') {
+      debugLog("Cannot make guess: Game ID is null");
+      return;
+    }
+
+    _gamePlaySocketManager.endGame(
+      gameId: state.gameSessionData?.gameId ?? '',
+      onResponse: (response) {
+        debugLog("End game response: $response");
+        _handleTimerExpired();
+      },
+    );
+  }
+
   void resetState() {
     state = OnlineGameState(
       loadState: state.loadState,
@@ -393,13 +394,13 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       expectedPlayerCount: 0,
       joinCode: null,
       yourTurn: false,
-      timeRemaining: state.timeRemaining,
+      timeRemaining: 0,
       timerActive: false,
       isGameOver: false,
       winnerId: null,
       winnerName: null,
-      coinsEarned: state.coinsEarned,
-      pointsEarned: state.pointsEarned,
+      coinsEarned: null,
+      pointsEarned: null,
       isTimeExpired: false,
       lastTurnEventId: null,
       leaderLoadState: state.leaderLoadState,

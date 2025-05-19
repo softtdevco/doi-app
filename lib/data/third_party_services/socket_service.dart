@@ -95,6 +95,17 @@ class SocketClient {
       ack: onResponse,
     );
   }
+
+  endGame({
+    required String gameId,
+    required Function(dynamic) onResponse,
+  }) {
+    gamePlaySocketManager._socket.emitWithAck(
+      'endGame',
+      {"gameID": gameId},
+      ack: onResponse,
+    );
+  }
 }
 
 class SocketManager {

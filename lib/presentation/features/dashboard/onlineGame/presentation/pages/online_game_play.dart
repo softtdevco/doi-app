@@ -98,7 +98,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                 bool isWinner = current.winnerId == currentUser.id;
                 context.replaceNamed(
                   AppRouter.result,
-                  arguments: isWinner,
+                  arguments: (win: isWinner, isOnline: true),
                 );
               });
             }
@@ -110,7 +110,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
               Future.delayed(Duration(seconds: 3), () {
                 context.replaceNamed(
                   AppRouter.result,
-                  arguments: false,
+                  arguments: (win: false, isOnline: true),
                 );
               });
             }

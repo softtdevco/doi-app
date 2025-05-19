@@ -56,11 +56,16 @@ class _PlayGameState extends ConsumerState<PlayGame>
           _hasNavigatedAfterWin = true;
 
           Future.delayed(Duration(seconds: 3), () {
-            context.replaceNamed(AppRouter.result,
-                arguments: switch (current.winner) {
+            context.replaceNamed(
+              AppRouter.result,
+              arguments: (
+                win: switch (current.winner) {
                   'player' => true,
                   _ => false,
-                });
+                },
+                isOnline: false
+              ),
+            );
           });
         }
       });

@@ -9,6 +9,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/not
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_keyboard.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_status_bar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/guess_display.dart';
+import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -196,6 +197,7 @@ class _PlayGameState extends ConsumerState<PlayGame>
       setState(() {
         currentInput.clear();
       });
+      ref.read(onlineGameNotifierProvider.notifier).handleDailyStreakCheck();
     }
   }
 

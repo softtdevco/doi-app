@@ -131,11 +131,11 @@ class SocketManager {
     });
 
     _socket.onDisconnect((v) {
-      debugLog('disconnected from web socket');
+      debugLog('disconnected from web socket: $v');
     });
 
     _socket.onConnectError((data) {
-      debugLog(data);
+      debugLog('Connection Error due to :$data');
     });
 
     _socket.on('yourTurn', (data) {
@@ -179,7 +179,7 @@ final gamePlaySocketManager =
     Provider.family<SocketManager, BaseEnv>((ref, env) {
   final eventStreamer = ref.read(socketEventsProvider);
   return SocketManager(
-    env.baseUrl,
+    env.socketUrl,
     ref.read(userRepositoryProvider).getToken(),
     eventStreamer,
   );

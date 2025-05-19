@@ -1,5 +1,6 @@
 abstract class BaseEnv {
   String get baseUrl;
+  String get socketUrl;
 }
 
 enum Flavor {

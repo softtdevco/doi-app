@@ -6,4 +6,8 @@ class StagingEnv implements BaseEnv {
   static final StagingEnv _instance = StagingEnv._internal();
   @override
   String get baseUrl => 'https://doi-new-production.up.railway.app';
+  
+  @override
+  String get socketUrl =>
+      'https://observant-optimism-production.up.railway.app';
 }

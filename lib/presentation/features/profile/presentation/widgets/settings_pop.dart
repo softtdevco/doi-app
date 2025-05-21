@@ -4,6 +4,7 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/launcher.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
@@ -160,7 +161,10 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
             DoiButton(
               width: context.width,
               text: 'HELP & SUPPORT',
-              onPressed: () {},
+              onPressed: () {
+                LauncherHelpers.openUrl();
+             
+              },
             ),
             24.verticalSpace,
             DoiButton(

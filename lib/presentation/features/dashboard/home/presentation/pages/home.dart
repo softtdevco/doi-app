@@ -18,6 +18,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/start_game.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/store/presenation/pages/widgets/power_up_tile.dart';
+import 'package:doi_mobile/presentation/features/dashboard/tournaments/presentation/pages/widgets/lock_tournament_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -93,7 +94,12 @@ class _HomeState extends ConsumerState<Home> {
           24.verticalSpace,
           Align(
             alignment: Alignment.topLeft,
-            child: AppSvgIcon(path: Assets.svgs.calendarStar),
+            child: AppSvgIcon(
+              path: Assets.svgs.calendarStar,
+              onTap: () {
+                context.showPopUp(DailyLockPop());
+              },
+            ),
           ),
           GestureDetector(
             // onTap: () => context.showBottomSheet(

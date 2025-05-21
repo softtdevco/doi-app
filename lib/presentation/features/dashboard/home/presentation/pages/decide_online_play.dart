@@ -25,7 +25,8 @@ class DecideOnlinePlay extends StatelessWidget {
       bodyPadding: EdgeInsets.symmetric(horizontal: 30),
       appbar: DoiAppbar(
         title: CoinCount(),
-        trailing: AppSvgIcon(path: Assets.svgs.help),
+        trailing: Visibility(
+            visible: false, child: AppSvgIcon(path: Assets.svgs.help)),
       ),
       body: SingleChildScrollView(
         child: Column(

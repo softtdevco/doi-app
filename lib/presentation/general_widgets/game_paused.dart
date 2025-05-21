@@ -167,21 +167,21 @@ class _GamePausedState extends ConsumerState<GamePaused> {
                   ));
                 }),
             15.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(actions.length, (index) {
-                return AppSvgIcon(path: actions[index]).withContainer(
-                    width: 48.w,
-                    height: 48.h,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 33, horizontal: 12),
-                    border: Border.all(
-                      width: 2.w,
-                      color: AppColors.primaryColor,
-                    ),
-                    borderRadius: BorderRadius.circular(12.r));
-              }),
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: List.generate(actions.length, (index) {
+            //     return AppSvgIcon(path: actions[index]).withContainer(
+            //         width: 48.w,
+            //         height: 48.h,
+            //         alignment: Alignment.center,
+            //         margin: EdgeInsets.symmetric(vertical: 33, horizontal: 12),
+            //         border: Border.all(
+            //           width: 2.w,
+            //           color: AppColors.primaryColor,
+            //         ),
+            //         borderRadius: BorderRadius.circular(12.r));
+            //   }),
+            // )
           ],
         )
       ],

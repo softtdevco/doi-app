@@ -134,68 +134,67 @@ class _SettingsPopState extends ConsumerState<SettingsPop> {
                     SingleChildScrollView(child: HowToPlayPop()));
               },
             ),
-            16.verticalSpace,
-            Stack(
-              children: [
-                DoiButton(
-                  text: 'Go Ad free',
-                  buttonStyle: DoiButtonStyle(
-                    background: AppColors.green,
-                    borderColor: AppColors.greenBorder,
-                  ),
-                  onPressed: () {},
-                ),
-                Positioned(
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.r),
-                        child:
-                            Assets.images.a1.image(color: Color(0xFFCCF084)))),
-                Positioned(
-                    child: Assets.images.a2.image(color: Color(0xFFCCF084))),
-                Positioned(
-                    right: 0,
-                    child: Assets.images.a3.image(color: Color(0xFFCCF084))),
-              ],
-            ),
+            // 16.verticalSpace,
+            // Stack(
+            //   children: [
+            //     DoiButton(
+            //       text: 'Go Ad free',
+            //       buttonStyle: DoiButtonStyle(
+            //         background: AppColors.green,
+            //         borderColor: AppColors.greenBorder,
+            //       ),
+            //       onPressed: () {},
+            //     ),
+            //     Positioned(
+            //         child: ClipRRect(
+            //             borderRadius: BorderRadius.circular(15.r),
+            //             child:
+            //                 Assets.images.a1.image(color: Color(0xFFCCF084)))),
+            //     Positioned(
+            //         child: Assets.images.a2.image(color: Color(0xFFCCF084))),
+            //     Positioned(
+            //         right: 0,
+            //         child: Assets.images.a3.image(color: Color(0xFFCCF084))),
+            //   ],
+            // ),
             16.verticalSpace,
             DoiButton(
               width: context.width,
               text: 'HELP & SUPPORT',
               onPressed: () {
                 LauncherHelpers.openUrl();
-             
               },
             ),
             24.verticalSpace,
-            DoiButton(
-              width: 239,
-              height: 48,
-              leading: Assets.svgs.union,
-              buttonStyle: DoiButtonStyle.secondary(),
-              text: context.l10n.syncProgress,
-              onPressed: () {
-                context.pop();
-                context.showPopUp(
-                    horizontalPadding: 12,
-                    Authentication(),
-                    color: AppColors.white);
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(actions.length, (index) {
-                return AppSvgIcon(path: actions[index]).withContainer(
-                    width: 48.w,
-                    height: 48.h,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 33, horizontal: 12),
-                    border: Border.all(
-                      width: 2.w,
-                      color: AppColors.primaryColor,
-                    ),
-                    borderRadius: BorderRadius.circular(12.r));
-              }),
-            )
+            // DoiButton(
+            //   width: 239,
+            //   height: 48,
+            //   leading: Assets.svgs.union,
+            //   buttonStyle: DoiButtonStyle.secondary(),
+            //   text: context.l10n.syncProgress,
+            //   onPressed: () {
+            //     context.pop();
+            //     context.showPopUp(
+            //         horizontalPadding: 12,
+            //         Authentication(),
+            //         color: AppColors.white);
+            //   },
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: List.generate(actions.length, (index) {
+            //     return AppSvgIcon(path: actions[index]).withContainer(
+            //         width: 48.w,
+            //         height: 48.h,
+            //         alignment: Alignment.center,
+            //         margin: EdgeInsets.symmetric(vertical: 33, horizontal: 12),
+            //         border: Border.all(
+            //           width: 2.w,
+            //           color: AppColors.primaryColor,
+            //         ),
+            //         borderRadius: BorderRadius.circular(12.r));
+            //   }),
+            // )
           ],
         )
       ],

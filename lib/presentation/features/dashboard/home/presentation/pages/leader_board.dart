@@ -72,11 +72,14 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
               ),
             ),
             showBackButton: true,
-            trailing: AppSvgIcon(
-              path: Assets.svgs.help,
-              color: selectedIndex == 1
-                  ? AppColors.greenText
-                  : AppColors.secondaryColor,
+            trailing: Visibility(
+              visible: false,
+              child: AppSvgIcon(
+                path: Assets.svgs.help,
+                color: selectedIndex == 1
+                    ? AppColors.greenText
+                    : AppColors.secondaryColor,
+              ),
             ),
           ),
           bodyPadding: EdgeInsets.all(24),
@@ -145,7 +148,8 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
                         Text(
                           switch (selectedIndex) {
                             0 => 'USA  ${getFlagEmoji('US')}',
-                            1 => '${user.country ?? ''} ${getFlagEmoji(user.countryCode ?? '')}',
+                            1 =>
+                              '${user.country ?? ''} ${getFlagEmoji(user.countryCode ?? '')}',
                             _ => 'Global  🌍',
                           },
                           style: context.textTheme.bodySmall?.copyWith(
@@ -241,7 +245,8 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
                                         child: PlayerRankTile(
                                           index: i,
                                           isYou: user.id ==
-                                              (usaLeaderBoard[i].user?.id ?? ''),
+                                              (usaLeaderBoard[i].user?.id ??
+                                                  ''),
                                           model: usaLeaderBoard[i],
                                         ),
                                       );
@@ -263,7 +268,10 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
                                         child: PlayerRankTile(
                                           index: i,
                                           isYou: user.id ==
-                                              (myCountryLeaderBoard[i].user?.id ?? ''),
+                                              (myCountryLeaderBoard[i]
+                                                      .user
+                                                      ?.id ??
+                                                  ''),
                                           model: myCountryLeaderBoard[i],
                                         ),
                                       );

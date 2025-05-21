@@ -52,3 +52,48 @@ class _LockTournamentPopState extends ConsumerState<LockTournamentPop> {
     );
   }
 }
+
+class DailyLockPop extends ConsumerStatefulWidget {
+  const DailyLockPop({super.key});
+
+  @override
+  ConsumerState<DailyLockPop> createState() => _DailyLockPopState();
+}
+
+class _DailyLockPopState extends ConsumerState<DailyLockPop> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 44.0,
+        vertical: 36,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Assets.images.productLocked.image(
+            height: 206.h,
+            width: 206.w,
+          ),
+          33.verticalSpace,
+          Text(
+            'Reach 1,000 XP playing to unlock Daily Rewards',
+            style: context.textTheme.bodySmall?.copyWith(
+              fontSize: 16.sp,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          55.verticalSpace,
+          DoiButton(
+            text: 'Okay',
+            //isEnabled: isEnabled,
+            onPressed: () {
+              context.pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

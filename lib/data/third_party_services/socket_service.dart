@@ -5,6 +5,7 @@ import 'package:doi_mobile/core/config/env/dev_env.dart';
 import 'package:doi_mobile/core/config/env/prod_env.dart';
 import 'package:doi_mobile/core/config/env/staging_env.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -22,6 +23,8 @@ class SocketEventStreamer {
   final _gameEndedController = StreamController<dynamic>.broadcast();
   final _roundAdvancedController = StreamController<dynamic>.broadcast();
   final _gameStateUpdatedController = StreamController<dynamic>.broadcast();
+  final _gameCreatedAndStartedController =
+      StreamController<dynamic>.broadcast();
 
   Stream<dynamic> get yourTurn => _yourTurnController.stream;
   Stream<dynamic> get mobileEmit => _mobileEmitController.stream;
@@ -30,6 +33,8 @@ class SocketEventStreamer {
   Stream<dynamic> get gameEnded => _gameEndedController.stream;
   Stream<dynamic> get roundAdvanced => _roundAdvancedController.stream;
   Stream<dynamic> get gameStateUpdated => _gameStateUpdatedController.stream;
+  Stream<dynamic> get gameCreatedAndStarted =>
+      _gameCreatedAndStartedController.stream;
 
   void emitYourTurn(dynamic data) => _yourTurnController.add(data);
   void emitMobileEmit(dynamic data) => _mobileEmitController.add(data);
@@ -40,7 +45,8 @@ class SocketEventStreamer {
   void emitRoundAdvanced(dynamic data) => _roundAdvancedController.add(data);
   void emitGameStateUpdated(dynamic data) =>
       _gameStateUpdatedController.add(data);
-
+  void emitGameCreatedAndStarted(dynamic data) =>
+      _gameCreatedAndStartedController.add(data);
   void dispose() {
     _yourTurnController.close();
     _mobileEmitController.close();
@@ -49,6 +55,7 @@ class SocketEventStreamer {
     _gameEndedController.close();
     _roundAdvancedController.close();
     _gameStateUpdatedController.close();
+    _gameCreatedAndStartedController.close();
   }
 }
 
@@ -103,6 +110,24 @@ class SocketClient {
     gamePlaySocketManager._socket.emitWithAck(
       'endGame',
       {"gameID": gameId},
+      ack: onResponse,
+    );
+  }
+
+  joinPlayOnlineRoom({
+    required GameDuration time,
+    required String secretCode,
+    required Function(dynamic) onResponse,
+  }) {
+    gamePlaySocketManager._socket.emitWithAck(
+      'joinPlayOnlineRoom',
+      {
+        "time": {
+          "minutes": time.minute,
+          "seconds": time.seconds,
+        },
+        "secretCode": secretCode,
+      },
       ack: onResponse,
     );
   }
@@ -182,6 +207,11 @@ class SocketManager {
     _socket.on('mobileEmit', (data) {
       debugLog('mobileEmit event received: $data');
       eventStreamer.emitMobileEmit(data);
+    });
+
+    _socket.on('gameCreatedAndStarted', (data) {
+      debugLog('gameCreatedAndStarted event received: $data');
+      eventStreamer.emitGameCreatedAndStarted(data);
     });
   }
 }

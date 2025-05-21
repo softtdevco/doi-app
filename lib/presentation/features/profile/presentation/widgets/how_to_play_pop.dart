@@ -3,10 +3,12 @@ import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +18,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class HowToPlayPop extends ConsumerStatefulWidget {
   const HowToPlayPop({
     super.key,
-    this.isOnline = false,
+    this.gamePlayType = GamePlayType.offline,
     this.fromGame = false,
   });
-  final bool isOnline;
+  final GamePlayType gamePlayType;
   final bool fromGame;
   @override
   ConsumerState<HowToPlayPop> createState() => _HowToPlayPopState();
@@ -28,8 +30,10 @@ class HowToPlayPop extends ConsumerStatefulWidget {
 class _HowToPlayPopState extends ConsumerState<HowToPlayPop> {
   void popAndReset() {
     context.pop();
-    if (widget.isOnline) {
+    if (widget.gamePlayType == GamePlayType.playwithFriend) {
       ref.read(onlineGameNotifierProvider.notifier).toggleTimer();
+    } else if (widget.gamePlayType == GamePlayType.playOnline) {
+      ref.read(playOnlineNotifierProvider.notifier).toggleTimer();
     } else {
       ref.read(gameNotifierProvider.notifier).toggleTimer();
     }

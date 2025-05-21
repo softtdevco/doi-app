@@ -6,12 +6,14 @@ import 'package:doi_mobile/core/extensions/string_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/core/utils/styles.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_notifier.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/forfiet_pop.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/how_to_play_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
@@ -21,8 +23,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GamePaused extends ConsumerStatefulWidget {
-  const GamePaused({super.key, required this.isOnline});
-  final bool isOnline;
+  const GamePaused({super.key, required this.gamePlayType});
+  final GamePlayType gamePlayType;
   @override
   ConsumerState<GamePaused> createState() => _GamePausedState();
 }
@@ -56,8 +58,11 @@ class _GamePausedState extends ConsumerState<GamePaused> {
 
   void popAndReset() {
     context.pop();
-    if (widget.isOnline) {
+
+    if (widget.gamePlayType == GamePlayType.playwithFriend) {
       ref.read(onlineGameNotifierProvider.notifier).toggleTimer();
+    } else if (widget.gamePlayType == GamePlayType.playOnline) {
+      ref.read(playOnlineNotifierProvider.notifier).toggleTimer();
     } else {
       ref.read(gameNotifierProvider.notifier).toggleTimer();
     }
@@ -137,7 +142,7 @@ class _GamePausedState extends ConsumerState<GamePaused> {
                     size: context.height * 0.8,
                     SingleChildScrollView(
                       child: HowToPlayPop(
-                        isOnline: widget.isOnline,
+                        gamePlayType: widget.gamePlayType,
                         fromGame: true,
                       ),
                     ),
@@ -158,7 +163,7 @@ class _GamePausedState extends ConsumerState<GamePaused> {
                 text: context.l10n.forfeitMatch,
                 onPressed: () {
                   context.showPopUp(ForfietPop(
-                    isOnline: widget.isOnline,
+                    gamePlayType: widget.gamePlayType,
                   ));
                 }),
             15.verticalSpace,

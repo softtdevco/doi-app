@@ -2,6 +2,7 @@ import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
@@ -219,7 +220,7 @@ class GameStatusBar extends ConsumerWidget {
                       ? () {
                           ref.read(gameNotifierProvider.notifier).toggleTimer();
                           context.showPopUp(GamePaused(
-                            isOnline: false,
+                            gamePlayType: GamePlayType.offline,
                           ));
                         }
                       : null,

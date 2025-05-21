@@ -63,7 +63,7 @@ class _PlayGameState extends ConsumerState<PlayGame>
                   'player' => true,
                   _ => false,
                 },
-                isOnline: false
+                gamePlayType: GamePlayType.offline,
               ),
             );
           });

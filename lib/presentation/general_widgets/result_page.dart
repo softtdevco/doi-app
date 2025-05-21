@@ -7,11 +7,13 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_scaffold.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -68,10 +70,11 @@ class _ResultState extends ConsumerState<Result> {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ({
       bool win,
-      bool isOnline
+      GamePlayType gamePlayType,
     });
     final state = ref.watch(gameNotifierProvider);
     final onlineGameState = ref.watch(onlineGameNotifierProvider);
+    final playOnline = ref.watch(playOnlineNotifierProvider);
     final totalPoints = ref.watch(totalPointsProvider);
     return DoiScaffold(
       backgroundImage: args.win
@@ -113,9 +116,13 @@ class _ResultState extends ConsumerState<Result> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          args.isOnline
-                              ? '${onlineGameState.pointsEarned} +'
-                              : '${state.gamePoints} +',
+                          switch (args.gamePlayType) {
+                            GamePlayType.playOnline =>
+                              '${playOnline.pointsEarned} +',
+                            GamePlayType.playwithFriend =>
+                              '${onlineGameState.pointsEarned} +',
+                            _ => '${state.gamePoints} +',
+                          },
                           style: context.textTheme.bodyMedium?.copyWith(
                               fontSize: 40.sp,
                               color: args.win
@@ -124,9 +131,13 @@ class _ResultState extends ConsumerState<Result> {
                         ),
                         AppSvgIcon(path: Assets.svgs.coin),
                         Text(
-                          args.isOnline
-                              ? '${onlineGameState.coinsEarned} '
-                              : '${state.gameCoins} ',
+                          switch (args.gamePlayType) {
+                            GamePlayType.playOnline =>
+                              '${playOnline.coinsEarned} ',
+                            GamePlayType.playwithFriend =>
+                              '${onlineGameState.coinsEarned} ',
+                            _ => '${state.gameCoins} ',
+                          },
                           style: context.textTheme.bodyMedium?.copyWith(
                               fontSize: 40.sp,
                               color: args.win

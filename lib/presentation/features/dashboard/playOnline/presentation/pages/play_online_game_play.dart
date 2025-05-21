@@ -7,10 +7,11 @@ import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/core/utils/logger.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/game_keyboard.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/onine_game_state.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/widgets/online_game_status_bar.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/widgets/online_guess_display.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_state.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/forfiet_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -19,14 +20,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-class OnlineGamePlay extends ConsumerStatefulWidget {
-  const OnlineGamePlay({super.key});
+class PlayOnlineGamePlay extends ConsumerStatefulWidget {
+  const PlayOnlineGamePlay({super.key});
 
   @override
-  ConsumerState<OnlineGamePlay> createState() => _OnlineGamePlayState();
+  ConsumerState<PlayOnlineGamePlay> createState() => _PlayOnlineGamePlayState();
 }
 
-class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
+class _PlayOnlineGamePlayState extends ConsumerState<PlayOnlineGamePlay>
     with SingleTickerProviderStateMixin {
   final List<String> currentInput = [];
   bool showKeyboard = true;
@@ -45,7 +46,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final currentUser = ref.watch(currentUserProvider);
-      ref.listenManual<OnlineGameState>(onlineGameNotifierProvider,
+      ref.listenManual<PlayOnlineState>(playOnlineNotifierProvider,
           (previous, current) {
         // Turn handling logic (unchanged)
         if (current.yourTurn &&
@@ -63,7 +64,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                   disableButton = false;
                 });
                 ref
-                    .read(onlineGameNotifierProvider.notifier)
+                    .read(playOnlineNotifierProvider.notifier)
                     .toggleTimerwhileTurn(true);
               }
             });
@@ -75,7 +76,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
             disableButton = true;
           });
           ref
-              .read(onlineGameNotifierProvider.notifier)
+              .read(playOnlineNotifierProvider.notifier)
               .toggleTimerwhileTurn(false);
         }
 
@@ -101,7 +102,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                   AppRouter.result,
                   arguments: (
                     win: isWinner,
-                    gamePlayType: GamePlayType.playwithFriend,
+                    gamePlayType: GamePlayType.playOnline,
                   ),
                 );
               });
@@ -116,7 +117,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                   AppRouter.result,
                   arguments: (
                     win: false,
-                    gamePlayType: GamePlayType.playwithFriend,
+                    gamePlayType: GamePlayType.playOnline,
                   ),
                 );
               });
@@ -137,13 +138,13 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(onlineGameNotifierProvider);
+    final state = ref.watch(playOnlineNotifierProvider);
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, dynamic result) {
         if (!didPop) {
           context.showPopUp(ForfietPop(
-            gamePlayType: GamePlayType.playwithFriend,
+            gamePlayType: GamePlayType.playOnline,
             fromIsPaused: false,
           ));
         }
@@ -163,6 +164,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                         friendGuesses: state.friendGuesses,
                         timerActive: state.timerActive,
                         timeRemaining: state.timeRemaining,
+                        gamePlayType: GamePlayType.playOnline,
                       ),
                       60.verticalSpace,
                       Expanded(
@@ -194,7 +196,7 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
                           onSubmitPressed: _onSubmitPressed,
                           canSubmit: currentInput.length == 4,
                           aiPlaybackEnabled: true,
-                          gamePlayType: GamePlayType.playwithFriend,
+                          gamePlayType: GamePlayType.playOnline,
                           disableKeyboard: disableButton,
                         ),
                       if (showKeyboard == false)
@@ -254,13 +256,13 @@ class _OnlineGamePlayState extends ConsumerState<OnlineGamePlay>
   void _onSubmitPressed() {
     if (currentInput.length == 4) {
       final guess = currentInput.join();
-      ref.read(onlineGameNotifierProvider.notifier).makeGuess(guess,
+      ref.read(playOnlineNotifierProvider.notifier).makeGuess(guess,
           onSuccess: () {
         setState(() {
           disableButton = true;
         });
         ref
-            .read(onlineGameNotifierProvider.notifier)
+            .read(playOnlineNotifierProvider.notifier)
             .toggleTimerwhileTurn(false);
         ref.read(onlineGameNotifierProvider.notifier).handleDailyStreakCheck();
       }, onError: (p0) {

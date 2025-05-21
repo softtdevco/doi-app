@@ -1,9 +1,11 @@
 import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:doi_mobile/presentation/general_widgets/game_paused.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +16,14 @@ class OnlineGameStatusBar extends ConsumerWidget {
   final bool timerActive;
   final int timeRemaining;
   final List<Guess> friendGuesses;
+  final GamePlayType gamePlayType;
 
   const OnlineGameStatusBar({
     Key? key,
     required this.timerActive,
     required this.timeRemaining,
     required this.friendGuesses,
+    this.gamePlayType = GamePlayType.playwithFriend,
   }) : super(key: key);
 
   @override
@@ -32,6 +36,7 @@ class OnlineGameStatusBar extends ConsumerWidget {
 
     final friendProgress = bestDeadCount / 4;
     final state = ref.watch(onlineGameNotifierProvider);
+    final playOnlineState = ref.watch(playOnlineNotifierProvider);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
@@ -64,7 +69,10 @@ class OnlineGameStatusBar extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Friend’s progress',
+                          switch (gamePlayType) {
+                            GamePlayType.playOnline => 'progresssssss',
+                            _ => 'Friend’s progress',
+                          },
                           style: context.textTheme.bodySmall?.copyWith(
                             fontSize: 16.sp,
                             color: AppColors.secondaryColor,
@@ -165,16 +173,30 @@ class OnlineGameStatusBar extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 GestureDetector(
-                  onTap: state.timeRemaining > 0 && !state.isGameOver
-                      ? () {
-                          ref
-                              .read(onlineGameNotifierProvider.notifier)
-                              .toggleTimer();
-                          context.showPopUp(GamePaused(
-                            isOnline: true,
-                          ));
-                        }
-                      : null,
+                  onTap: switch (gamePlayType) {
+                    GamePlayType.playOnline =>
+                      (playOnlineState.timeRemaining > 0 &&
+                              !playOnlineState.isGameOver)
+                          ? () {
+                              ref
+                                  .read(playOnlineNotifierProvider.notifier)
+                                  .toggleTimer();
+                              context.showPopUp(GamePaused(
+                                gamePlayType: gamePlayType,
+                              ));
+                            }
+                          : null,
+                    _ => (state.timeRemaining > 0 && !state.isGameOver)
+                        ? () {
+                            ref
+                                .read(onlineGameNotifierProvider.notifier)
+                                .toggleTimer();
+                            context.showPopUp(GamePaused(
+                              gamePlayType: gamePlayType,
+                            ));
+                          }
+                        : null,
+                  },
                   child: Icon(
                     timerActive ? Icons.pause : Icons.play_arrow,
                     color: Colors.white,

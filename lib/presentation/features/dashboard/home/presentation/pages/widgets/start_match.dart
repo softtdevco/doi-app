@@ -1,14 +1,15 @@
+import 'package:doi_mobile/core/extensions/context_extensions.dart';
 import 'package:doi_mobile/core/extensions/navigation_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
-import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/l10n/l10n.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/home_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_counter.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/timer_widget.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/pages/widgets/online_new_game_with.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_button.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_checkbox.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -29,7 +30,7 @@ class _StartMatchState extends ConsumerState<StartMatch> {
   bool setTimer = false;
   final List<String> mins = ['3', '5', '10'];
   int timerCount = 0;
-  int guessCount = 0;
+  int guessCount = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -257,14 +258,14 @@ class _StartMatchState extends ConsumerState<StartMatch> {
                       background: AppColors.indicator,
                       quantity: guessCount,
                       minus: () {
-                        if (guessCount > 1) {
+                        if (guessCount > 4) {
                           setState(() {
                             guessCount--;
                           });
                         }
                       },
                       add: () {
-                        if (guessCount < 90) {
+                        if (guessCount < 4) {
                           setState(() {
                             guessCount++;
                           });
@@ -277,10 +278,22 @@ class _StartMatchState extends ConsumerState<StartMatch> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22.w),
               child: Consumer(builder: (context, r, c) {
+                final timerValue =
+                    r.watch(homeNotifierProvider.select((v) => v.timer));
                 return DoiButton(
                   text: 'Start match',
                   onPressed: () {
-                    context.popAndPushNamed(AppRouter.findingOpponents);
+                    ref.read(playOnlineNotifierProvider.notifier).resetState();
+                    context
+                      ..pop()
+                      ..showBottomSheet(
+                        isDismissible: true,
+                        color: AppColors.background,
+                        child: OnlineNewGameWith(
+                          isGroup: false,
+                          timerValue: timerValue,
+                        ),
+                      );
                   },
                 );
               }),
@@ -305,10 +318,10 @@ class PairingTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedType =
-        ref.watch(onlineGameNotifierProvider.select((v) => v.pairing));
+        ref.watch(playOnlineNotifierProvider.select((v) => v.pairing));
     return GestureDetector(
       onTap: () =>
-          ref.read(onlineGameNotifierProvider.notifier).updatePairing(title),
+          ref.read(playOnlineNotifierProvider.notifier).updatePairing(title),
       child: Column(
         children: [
           Row(

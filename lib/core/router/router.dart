@@ -11,6 +11,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pag
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/play_online.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/waiting_screen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/pages/online_game_play.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/pages/play_online_game_play.dart';
 import 'package:doi_mobile/presentation/features/dashboard/store/presenation/pages/store.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/setup_profile_loggedin.dart';
 import 'package:doi_mobile/presentation/features/onboarding/presentation/pages/welcome.dart';
@@ -44,6 +45,7 @@ class AppRouter {
   static const String leaderBoard = '/leaderBoard';
   static const String store = '/store';
   static const String onlineGame = '/onlineGame';
+  static const String playOnlineGamePlay = '/playOnlineGamePlay';
 
   static final Map<String, Widget Function(BuildContext)> _routes = {
     welcome: (context) => Welcome(),
@@ -79,6 +81,7 @@ class AppRouter {
     leaderBoard: (context) => LeaderBoard(),
     store: (context) => Store(),
     onlineGame: (context) => OnlineGamePlay(),
+    playOnlineGamePlay: (context) => PlayOnlineGamePlay(),
   };
 
   static Map<String, Widget Function(BuildContext)> get routes => _routes;

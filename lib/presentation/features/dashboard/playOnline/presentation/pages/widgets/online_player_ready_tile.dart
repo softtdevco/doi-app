@@ -4,14 +4,14 @@ import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnlinePlayerReadyTile extends StatelessWidget {
   const OnlinePlayerReadyTile({super.key, required this.player});
-  final Player player;
+  final DoiUser player;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class OnlinePlayerReadyTile extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(71.r),
               child: Image.asset(
-                'assets/images/${('userPic4.png').toLowerCase()}',
+                'assets/images/${(player.avatar ?? 'userPic4.png').toLowerCase()}',
                 fit: BoxFit.cover,
                 height: 116.h,
                 width: 117.w,
@@ -40,7 +40,7 @@ class OnlinePlayerReadyTile extends StatelessWidget {
             Positioned(
               bottom: 0,
               right: 0,
-              child: Text(getFlagEmoji('US')),
+              child: Text(getFlagEmoji(player.countryCode ?? 'US')),
             )
           ],
         ),

@@ -9,6 +9,7 @@ import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/
 import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/repository/online_game_repository.dart';
 import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_state.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/repository/onboarding_repository.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,6 +17,7 @@ class PlayOnlineNotifier extends Notifier<PlayOnlineState> {
   PlayOnlineNotifier();
   late OnlineGameRepository _onlineGameRepository;
   late GameRepository _gameRepository;
+  late OnboardingRepository _onboardingRepository;
   late SocketClient _gamePlaySocketManager;
   late StreamSubscription _yourTurnSubscription;
   late StreamSubscription _winnerSubscription;
@@ -29,7 +31,7 @@ class PlayOnlineNotifier extends Notifier<PlayOnlineState> {
     _gameRepository = ref.read(gameRepositoryProvider);
     _onlineGameRepository = ref.read(onlineGameRepositoryProvider);
     _gamePlaySocketManager = ref.read(socketclient);
-
+    _onboardingRepository = ref.read(onboardingRepositoryProvider);
     final eventStreamer = ref.read(socketEventsProvider);
     _yourTurnSubscription = eventStreamer.yourTurn.listen(handleYourTurn);
     _winnerSubscription = eventStreamer.gameEnded.listen(handleGameEnded);
@@ -48,17 +50,20 @@ class PlayOnlineNotifier extends Notifier<PlayOnlineState> {
       _mobileEmitSubscription.cancel();
       _gameCreatedAndStartedSubscription.cancel();
       _timer?.cancel();
+      _pollingTimer?.cancel();
     });
 
     return PlayOnlineState.initial();
   }
 
+  bool _shouldPoll = false;
   Timer? _pollingTimer;
 
   void startPolling({
     required String joinCode,
     required int expectedPlayerCount,
   }) {
+    _shouldPoll = true;
     state = state.copyWith(
       expectedPlayerCount: expectedPlayerCount,
       joinCode: joinCode,
@@ -69,13 +74,16 @@ class PlayOnlineNotifier extends Notifier<PlayOnlineState> {
     );
 
     _pollingTimer = Timer.periodic(Duration(seconds: 3), (_) {
-      getGameSession(
-        joinCode: joinCode,
-      );
+      if (_shouldPoll) {
+        getGameSession(
+          joinCode: joinCode,
+        );
+      }
     });
   }
 
   void stopPolling() {
+    _shouldPoll = false;
     _pollingTimer?.cancel();
     _pollingTimer = null;
   }
@@ -89,19 +97,35 @@ class PlayOnlineNotifier extends Notifier<PlayOnlineState> {
         joinCode: joinCode,
       );
       if (!response.status) throw response.message;
+
+      String? secondPlayerId;
+      final currentUser = ref.read(currentUserProvider);
+
       state = state.copyWith(
         gameSessionLoadState: LoadState.success,
         gameSessionData: response.data?.data,
-        // timeRemaining: 10
-        //response.data?.data?.timelimit ?? 0,
       );
 
       if (response.data?.data?.players != null &&
           response.data!.data!.players!.length >= state.expectedPlayerCount) {
+        debugLog(
+            "Players found: ${response.data!.data!.players!.length}, Expected: ${state.expectedPlayerCount}");
+
+        final otherPlayers = response.data!.data!.players!
+            .where((player) => player.playerId != currentUser.id)
+            .toList();
+
+        if (otherPlayers.isNotEmpty) {
+          secondPlayerId = otherPlayers.first.playerId;
+          debugLog("Second player ID: $secondPlayerId");
+          getUserById(userId: secondPlayerId ?? '');
+        }
+
+        debugLog("Stopping polling - all players joined");
         stopPolling();
-        state = state.copyWith(
-          allPlayersJoined: true,
-        );
+      } else {
+        debugLog(
+            "Not enough players yet. Current: ${response.data?.data?.players?.length ?? 0}, Expected: ${state.expectedPlayerCount}");
       }
     } catch (e) {
       state = state.copyWith(gameSessionLoadState: LoadState.error);
@@ -338,6 +362,29 @@ class PlayOnlineNotifier extends Notifier<PlayOnlineState> {
     );
   }
 
+  Future<void> getUserById({
+    void Function(String)? onError,
+    void Function()? onCompleted,
+    required String userId,
+  }) async {
+    state = state.copyWith(userLoadState: LoadState.loading);
+
+    try {
+      final response = await _onboardingRepository.getUserById(userId);
+      if (!response.status) throw response.message;
+      state = state.copyWith(
+        userLoadState: LoadState.success,
+        otherUser: response.data?.data,
+        allPlayersJoined: true,
+      );
+
+      if (onCompleted != null) onCompleted();
+    } catch (e) {
+      state = state.copyWith(userLoadState: LoadState.error);
+      if (onError != null) onError(e.toString());
+    }
+  }
+
   void resetState() {
     state = PlayOnlineState(
       loadState: state.loadState,
@@ -362,6 +409,8 @@ class PlayOnlineNotifier extends Notifier<PlayOnlineState> {
       isTimeExpired: false,
       lastTurnEventId: null,
       allPlayersJoined: false,
+      userLoadState: LoadState.idle,
+      otherUser: null,
     );
     debugLog('<====State reset====>');
   }

@@ -5,7 +5,6 @@ import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/pages/widgets/online_player_ready_tile.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
@@ -28,8 +27,10 @@ class _FindingOpponentsState extends ConsumerState<FindingOpponents> {
     super.initState();
     ref.listenManual(playOnlineNotifierProvider, (previous, current) {
       if (current.allPlayersJoined) {
-        ref.read(playOnlineNotifierProvider.notifier).resumeTimer();
-        context.pushNamed(AppRouter.playOnlineGamePlay);
+        Future.delayed(Duration(seconds: 2), () {
+          ref.read(playOnlineNotifierProvider.notifier).resumeTimer();
+          context.pushNamed(AppRouter.playOnlineGamePlay);
+        });
       }
     });
   }
@@ -39,24 +40,11 @@ class _FindingOpponentsState extends ConsumerState<FindingOpponents> {
     super.dispose();
   }
 
-  Player? getOpponent() {
-    final joinedPlayers = ref.watch(playOnlineNotifierProvider
-        .select((v) => v.gameSessionData?.players ?? []));
-    final user = ref.watch(currentUserProvider);
-    if (joinedPlayers.length <= 1) {
-      return null;
-    }
-
-    return joinedPlayers.firstWhere(
-      (player) => player.playerId != user.id,
-      orElse: () => Player(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(currentUserProvider);
-    final opponent = getOpponent();
+    final opponent =
+        ref.watch(playOnlineNotifierProvider.select((v) => v.otherUser));
     return DoiScaffold(
       bodyPadding: EdgeInsets.zero,
       appbar: DoiAppbar(

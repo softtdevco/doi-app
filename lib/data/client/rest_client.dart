@@ -17,6 +17,7 @@ import 'package:doi_mobile/presentation/features/onboarding/data/models/login_sy
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/signup_sync_request.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/user_response.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -48,6 +49,11 @@ abstract class RestClient {
   @DELETE('/users')
   Future<Emptydata> deleteUser();
 
+  @GET('/users/{id}')
+  Future<UserResponse> getUserById({
+    @Path('id') required String id,
+  });
+
   //<====================> Game Play <====================>
   @POST('/game/create-session')
   Future<CreateGameResponse> createGame(
@@ -66,7 +72,6 @@ abstract class RestClient {
   Future<LeaderBoardResponse> getLeaderBoard();
   @POST('/streak')
   Future<StreakResponse> sendDailyStreak();
-
 }
 
 ////////////////////////////////////////////////////////////////

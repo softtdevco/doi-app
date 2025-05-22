@@ -206,14 +206,11 @@ class $AssetsImagesGen {
 class $AssetsJsonsGen {
   const $AssetsJsonsGen();
 
-  /// File path: assets/jsons/flag.json
-  String get flag => 'assets/jsons/flag.json';
-
   /// File path: assets/jsons/success.json
   String get success => 'assets/jsons/success.json';
 
   /// List of all assets
-  List<String> get values => [flag, success];
+  List<String> get values => [success];
 }
 
 class $AssetsSvgsGen {

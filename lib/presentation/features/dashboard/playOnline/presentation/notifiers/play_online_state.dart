@@ -2,6 +2,7 @@ import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 
 class PlayOnlineState {
   final LoadState loadState;
@@ -26,6 +27,8 @@ class PlayOnlineState {
   final bool isTimeExpired;
   final String? lastTurnEventId;
   final bool allPlayersJoined;
+  final LoadState userLoadState;
+  final DoiUser? otherUser;
 
   PlayOnlineState({
     required this.loadState,
@@ -50,6 +53,8 @@ class PlayOnlineState {
     required this.isTimeExpired,
     this.lastTurnEventId,
     required this.allPlayersJoined,
+    required this.userLoadState,
+    this.otherUser,
   });
 
   factory PlayOnlineState.initial() {
@@ -68,6 +73,7 @@ class PlayOnlineState {
       isGameOver: false,
       isTimeExpired: false,
       allPlayersJoined: false,
+      userLoadState: LoadState.idle,
     );
   }
 
@@ -95,6 +101,8 @@ class PlayOnlineState {
     bool? isTimeExpired,
     String? lastTurnEventId,
     bool? allPlayersJoined,
+    LoadState? userLoadState,
+    DoiUser? otherUser,
   }) {
     return PlayOnlineState(
       loadState: loadState ?? this.loadState,
@@ -119,6 +127,8 @@ class PlayOnlineState {
       lastTurnEventId: lastTurnEventId ?? this.lastTurnEventId,
       allPlayersJoined: allPlayersJoined ?? this.allPlayersJoined,
       pairing: pairing ?? this.pairing,
+      userLoadState: userLoadState ?? this.userLoadState,
+      otherUser: otherUser ?? this.otherUser,
     );
   }
 }

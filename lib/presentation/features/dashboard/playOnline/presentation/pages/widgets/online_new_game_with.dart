@@ -51,7 +51,7 @@ class _OnlineNewGameWithState extends ConsumerState<OnlineNewGameWith> {
           minute: minutes,
           seconds: seconds,
         ),
-        timerValue: int.parse(widget.timerValue),
+        timerValue: totalSeconds,
         secretCode: _secretCodeController.text.trim(),
         onError: (p0) {
           context.hideOverLay();

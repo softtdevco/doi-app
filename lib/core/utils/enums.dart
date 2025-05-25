@@ -52,3 +52,9 @@ enum GameStatus {
   draw,
   timeUp,
 }
+
+enum GamePlayType {
+  offline,
+  playwithFriend,
+  playOnline,
+}

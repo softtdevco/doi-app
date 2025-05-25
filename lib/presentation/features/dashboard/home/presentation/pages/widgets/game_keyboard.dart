@@ -1,6 +1,7 @@
 import 'package:doi_mobile/core/extensions/overlay_extensions.dart';
 import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
@@ -15,7 +16,7 @@ class GameKeyboard extends ConsumerStatefulWidget {
   final VoidCallback onSubmitPressed;
   final bool canSubmit;
   final bool aiPlaybackEnabled;
-  final bool isOnline;
+  final GamePlayType gamePlayType;
   final bool disableKeyboard;
   const GameKeyboard(
       {Key? key,
@@ -24,7 +25,7 @@ class GameKeyboard extends ConsumerStatefulWidget {
       required this.onSubmitPressed,
       required this.canSubmit,
       required this.aiPlaybackEnabled,
-      this.isOnline = false,
+      this.gamePlayType = GamePlayType.offline,
       this.disableKeyboard = false})
       : super(key: key);
 
@@ -60,19 +61,20 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
                     ],
                   ),
                 _buildColorButton(
-                    AppColors.primaryColor,
-                    widget.isOnline
-                        ? () {}
-                        : () {
-                            ref
-                                .read(gameNotifierProvider.notifier)
-                                .swapPlayerCode(onCodeChange: () {
-                              context.showSuccess(
-                                  message: 'CODE SWAPPED SUCCESFULLY');
-                            });
-                          },
-                    Assets.svgs.dices,
-                    swapsRemaining),
+                  AppColors.primaryColor,
+                  switch (widget.gamePlayType) {
+                    GamePlayType.offline => () {
+                        ref.read(gameNotifierProvider.notifier).swapPlayerCode(
+                            onCodeChange: () {
+                          context.showSuccess(
+                              message: 'CODE SWAPPED SUCCESFULLY');
+                        });
+                      },
+                    _ => () {},
+                  },
+                  Assets.svgs.dices,
+                  swapsRemaining,
+                ),
                 GestureDetector(
                   onTap: () {
                     // setState(() {
@@ -82,11 +84,11 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
                   child: RotatedBox(
                     quarterTurns: showPowerUps ? 0 : 2,
                     child: AppSvgIcon(
-                      path: Assets.svgs.left,
-                      color: widget.isOnline
-                          ? AppColors.disableLock
-                          : AppColors.dropColor,
-                    ),
+                        path: Assets.svgs.left,
+                        color: switch (widget.gamePlayType) {
+                          GamePlayType.offline => AppColors.dropColor,
+                          _ => AppColors.disableLock,
+                        }),
                   ),
                 ),
               ],
@@ -205,13 +207,17 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
       child: Container(
         height: 48.r,
         decoration: BoxDecoration(
-          color: widget.isOnline ? AppColors.indicator : AppColors.lightGreen,
+          color: switch (widget.gamePlayType) {
+            GamePlayType.offline => AppColors.lightGreen,
+            _ => AppColors.indicator,
+          },
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: widget.isOnline
-                  ? Color(0xFFFFDBC4)
-                  : AppColors.lightGreenBorder,
+              color: switch (widget.gamePlayType) {
+                GamePlayType.offline => AppColors.lightGreenBorder,
+                _ => Color(0xFFFFDBC4)
+              },
               offset: const Offset(0, 5),
               blurRadius: 0,
               spreadRadius: 0,
@@ -224,9 +230,10 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
-            color: widget.isOnline
-                ? AppColors.secondaryColor
-                : AppColors.greenText,
+            color: switch (widget.gamePlayType) {
+              GamePlayType.offline => AppColors.greenText,
+              _ => AppColors.secondaryColor,
+            },
           ),
           textScaler: const TextScaler.linear(1.0),
         ),
@@ -240,13 +247,17 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
       child: Container(
           height: 48.r,
           decoration: BoxDecoration(
-            color: widget.isOnline ? AppColors.indicator : AppColors.lightGreen,
+            color: switch (widget.gamePlayType) {
+              GamePlayType.offline => AppColors.lightGreen,
+              _ => AppColors.indicator,
+            },
             borderRadius: BorderRadius.circular(12.r),
             boxShadow: [
               BoxShadow(
-                color: widget.isOnline
-                    ? Color(0xFFFFDBC4)
-                    : AppColors.lightGreenBorder,
+                color: switch (widget.gamePlayType) {
+                  GamePlayType.offline => AppColors.lightGreenBorder,
+                  _ => Color(0xFFFFDBC4)
+                },
                 offset: const Offset(0, 5),
                 blurRadius: 0,
                 spreadRadius: 0,
@@ -259,9 +270,10 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
             child: AppSvgIcon(
               path: icon,
               fit: BoxFit.scaleDown,
-              color: widget.isOnline
-                  ? AppColors.secondaryColor
-                  : AppColors.greenText,
+              color: switch (widget.gamePlayType) {
+                GamePlayType.offline => AppColors.greenText,
+                _ => AppColors.secondaryColor,
+              },
             ),
           )),
     );
@@ -274,13 +286,17 @@ class _GameKeyboardState extends ConsumerState<GameKeyboard> {
         padding: EdgeInsets.all(4),
         height: 48.r,
         decoration: BoxDecoration(
-          color: widget.isOnline ? AppColors.primaryColor : AppColors.green,
+          color: switch (widget.gamePlayType) {
+            GamePlayType.offline => AppColors.green,
+            _ => AppColors.primaryColor,
+          },
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: widget.isOnline
-                  ? AppColors.secondaryColor
-                  : AppColors.greenBorder,
+              color: switch (widget.gamePlayType) {
+                GamePlayType.offline => AppColors.greenBorder,
+                _ => AppColors.secondaryColor,
+              },
               offset: const Offset(0, 5),
               blurRadius: 0,
               spreadRadius: 0,

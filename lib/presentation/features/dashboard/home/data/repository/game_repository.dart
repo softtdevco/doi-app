@@ -1,3 +1,6 @@
+import 'package:doi_mobile/core/utils/type_defs.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/streak_response.dart';
+
 abstract interface class GameRepository {
   Map<String, dynamic>? getCurrentGame();
   Future<void> saveGame(Map<String, dynamic> gameState);
@@ -18,6 +21,7 @@ abstract interface class GameRepository {
   Future<void> setCodeSwapsRemaining(int swaps);
   Future<bool> checkDailyStreak();
   Future<bool> recordDailyStreak();
-  Future<int> getCurrentStreak();
+  int getCurrentStreak();
   Future<DateTime?> getLastPlayDate();
+  Future<BaseResponse<StreakResponse>> sendDailyStreak();
 }

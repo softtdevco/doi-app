@@ -6,6 +6,7 @@ import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/pages/widgets/coin_count.dart';
 import 'package:doi_mobile/presentation/features/profile/presentation/widgets/settings_pop.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
@@ -42,30 +43,33 @@ class DoiHomeAppbar extends StatelessWidget implements PreferredSizeWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  AppSvgIcon(
-                    path: Assets.svgs.streak,
-                    fit: BoxFit.scaleDown,
-                  ),
-                  2.horizontalSpace,
-                  Text(
-                    '0',
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.dark,
-                      fontSize: 20.sp,
-                      fontFamily: FontFamily.jungleAdventurer,
+              Consumer(builder: (context, r, c) {
+                final streak = r.watch(currentStreakProvider);
+                return Row(
+                  children: [
+                    AppSvgIcon(
+                      path: Assets.svgs.streak,
+                      fit: BoxFit.scaleDown,
                     ),
-                  )
-                ],
-              ).withContainer(
-                color: AppColors.indicator,
-                borderRadius: BorderRadius.circular(15.r),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 8.w,
-                  vertical: 2.h,
-                ),
-              ),
+                    2.horizontalSpace,
+                    Text(
+                      '${streak}',
+                      style: context.textTheme.bodyMedium?.copyWith(
+                        color: AppColors.dark,
+                        fontSize: 20.sp,
+                        fontFamily: FontFamily.jungleAdventurer,
+                      ),
+                    )
+                  ],
+                ).withContainer(
+                  color: AppColors.indicator,
+                  borderRadius: BorderRadius.circular(15.r),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 2.h,
+                  ),
+                );
+              }),
               57.horizontalSpace,
               Consumer(builder: (context, r, c) {
                 return GestureDetector(

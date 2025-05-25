@@ -1,13 +1,12 @@
 import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess_model.dart';
-import 'package:doi_mobile/presentation/features/dashboard/home/data/model/leader_board_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
 
-class OnlineGameState {
+class PlayOnlineState {
   final LoadState loadState;
-  final String type;
-
+  final String pairing;
   final JoinGameData? joinGameData;
   final LoadState createGameLoadState;
   final GameSessionData? gameSessionData;
@@ -27,12 +26,13 @@ class OnlineGameState {
   final int? coinsEarned;
   final bool isTimeExpired;
   final String? lastTurnEventId;
-  final LoadState leaderLoadState;
-  final List<GlobalLeaderboard>? globalLeaderboard;
-  final LoadState streakLoadState;
-  OnlineGameState({
+  final bool allPlayersJoined;
+  final LoadState userLoadState;
+  final DoiUser? otherUser;
+
+  PlayOnlineState({
     required this.loadState,
-    required this.type,
+    required this.pairing,
     this.joinGameData,
     required this.createGameLoadState,
     this.gameSessionData,
@@ -52,15 +52,15 @@ class OnlineGameState {
     this.winnerName,
     required this.isTimeExpired,
     this.lastTurnEventId,
-    required this.leaderLoadState,
-    required this.globalLeaderboard,
-    required this.streakLoadState,
+    required this.allPlayersJoined,
+    required this.userLoadState,
+    this.otherUser,
   });
 
-  factory OnlineGameState.initial() {
-    return OnlineGameState(
-      type: 'Ranked',
+  factory PlayOnlineState.initial() {
+    return PlayOnlineState(
       loadState: LoadState.idle,
+      pairing: 'Rapid',
       playerGuesses: [],
       friendGuesses: [],
       createGameLoadState: LoadState.idle,
@@ -72,14 +72,14 @@ class OnlineGameState {
       timerActive: false,
       isGameOver: false,
       isTimeExpired: false,
-      leaderLoadState: LoadState.loading,
-      globalLeaderboard: [],
-      streakLoadState: LoadState.idle,
+      allPlayersJoined: false,
+      userLoadState: LoadState.idle,
     );
   }
 
-  OnlineGameState copyWith({
+  PlayOnlineState copyWith({
     LoadState? loadState,
+    String? pairing,
     List<Guess>? playerGuesses,
     List<Guess>? friendGuesses,
     String? type,
@@ -100,15 +100,14 @@ class OnlineGameState {
     int? pointsEarned,
     bool? isTimeExpired,
     String? lastTurnEventId,
-    LoadState? leaderLoadSate,
-    List<GlobalLeaderboard>? globalLeaderboard,
-    LoadState? streakLoadState,
+    bool? allPlayersJoined,
+    LoadState? userLoadState,
+    DoiUser? otherUser,
   }) {
-    return OnlineGameState(
+    return PlayOnlineState(
       loadState: loadState ?? this.loadState,
       playerGuesses: playerGuesses ?? this.playerGuesses,
       friendGuesses: friendGuesses ?? this.friendGuesses,
-      type: type ?? this.type,
       joinGameData: joinGameData ?? this.joinGameData,
       createGameLoadState: createGameLoadState ?? this.createGameLoadState,
       gameSessionData: gameSessionData ?? this.gameSessionData,
@@ -126,9 +125,10 @@ class OnlineGameState {
       pointsEarned: pointsEarned ?? this.pointsEarned,
       isTimeExpired: isTimeExpired ?? this.isTimeExpired,
       lastTurnEventId: lastTurnEventId ?? this.lastTurnEventId,
-      leaderLoadState: leaderLoadSate ?? this.leaderLoadState,
-      globalLeaderboard: globalLeaderboard ?? this.globalLeaderboard,
-      streakLoadState: streakLoadState ?? this.streakLoadState,
+      allPlayersJoined: allPlayersJoined ?? this.allPlayersJoined,
+      pairing: pairing ?? this.pairing,
+      userLoadState: userLoadState ?? this.userLoadState,
+      otherUser: otherUser ?? this.otherUser,
     );
   }
 }

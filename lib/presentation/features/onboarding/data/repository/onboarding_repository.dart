@@ -9,6 +9,7 @@ import 'package:doi_mobile/presentation/features/onboarding/data/models/login_sy
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/signup_sync_request.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/user_response.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -90,6 +91,19 @@ base class OnboardingRepository {
 
       return r.toBaseResponse(
         message: 'User account deleted',
+        status: true,
+      );
+    } on DioException catch (e) {
+      return AppException.handleError(e);
+    }
+  }
+
+  Future<BaseResponse<UserResponse>> getUserById(String id) async {
+    try {
+      final r = await _restClient.getUserById(id: id);
+
+      return r.toBaseResponse(
+        message: r.message ?? '',
         status: true,
       );
     } on DioException catch (e) {

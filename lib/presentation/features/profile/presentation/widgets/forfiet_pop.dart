@@ -3,10 +3,12 @@ import 'package:doi_mobile/core/extensions/texttheme_extensions.dart';
 import 'package:doi_mobile/core/extensions/widget_extensions.dart';
 import 'package:doi_mobile/core/router/router.dart';
 import 'package:doi_mobile/core/utils/colors.dart';
+import 'package:doi_mobile/core/utils/enums.dart';
 import 'package:doi_mobile/gen/assets.gen.dart';
 import 'package:doi_mobile/gen/fonts.gen.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/presentation/notifiers/game_notifier.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/online_game_notifier.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_notifier.dart';
 import 'package:doi_mobile/presentation/general_widgets/doi_svg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,10 +17,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ForfietPop extends ConsumerStatefulWidget {
   const ForfietPop({
     super.key,
-    required this.isOnline,
+    required this.gamePlayType,
     this.fromIsPaused = true,
   });
-  final bool isOnline;
+  final GamePlayType gamePlayType;
   final bool fromIsPaused;
   @override
   ConsumerState<ForfietPop> createState() => _ForfietPopState();
@@ -27,8 +29,10 @@ class ForfietPop extends ConsumerStatefulWidget {
 class _ForfietPopState extends ConsumerState<ForfietPop> {
   void popAndReset() {
     context.pop();
-    if (widget.isOnline) {
+    if (widget.gamePlayType == GamePlayType.playwithFriend) {
       ref.read(onlineGameNotifierProvider.notifier).toggleTimer();
+    } else if (widget.gamePlayType == GamePlayType.playOnline) {
+      ref.read(playOnlineNotifierProvider.notifier).toggleTimer();
     } else {
       ref.read(gameNotifierProvider.notifier).toggleTimer();
     }
@@ -110,6 +114,9 @@ class _ForfietPopState extends ConsumerState<ForfietPop> {
             Flexible(
               child: GestureDetector(
                 onTap: () {
+                  widget.gamePlayType == GamePlayType.playwithFriend
+                      ? ref.read(onlineGameNotifierProvider.notifier).endGame()
+                      : ref.read(playOnlineNotifierProvider.notifier).endGame();
                   context.popUntil(ModalRoute.withName(AppRouter.dashboard));
                 },
                 child: Container(

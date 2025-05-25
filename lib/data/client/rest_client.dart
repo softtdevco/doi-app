@@ -9,6 +9,7 @@ import 'package:doi_mobile/data/local_storage/storage_keys.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_request.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/create_game_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/model/leader_board_response.dart';
+import 'package:doi_mobile/presentation/features/dashboard/home/data/model/streak_response.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/model/join_game_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/empty_data.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/login_device_response.dart';
@@ -16,6 +17,7 @@ import 'package:doi_mobile/presentation/features/onboarding/data/models/login_sy
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_request.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/register_device_response.dart';
 import 'package:doi_mobile/presentation/features/onboarding/data/models/signup_sync_request.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/models/user_response.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -47,6 +49,11 @@ abstract class RestClient {
   @DELETE('/users')
   Future<Emptydata> deleteUser();
 
+  @GET('/users/{id}')
+  Future<UserResponse> getUserById({
+    @Path('id') required String id,
+  });
+
   //<====================> Game Play <====================>
   @POST('/game/create-session')
   Future<CreateGameResponse> createGame(
@@ -63,7 +70,8 @@ abstract class RestClient {
   });
   @GET('/game/leaderboard')
   Future<LeaderBoardResponse> getLeaderBoard();
-
+  @POST('/streak')
+  Future<StreakResponse> sendDailyStreak();
 }
 
 ////////////////////////////////////////////////////////////////

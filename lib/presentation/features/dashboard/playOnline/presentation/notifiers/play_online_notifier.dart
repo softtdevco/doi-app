@@ -8,19 +8,22 @@ import 'package:doi_mobile/presentation/features/dashboard/home/data/model/guess
 import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository.dart';
 import 'package:doi_mobile/presentation/features/dashboard/home/data/repository/game_repository_impl.dart';
 import 'package:doi_mobile/presentation/features/dashboard/onlineGame/data/repository/online_game_repository.dart';
-import 'package:doi_mobile/presentation/features/dashboard/onlineGame/presentation/notifiers/onine_game_state.dart';
+import 'package:doi_mobile/presentation/features/dashboard/playOnline/presentation/notifiers/play_online_state.dart';
+import 'package:doi_mobile/presentation/features/onboarding/data/repository/onboarding_repository.dart';
 import 'package:doi_mobile/presentation/features/profile/data/repository/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OnlineGameNotifier extends Notifier<OnlineGameState> {
-  OnlineGameNotifier();
+class PlayOnlineNotifier extends Notifier<PlayOnlineState> {
+  PlayOnlineNotifier();
   late OnlineGameRepository _onlineGameRepository;
   late GameRepository _gameRepository;
+  late OnboardingRepository _onboardingRepository;
   late SocketClient _gamePlaySocketManager;
   late StreamSubscription _yourTurnSubscription;
   late StreamSubscription _winnerSubscription;
   late StreamSubscription _winnerEarningSubscription;
   late StreamSubscription _mobileEmitSubscription;
+  late StreamSubscription _gameCreatedAndStartedSubscription;
   Timer? _timer;
 
   @override
@@ -28,7 +31,7 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     _gameRepository = ref.read(gameRepositoryProvider);
     _onlineGameRepository = ref.read(onlineGameRepositoryProvider);
     _gamePlaySocketManager = ref.read(socketclient);
-
+    _onboardingRepository = ref.read(onboardingRepositoryProvider);
     final eventStreamer = ref.read(socketEventsProvider);
     _yourTurnSubscription = eventStreamer.yourTurn.listen(handleYourTurn);
     _winnerSubscription = eventStreamer.gameEnded.listen(handleGameEnded);
@@ -36,6 +39,8 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
         eventStreamer.matchupComplete.listen(handleWinnerEarnings);
     _mobileEmitSubscription =
         eventStreamer.mobileEmit.listen(handleGameControl);
+    _gameCreatedAndStartedSubscription =
+        eventStreamer.gameCreatedAndStarted.listen(handleGameCreatedAndStarted);
 
     ref.onDispose(() {
       stopPolling();
@@ -43,21 +48,22 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       _winnerSubscription.cancel();
       _winnerEarningSubscription.cancel();
       _mobileEmitSubscription.cancel();
+      _gameCreatedAndStartedSubscription.cancel();
       _timer?.cancel();
+      _pollingTimer?.cancel();
     });
 
-    return OnlineGameState.initial();
+    return PlayOnlineState.initial();
   }
 
+  bool _shouldPoll = false;
   Timer? _pollingTimer;
 
   void startPolling({
     required String joinCode,
     required int expectedPlayerCount,
-    Function()? onAllPlayersJoined,
-    Function()? onOpJoined,
-    required bool isOpponent,
   }) {
+    _shouldPoll = true;
     state = state.copyWith(
       expectedPlayerCount: expectedPlayerCount,
       joinCode: joinCode,
@@ -65,80 +71,25 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
 
     getGameSession(
       joinCode: joinCode,
-      onAllPlayersJoined: onAllPlayersJoined,
-      isOpponent: isOpponent,
-      onOpJoined: onOpJoined,
     );
 
     _pollingTimer = Timer.periodic(Duration(seconds: 3), (_) {
-      getGameSession(
-        joinCode: joinCode,
-        onAllPlayersJoined: onAllPlayersJoined,
-        isOpponent: isOpponent,
-        onOpJoined: onOpJoined,
-      );
+      if (_shouldPoll) {
+        getGameSession(
+          joinCode: joinCode,
+        );
+      }
     });
   }
 
   void stopPolling() {
+    _shouldPoll = false;
     _pollingTimer?.cancel();
     _pollingTimer = null;
   }
 
-  void updateType(String type) {
-    state = state.copyWith(type: type);
-  }
-
-  Future<void> createGame({
-    required CreateGameRequest data,
-    required void Function(String) onError,
-    required void Function(String) onCompleted,
-  }) async {
-    state = state.copyWith(createGameLoadState: LoadState.loading);
-    try {
-      final response = await _onlineGameRepository.createGame(data);
-      if (!response.status) throw response.message;
-      state = state.copyWith(
-        createGameLoadState: LoadState.success,
-        joinGameData: response.data?.data?.data?.msg,
-      );
-      onCompleted(response.data?.data?.data?.msg?.code ?? '');
-    } catch (e) {
-      state = state.copyWith(createGameLoadState: LoadState.error);
-      onError(e.toString());
-    }
-  }
-
-  Future<void> joinGame({
-    required String secretCode,
-    required String joinCode,
-    required void Function(String) onError,
-    required void Function() onCompleted,
-  }) async {
-    state = state.copyWith(joinGameLoadState: LoadState.loading);
-    try {
-      final response = await _onlineGameRepository.joinGame(
-        joinCode: joinCode,
-        secretCode: secretCode,
-      );
-      if (!response.status) throw response.message;
-      state = state.copyWith(
-        joinGameLoadState: LoadState.success,
-        gameSessionData: response.data?.data,
-        timeRemaining: response.data?.data?.timelimit ?? 0,
-      );
-      onCompleted();
-    } catch (e) {
-      state = state.copyWith(joinGameLoadState: LoadState.error);
-      onError(e.toString());
-    }
-  }
-
   Future<void> getGameSession({
     required String joinCode,
-    final Function()? onAllPlayersJoined,
-    final Function()? onOpJoined,
-    required bool isOpponent,
   }) async {
     state = state.copyWith(gameSessionLoadState: LoadState.loading);
     try {
@@ -146,28 +97,35 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
         joinCode: joinCode,
       );
       if (!response.status) throw response.message;
+
+      String? secondPlayerId;
+      final currentUser = ref.read(currentUserProvider);
+
       state = state.copyWith(
         gameSessionLoadState: LoadState.success,
         gameSessionData: response.data?.data,
-        timeRemaining: response.data?.data?.timelimit ?? 0,
       );
-      if (isOpponent) {
-        if (response.data?.data?.players != null &&
-            response.data!.data!.players!.length >= state.expectedPlayerCount &&
-            (response.data?.data?.hasStart ?? false) == true) {
-          stopPolling();
-          if (onOpJoined != null) {
-            onOpJoined();
-          }
+
+      if (response.data?.data?.players != null &&
+          response.data!.data!.players!.length >= state.expectedPlayerCount) {
+        debugLog(
+            "Players found: ${response.data!.data!.players!.length}, Expected: ${state.expectedPlayerCount}");
+
+        final otherPlayers = response.data!.data!.players!
+            .where((player) => player.playerId != currentUser.id)
+            .toList();
+
+        if (otherPlayers.isNotEmpty) {
+          secondPlayerId = otherPlayers.first.playerId;
+          debugLog("Second player ID: $secondPlayerId");
+          getUserById(userId: secondPlayerId ?? '');
         }
+
+        debugLog("Stopping polling - all players joined");
+        stopPolling();
       } else {
-        if (response.data?.data?.players != null &&
-            response.data!.data!.players!.length >= state.expectedPlayerCount) {
-          stopPolling();
-          if (onAllPlayersJoined != null) {
-            onAllPlayersJoined();
-          }
-        }
+        debugLog(
+            "Not enough players yet. Current: ${response.data?.data?.players?.length ?? 0}, Expected: ${state.expectedPlayerCount}");
       }
     } catch (e) {
       state = state.copyWith(gameSessionLoadState: LoadState.error);
@@ -204,6 +162,10 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     debugLog("Your winner: $data");
     if (data == null) return;
     _handleTimerExpired();
+  }
+
+  void updatePairing(String pairing) {
+    state = state.copyWith(pairing: pairing);
   }
 
   void handleWinnerEarnings(dynamic data) {
@@ -272,19 +234,6 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     if (state.timeRemaining > 0) {
       startTimer();
     }
-  }
-
-  void startGame({required String gameCode, void Function()? onGameStart}) {
-    _gamePlaySocketManager.startGamePlay(
-      gameCode: gameCode,
-      onResponse: (response) {
-        debugLog("Start game response: $response");
-        if (response['ok'] == true) {
-          if (onGameStart != null) onGameStart();
-          debugLog("Game started successfully");
-        }
-      },
-    );
   }
 
   void timeTick({
@@ -359,6 +308,44 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     );
   }
 
+  void joinOnlineGameRoom({
+    required GameDuration time,
+    required String secretCode,
+    required Function(String) onError,
+    required Function() onSuccess,
+    required int timerValue,
+  }) {
+    state = state.copyWith(createGameLoadState: LoadState.loading);
+
+    _gamePlaySocketManager.joinPlayOnlineRoom(
+      time: time,
+      secretCode: secretCode,
+      onResponse: (response) {
+        debugLog("Join Online response: $response");
+        if (response['success'] == true) {
+          onSuccess();
+          state = state.copyWith(
+            createGameLoadState: LoadState.success,
+            timeRemaining: timerValue,
+          );
+        } else {
+          state = state.copyWith(createGameLoadState: LoadState.error);
+          onError(response['error']);
+        }
+      },
+    );
+  }
+
+  void handleGameCreatedAndStarted(dynamic response) {
+    debugLog("game created and started: $response");
+    if (response["ok"] == true) {
+      startPolling(
+        joinCode: response['data']['msg']['code'],
+        expectedPlayerCount: 2,
+      );
+    }
+  }
+
   void endGame() {
     if (state.gameSessionData?.gameId == null ||
         state.gameSessionData?.gameId == '') {
@@ -375,12 +362,35 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
     );
   }
 
+  Future<void> getUserById({
+    void Function(String)? onError,
+    void Function()? onCompleted,
+    required String userId,
+  }) async {
+    state = state.copyWith(userLoadState: LoadState.loading);
+
+    try {
+      final response = await _onboardingRepository.getUserById(userId);
+      if (!response.status) throw response.message;
+      state = state.copyWith(
+        userLoadState: LoadState.success,
+        otherUser: response.data?.data,
+        allPlayersJoined: true,
+      );
+
+      if (onCompleted != null) onCompleted();
+    } catch (e) {
+      state = state.copyWith(userLoadState: LoadState.error);
+      if (onError != null) onError(e.toString());
+    }
+  }
+
   void resetState() {
-    state = OnlineGameState(
+    state = PlayOnlineState(
       loadState: state.loadState,
+      pairing: state.pairing,
       playerGuesses: [],
       friendGuesses: [],
-      type: state.type,
       joinGameData: state.joinGameData,
       createGameLoadState: state.createGameLoadState,
       gameSessionData: null,
@@ -398,70 +408,14 @@ class OnlineGameNotifier extends Notifier<OnlineGameState> {
       pointsEarned: null,
       isTimeExpired: false,
       lastTurnEventId: null,
-      leaderLoadState: state.leaderLoadState,
-      globalLeaderboard: state.globalLeaderboard,
-      streakLoadState: state.streakLoadState,
+      allPlayersJoined: false,
+      userLoadState: LoadState.idle,
+      otherUser: null,
     );
     debugLog('<====State reset====>');
   }
-
-  void buyPowerUps({
-    required int coinCost,
-    required Function() onSuccess,
-    required Function() onInsufficientFunds,
-  }) async {
-    int totalCoins = await _gameRepository.getTotalCoins();
-    if (totalCoins >= coinCost) {
-      _gameRepository.updateCoins(-coinCost);
-      onSuccess();
-    } else {
-      onInsufficientFunds();
-    }
-  }
-
-  Future<void> getLeaderboard() async {
-    try {
-      final response = await _onlineGameRepository.getLeaderBoard();
-      if (!response.status) throw response.message;
-      state = state.copyWith(
-        leaderLoadSate: LoadState.success,
-        globalLeaderboard: response.data?.data?.globalLeaderboard ?? [],
-      );
-    } catch (e) {
-      state = state.copyWith(leaderLoadSate: LoadState.error);
-      debugLog(e.toString());
-    }
-  }
-
-  Future<void> handleDailyStreakCheck({
-    Function(String)? onError,
-    Function()? onSuccess,
-  }) async {
-    state = state.copyWith(streakLoadState: LoadState.loading);
-
-    try {
-      final shouldRecordStreak = await _gameRepository.checkDailyStreak();
-
-      if (shouldRecordStreak) {
-        final success = await _gameRepository.recordDailyStreak();
-
-        if (success) {
-          state = state.copyWith(streakLoadState: LoadState.success);
-          if (onSuccess != null) onSuccess();
-        } else {
-          state = state.copyWith(streakLoadState: LoadState.error);
-          if (onError != null)
-            onError("Couldn't update your streak. Try again later!");
-          debugLog("Couldn't update your streak. Try again later!");
-        }
-      }
-    } catch (e) {
-      state = state.copyWith(streakLoadState: LoadState.error);
-      debugLog(e.toString());
-    }
-  }
 }
 
-final onlineGameNotifierProvider =
-    NotifierProvider<OnlineGameNotifier, OnlineGameState>(
-        OnlineGameNotifier.new);
+final playOnlineNotifierProvider =
+    NotifierProvider<PlayOnlineNotifier, PlayOnlineState>(
+        PlayOnlineNotifier.new);
